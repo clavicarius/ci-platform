@@ -50,6 +50,8 @@ Der Workflow:
 | `python` | boolean | nein | `false` | Erzwingt Python-Linting. |
 | `yaml` | boolean | nein | `false` | Erzwingt YAML-Linting. |
 | `markdown` | boolean | nein | `false` | Erzwingt Markdown-Linting. |
+| `skip-yaml` | boolean | nein | `false` | Deaktiviert YAML-Linting trotz Auto-Detection. |
+| `skip-markdown` | boolean | nein | `false` | Deaktiviert Markdown-Linting trotz Auto-Detection. |
 | `working-directory` | string | nein | `.` | Verzeichnis für die Lint-Ausführung. |
 | `php-version` | string | nein | `8.3` | PHP-Version für PHP-Linter. |
 | `node-version` | string | nein | `20` | Node.js-Version für JavaScript-Linter. |

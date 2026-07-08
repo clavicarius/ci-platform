@@ -33,6 +33,16 @@ inputs:
     required: false
     default: 'false'
 
+  skip-markdown:
+    description: Disable Markdown linting even when auto-detection would enable it
+    required: false
+    default: 'false'
+
+  skip-yaml:
+    description: Disable YAML linting even when auto-detection would enable it
+    required: false
+    default: 'false'
+
   working-directory:
     description: Directory to run linters in
     required: false
@@ -67,6 +77,8 @@ runs:
         FORCE_PYTHON: ${{ inputs.python }}
         FORCE_YAML: ${{ inputs.yaml }}
         FORCE_MARKDOWN: ${{ inputs.markdown }}
+        SKIP_MARKDOWN: ${{ inputs.skip-markdown }}
+        SKIP_YAML: ${{ inputs.skip-yaml }}
         WORKDIR: ${{ inputs.working-directory }}
       run: |
         set -euo pipefail
@@ -193,6 +205,14 @@ runs:
 
         if [ "$FORCE_MARKDOWN" = "true" ]; then
           run_markdownlint=true
+        fi
+
+        if [ "$SKIP_YAML" = "true" ]; then
+          run_yamllint=false
+        fi
+
+        if [ "$SKIP_MARKDOWN" = "true" ]; then
+          run_markdownlint=false
         fi
 
         write_output() {

@@ -72,12 +72,13 @@ enable-link-check: false
 
 ### Linting
 
-`quality-lint` nutzt Auto-Detect für vorhandene Toolchains, prüft aber keine YAML- oder Markdown-Dateien erneut:
+`quality-lint` nutzt Auto-Detect für vorhandene Toolchains, überspringt aber YAML- und Markdown-Prüfungen,
+weil diese bereits von `quality-yaml` und `quality-markdown` übernommen werden:
 
 ```yaml
 auto-detect: true
-yaml: false
-markdown: false
+skip-yaml: true
+skip-markdown: true
 ```
 
 ---

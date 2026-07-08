@@ -48,8 +48,8 @@ jobs:
     uses: ./.github/workflows/quality-lint.yml
     with:
       auto-detect: true
-      yaml: false
-      markdown: false
+      skip-yaml: true
+      skip-markdown: true
 
   release-github:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
