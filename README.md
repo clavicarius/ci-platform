@@ -1,16 +1,117 @@
 # GitHub Workflows Repository
 
-Dieses Repository enthält zentral verwaltete **wiederverwendbare GitHub Actions Workflows** für mehrere Projekte.
+Dieses Repository enthält zentral verwaltete **wiederverwendbare GitHub Actions Workflows** und **Composite Actions** für mehrere Projekte.
 
 Ziel ist es, wiederkehrende CI/CD-Aufgaben nicht in jedem einzelnen Repository doppelt zu pflegen, sondern sie zentral bereitzustellen und über `workflow_call` einzubinden.
 
-## Vorteile
+Die Workflows in diesem Repository stellen eine gemeinsame CI/CD-Basis für mehrere Projekte bereit und werden versioniert veröffentlicht.
+
+---
+
+# Vorteile
 
 - ✅ Zentrale Pflege von CI/CD-Standards
 - ✅ Einheitliche Workflows über mehrere Repositories hinweg
 - ✅ Weniger Duplikation
 - ✅ Einfachere Updates und Fehlerbehebungen
 - ✅ Wiederverwendbar für private und öffentliche Projekte
+- ✅ Klare Trennung zwischen Workflow-Definition und Implementierung
+- ✅ Versionierbare CI/CD-Komponenten
+
+---
+
+# Architektur
+
+Das Repository folgt einer zweistufigen Architektur:
+
+```
+.github/
+├── workflows/
+│   ├── quality-link-check.yml
+│   ├── security-codeql.yml
+│   └── release-docker.yml
+│
+└── actions/
+    ├── lychee-check/
+    │   └── action.yml
+    ├── setup-environment/
+    │   └── action.yml
+    └── docker-build/
+        └── action.yml
+
+docs/
+├── quality.md
+├── security.md
+└── release.md
+
+scripts/
+├── helper scripts
+└── automation tools
+```
+
+---
+
+# Workflow Layer
+
+Der Ordner:
+
+```
+.github/workflows/
+```
+
+enthält ausschließlich vollständige GitHub Actions Workflows.
+
+Diese Dateien sind die öffentlichen Einstiegspunkte für andere Repositorys.
+
+Beispiele:
+
+```
+.github/workflows/
+
+quality-link-check.yml
+security-codeql.yml
+release-docker.yml
+```
+
+Ein Workflow kann von anderen Repositorys eingebunden werden:
+
+```yaml
+jobs:
+  link-check:
+    uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
+```
+
+---
+
+# Composite Actions
+
+Wiederverwendbare Einzelschritte werden als Composite Actions gekapselt.
+
+Ablage:
+
+```
+.github/actions/<action-name>/action.yml
+```
+
+Beispiele:
+
+```
+.github/actions/
+
+lychee-check/
+docker-build/
+setup-node/
+markdown-lint/
+```
+
+Composite Actions enthalten wiederverwendbare Implementierungsdetails, während Workflows die Orchestrierung übernehmen.
+
+Beispiel:
+
+```yaml
+- name: Check links
+  uses: clavicarius/github-workflows/.github/actions/lychee-check@v1
+```
 
 ---
 
@@ -30,7 +131,7 @@ on:
 
 jobs:
   link-check:
-    uses: claustrarius/github-workflows/.github/workflows/link-check.yml@main
+    uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
 
 Der Workflow wird dabei im Kontext des aufrufenden Repositorys ausgeführt.
@@ -44,23 +145,6 @@ Das bedeutet:
 
 ---
 
-# Repository Struktur
-
-Die empfohlene Struktur:
-
-```
-.github/
-└── workflows/
-    ├── link-check.yml
-    ├── code-quality.yml
-    ├── security-scan.yml
-    └── release.yml
-```
-
-Jeder Workflow ist eigenständig und kann von anderen Repositories eingebunden werden.
-
----
-
 # Verfügbare Workflows
 
 ## Link Checker
@@ -68,7 +152,7 @@ Jeder Workflow ist eigenständig und kann von anderen Repositories eingebunden w
 Datei:
 
 ```
-.github/workflows/link-check.yml
+.github/workflows/quality-link-check.yml
 ```
 
 Prüft automatisch Links im Repository und erstellt bei Problemen ein GitHub Issue.
@@ -86,26 +170,78 @@ Prüft automatisch Links im Repository und erstellt bei Problemen ein GitHub Iss
 ```yaml
 jobs:
   link-check:
-    uses: claustrarius/github-workflows/.github/workflows/link-check.yml@main
+    uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
+```
+
+---
+
+# Namenskonventionen
+
+## Workflows
+
+Workflow-Dateien verwenden folgende Struktur:
+
+```
+<bereich>-<funktion>.yml
+```
+
+Beispiele:
+
+```
+quality-link-check.yml
+quality-phpcs.yml
+security-codeql.yml
+release-docker.yml
+```
+
+Verfügbare Bereiche:
+
+| Bereich | Beschreibung |
+|---|---|
+| quality | Qualitätssicherung, Tests, Linting |
+| security | Sicherheitsprüfungen |
+| build | Build-Prozesse |
+| release | Veröffentlichungen |
+| maintenance | Wartungsaufgaben |
+
+---
+
+## Composite Actions
+
+Composite Actions verwenden:
+
+```
+<funktion>
+```
+
+Beispiele:
+
+```
+lychee-check
+docker-build
+setup-node
+version-check
 ```
 
 ---
 
 # Versionierung
 
-Für produktive Projekte sollte nicht direkt ein Branch verwendet werden:
+Für produktive Projekte sollte nicht direkt ein Branch verwendet werden.
+
+Nicht empfohlen:
 
 ```yaml
-uses: claustrarius/github-workflows/.github/workflows/link-check.yml@main
+uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@main
 ```
 
-sondern ein stabiler Tag:
+Empfohlen:
 
 ```yaml
-uses: claustrarius/github-workflows/.github/workflows/link-check.yml@v1
+uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
 
-Beispiel:
+Versionen werden über Git Tags verwaltet:
 
 ```bash
 git tag v1
@@ -148,7 +284,7 @@ permissions:
 
 jobs:
   check:
-    uses: claustrarius/github-workflows/.github/workflows/link-check.yml@v1
+    uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
 
 ---
@@ -170,31 +306,42 @@ Secrets werden nicht automatisch aus dem Workflow-Repository übernommen.
 
 # Entwicklung neuer Workflows
 
-Neue Workflows sollten:
+Neue Workflows müssen:
 
-1. Eine klare Aufgabe erfüllen
+1. Eine klar definierte Aufgabe erfüllen
 2. Über `workflow_call` aufrufbar sein
 3. Keine projektspezifischen Annahmen enthalten
 4. Dokumentiert werden
 5. Versioniert veröffentlicht werden
 
-Beispiel:
+Vor Erstellung eines neuen Workflows prüfen:
 
-```yaml
-name: Example Workflow
+- Gibt es bereits einen passenden Workflow?
+- Kann die Funktion als Composite Action umgesetzt werden?
+- Ist die Lösung für mehrere Projekte nutzbar?
 
-on:
-  workflow_call:
+---
 
-jobs:
-  example:
-    runs-on: ubuntu-latest
+# Entwicklungsprozess
 
-    steps:
-      - uses: actions/checkout@v4
+Änderungen erfolgen grundsätzlich über Pull Requests.
 
-      - name: Example step
-        run: echo "Reusable workflow"
+Ablauf:
+
+```
+Feature Branch
+      |
+      v
+Pull Request
+      |
+      v
+Review
+      |
+      v
+Merge
+      |
+      v
+Release Tag
 ```
 
 ---
@@ -203,20 +350,17 @@ jobs:
 
 Änderungen werden zentral entwickelt:
 
-```text
+```
 Workflow Repository
-        |
         |
         v
 Neue Version erstellen
         |
-        |
         v
 Tag veröffentlichen
         |
-        |
         v
-Projekte aktualisieren auf neue Version
+Projekte aktualisieren
 ```
 
 Beispiel:
@@ -224,25 +368,25 @@ Beispiel:
 Alt:
 
 ```yaml
-uses: claustrarius/github-workflows/.github/workflows/link-check.yml@v1
+uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
 
 Neu:
 
 ```yaml
-uses: claustrarius/github-workflows/.github/workflows/link-check.yml@v2
+uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v2
 ```
 
 ---
 
 # Sicherheitsrichtlinien
 
-Empfehlungen:
+Alle Workflows sollen:
 
-- Drittanbieter-Actions möglichst auf feste Versionen pinnen
-- Keine unnötigen Schreibrechte vergeben
-- Secrets niemals im Workflow-Code speichern
-- Änderungen über Pull Requests durchführen
+- minimale Berechtigungen verwenden
+- Secrets niemals im Repository speichern
+- Drittanbieter-Actions möglichst versioniert einbinden
+- unnötige Schreibrechte vermeiden
 
 Beispiel:
 
@@ -260,6 +404,26 @@ uses: actions/checkout@<commit-sha>
 
 ---
 
+# AI-Agenten und Automatisierung
+
+Dieses Repository enthält zusätzlich eine Datei:
+
+```
+AGENTS.md
+```
+
+Diese beschreibt verbindliche Regeln für AI-Agenten und Coding-Assistenten.
+
+AI-Tools müssen insbesondere beachten:
+
+- Workflow-Dateien niemals in Unterordner von `.github/workflows` verschieben
+- bestehende Architektur einhalten
+- Composite Actions bevorzugen
+- keine projektspezifische Logik hinzufügen
+- Dokumentation aktualisieren
+
+---
+
 # Lizenz
 
 Dieses Repository enthält wiederverwendbare Automatisierungen für GitHub Actions.
@@ -272,6 +436,6 @@ Die Nutzung und Weitergabe erfolgt gemäß der im Repository hinterlegten Lizenz
 
 Verantwortlich für dieses Repository:
 
-**claustrarius**
+**clavicarius** (https://github.com/clavicarius/github-workflows/)
 
 Bei Fehlern oder Verbesserungsvorschlägen bitte ein Issue erstellen.
