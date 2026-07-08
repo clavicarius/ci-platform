@@ -20,6 +20,7 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 |---|---|
 | [Quality Link Check](quality-link-check.md) | Prüft Links und verwaltet automatisch Reports |
 | [Security CodeQL](security-codeql.md) | Führt statische Sicherheitsanalysen durch |
+| [Security Secret Scan](security-secret-scan.md) | Verhindert das Committen von Secrets |
 | [Release Docker](release-docker.md) | Erstellt und veröffentlicht Docker Images |
 
 ---
@@ -31,7 +32,7 @@ Workflows werden direkt aus dem Repository eingebunden:
 ```yaml
 jobs:
   example:
-    uses: claustrarius/github-workflows/.github/workflows/<workflow>.yml@v1
+    uses: clavicarius/github-workflows/.github/workflows/<workflow>.yml@v1
 ```
 
 Beispiel:
@@ -39,7 +40,7 @@ Beispiel:
 ```yaml
 jobs:
   link-check:
-    uses: claustrarius/github-workflows/.github/workflows/quality-link-check.yml@v1
+    uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
 
 ---
