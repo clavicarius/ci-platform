@@ -1,8 +1,10 @@
 # GitHub Workflows Repository
 
-Dieses Repository enthält zentral verwaltete **wiederverwendbare GitHub Actions Workflows** und **Composite Actions** für mehrere Projekte.
+Dieses Repository enthält zentral verwaltete 
+**wiederverwendbare GitHub Actions Workflows** und **Composite Actions** für mehrere Projekte.
 
-Ziel ist es, wiederkehrende CI/CD-Aufgaben nicht in jedem einzelnen Repository doppelt zu pflegen, sondern sie zentral bereitzustellen und über `workflow_call` einzubinden.
+Ziel ist es, wiederkehrende CI/CD-Aufgaben nicht in jedem einzelnen Repository doppelt zu pflegen, 
+sondern sie zentral bereitzustellen und über `workflow_call` einzubinden.
 
 Die Workflows in diesem Repository stellen eine gemeinsame CI/CD-Basis für mehrere Projekte bereit und werden versioniert veröffentlicht.
 
@@ -137,10 +139,9 @@ Erzeugt ein GitHub Release für einen bestehenden Tag, generiert automatisch Rel
 
 Weitere Details: `docs/workflows/release-github.md`
 
-
 # Namenskonventionen
 
-## Workflows
+## Workflows (Naming conventions)
 
 Workflow-Dateien verwenden folgende Struktur:
 
@@ -170,7 +171,7 @@ Verfügbare Bereiche:
 
 ---
 
-## Composite Actions
+## Composite Actions (Naming conventions)
 
 Composite Actions verwenden:
 
