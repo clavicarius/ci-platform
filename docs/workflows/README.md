@@ -19,8 +19,8 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 | Workflow | Beschreibung |
 |---|---|
 | [Quality Link Check](quality-link-check.md) | Prüft Links und verwaltet automatisch Reports |
-| [Quality YAML](quality-yaml.md) | Prüft YAML-Syntax und Struktur mit yamllint |
 | [Security CodeQL](security-codeql.md) | Führt statische Sicherheitsanalysen durch |
+| [Security Dependency Review](security-dependency-review.md) | Prüft neue Dependencies in Pull Requests |
 | [Release Docker](release-docker.md) | Erstellt und veröffentlicht Docker Images |
 
 ---
