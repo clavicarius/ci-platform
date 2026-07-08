@@ -44,4 +44,3 @@ Damit bleibt die Verantwortung klar getrennt:
 | `AGENTS.md`                    | Regeln für AI-Agenten                         |
 | `docs/workflows/README.md`     | Übersicht aller verfügbaren Workflows         |
 | `docs/workflows/<workflow>.md` | Detaildokumentation eines einzelnen Workflows |
-

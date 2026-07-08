@@ -32,6 +32,7 @@ jobs:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/quality-markdown.yml
     with:
+      markdown-glob: 'docs/**/*.md'
       enable-link-check: false
 
   security-secret-scan:

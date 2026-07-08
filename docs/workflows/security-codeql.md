@@ -12,7 +12,8 @@ Datei:
 
 Der **Security CodeQL Workflow** führt automatisierte Sicherheitsanalysen des Quellcodes durch.
 
-Er verwendet die statische Code-Analyseplattform **CodeQL** von GitHub, um potenzielle Sicherheitsprobleme und Schwachstellen im Code zu erkennen.
+Er verwendet die statische Code-Analyseplattform **CodeQL** von GitHub, um potenzielle
+Sicherheitsprobleme und Schwachstellen im Code zu erkennen.
 
 Der Workflow ist als wiederverwendbarer Workflow konzipiert und kann von mehreren Repositorys eingebunden werden.
 
@@ -46,7 +47,8 @@ CodeQL unterstützt unter anderem:
 - Ruby
 - Swift
 
-Die tatsächlich analysierten Sprachen werden automatisch anhand des Repository-Inhalts erkannt oder können explizit über den Input `languages` konfiguriert werden.
+Die tatsächlich analysierten Sprachen werden automatisch anhand des Repository-Inhalts erkannt
+oder können explizit über den Input `languages` konfiguriert werden.
 
 ---
 

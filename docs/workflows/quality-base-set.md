@@ -12,7 +12,8 @@ Datei:
 
 Der **Quality Base Set Workflow** ist der interne CI-Gate für dieses Repository.
 
-Er führt vor einem Merge nach `main` die vereinheitlichten Qualitäts- und Sicherheitsprüfungen aus und nutzt dafür die wiederverwendbaren Workflows aus diesem Repository.
+Er führt vor einem Merge nach `main` die vereinheitlichten Qualitäts- und Sicherheitsprüfungen aus
+und nutzt dafür die wiederverwendbaren Workflows aus diesem Repository.
 
 Zusätzlich wird bei Git Tags ein GitHub Release über `release-github.yml` erstellt.
 
