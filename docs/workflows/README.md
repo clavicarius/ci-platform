@@ -18,6 +18,7 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 
 | Workflow | Beschreibung |
 |---|---|
+| [Quality Base Set](quality-base-set.md) | Interner PR-Gate und Release-Orchestrierung für dieses Repository |
 | [Quality Link Check](quality-link-check.md) | Prüft Links und verwaltet automatisch Reports |
 | [Quality Lint](quality-lint.md) | Führt einheitliche Codequalitätsprüfungen durch |
 | [Quality Markdown](quality-markdown.md) | Prüft Markdown-Syntax, Struktur und Links |
@@ -36,7 +37,7 @@ Workflows werden direkt aus dem Repository eingebunden:
 ```yaml
 jobs:
   example:
-    uses: clavicarius/github-workflows/.github/workflows/<workflow>.yml@v1
+    uses: claustrarius/github-workflows/.github/workflows/<workflow>.yml@v1
 ```
 
 Beispiel:
@@ -44,7 +45,7 @@ Beispiel:
 ```yaml
 jobs:
   link-check:
-    uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
+    uses: claustrarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
 
 ---

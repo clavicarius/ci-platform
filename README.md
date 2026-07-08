@@ -1,8 +1,10 @@
 # GitHub Workflows Repository
 
-Dieses Repository enthält zentral verwaltete **wiederverwendbare GitHub Actions Workflows** und **Composite Actions** für mehrere Projekte.
+Dieses Repository enthält zentral verwaltete 
+**wiederverwendbare GitHub Actions Workflows** und **Composite Actions** für mehrere Projekte.
 
-Ziel ist es, wiederkehrende CI/CD-Aufgaben nicht in jedem einzelnen Repository doppelt zu pflegen, sondern sie zentral bereitzustellen und über `workflow_call` einzubinden.
+Ziel ist es, wiederkehrende CI/CD-Aufgaben nicht in jedem einzelnen Repository doppelt zu pflegen, 
+sondern sie zentral bereitzustellen und über `workflow_call` einzubinden.
 
 Die Workflows in diesem Repository stellen eine gemeinsame CI/CD-Basis für mehrere Projekte bereit und werden versioniert veröffentlicht.
 
@@ -30,7 +32,7 @@ Die Workflows in diesem Repository stellen eine gemeinsame CI/CD-Basis für mehr
 
 Der Ordner:
 
-```
+```bash
 .github/workflows/
 ```
 
@@ -40,7 +42,7 @@ Diese Dateien sind die öffentlichen Einstiegspunkte für andere Repositorys.
 
 Beispiele:
 
-```
+```bash
 .github/workflows/
 
 quality-link-check.yml
@@ -66,13 +68,13 @@ Wiederverwendbare Einzelschritte werden als Composite Actions gekapselt.
 
 Ablage:
 
-```
+```bash
 .github/actions/<action-name>/action.yml
 ```
 
 Beispiele:
 
-```
+```bash
 .github/actions/
 
 lychee-check/
@@ -129,7 +131,7 @@ Details (docs/workflows/README.md)
 
 Datei:
 
-```
+```bash
 .github/workflows/release-github.yml
 ```
 
@@ -137,20 +139,19 @@ Erzeugt ein GitHub Release für einen bestehenden Tag, generiert automatisch Rel
 
 Weitere Details: `docs/workflows/release-github.md`
 
-
 # Namenskonventionen
 
-## Workflows
+## Workflows (Naming conventions)
 
 Workflow-Dateien verwenden folgende Struktur:
 
-```
+```bash
 <bereich>-<funktion>.yml
 ```
 
 Beispiele:
 
-```
+```bash
 quality-link-check.yml
 quality-phpcs.yml
 security-codeql.yml
@@ -170,17 +171,17 @@ Verfügbare Bereiche:
 
 ---
 
-## Composite Actions
+## Composite Actions (Naming conventions)
 
 Composite Actions verwenden:
 
-```
+```bash
 <funktion>
 ```
 
 Beispiele:
 
-```
+```bash
 lychee-check
 docker-build
 setup-node
@@ -257,7 +258,7 @@ jobs:
 
 Falls ein Workflow Secrets benötigt, müssen diese im jeweiligen Ziel-Repository hinterlegt werden:
 
-```
+```bash
 Repository
 └── Settings
     └── Secrets and variables
@@ -292,7 +293,7 @@ Vor Erstellung eines neuen Workflows prüfen:
 
 Ablauf:
 
-```
+```bash
 Feature Branch
       |
       v
@@ -314,7 +315,7 @@ Release Tag
 
 Änderungen werden zentral entwickelt:
 
-```
+```bash
 Workflow Repository
         |
         v
@@ -372,7 +373,7 @@ uses: actions/checkout@<commit-sha>
 
 Dieses Repository enthält zusätzlich eine Datei:
 
-```
+```bash
 AGENTS.md
 ```
 

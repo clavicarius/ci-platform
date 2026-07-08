@@ -9,7 +9,8 @@ clavicarius/github-workflows
 ```
 
 Ziel:
-CI/CD-Automatisierungen sollen nicht in jedem Projekt dupliziert werden, sondern zentral gepflegt, versioniert und von mehreren Repositories eingebunden werden.
+CI/CD-Automatisierungen sollen nicht in jedem Projekt dupliziert werden, sondern zentral gepflegt,
+versioniert und von mehreren Repositories eingebunden werden.
 
 ---
 
@@ -99,12 +100,14 @@ Beispiel:
 # Dokumentationsstruktur
 
 README.md:
+
 - beschreibt Architektur
 - beschreibt Verwendung
 - beschreibt Versionierung
 - beschreibt Sicherheitsregeln
 
 AGENTS.md:
+
 - enthält Regeln für AI-Agenten
 - verhindert Architekturverletzungen
 - beschreibt Namenskonventionen

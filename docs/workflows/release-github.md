@@ -12,7 +12,8 @@ Datei:
 
 Der **GitHub Release Workflow** erstellt ein GitHub Release für einen bestehenden Git Tag.
 
-Er ist als wiederverwendbarer Workflow konzipiert und kann am Ende einer Release-Pipeline aus anderen Repositorys eingebunden werden.
+Er ist als wiederverwendbarer Workflow konzipiert und kann am Ende einer Release-Pipeline
+aus anderen Repositorys eingebunden werden.
 
 ---
 
