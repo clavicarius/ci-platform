@@ -1,77 +1,105 @@
-name: Validate version tags
+name: release-validate-tags
 
 on:
+  workflow_call:
+    inputs:
+      tag:
+        description: >
+          Tag to validate (e.g. v3). When empty, the tag is derived from
+          github.ref (used when triggered via push).
+        required: false
+        type: string
+        default: ''
   push:
     tags:
       - 'v*'
-  release:
-    types: [published]
+
+permissions:
+  contents: read
+  issues: write
 
 jobs:
   validate-tag:
     name: Validate version tag
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
     steps:
-      - name: Checkout (full)
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Determine tag
-        id: get_tag
+      - name: Resolve tag
+        id: resolve
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          GITHUB_REF: ${{ github.ref }}
         run: |
-          if [ "${{ github.event_name }}" = "release" ]; then
-            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
-            echo "event=release" >> $GITHUB_OUTPUT
-            echo "release_id=${{ github.event.release.id }}" >> $GITHUB_OUTPUT
-            echo "release_url=${{ github.event.release.html_url }}" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          if [ -n "$INPUT_TAG" ]; then
+            echo "tag=$INPUT_TAG" >> "$GITHUB_OUTPUT"
           else
-            TAG=${GITHUB_REF#refs/tags/}
-            echo "tag=${TAG}" >> $GITHUB_OUTPUT
-            echo "event=push" >> $GITHUB_OUTPUT
+            echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Validate format and monotonicity
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          OWNER: ${{ github.repository_owner }}
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.resolve.outputs.tag }}
         run: |
           set -euo pipefail
-          TAG="${{ steps.get_tag.outputs.tag }}"
-          EVENT="${{ steps.get_tag.outputs.event }}"
 
-          echo "Validating tag: $TAG (event: $EVENT)"
+          echo "Validating tag: $TAG"
 
           # Format check: ^v[1-9][0-9]*$
-          if ! [[ "$TAG" =~ ^v[1-9][0-9]*$ ]]; then
-            echo "::error::Tag '$TAG' entspricht nicht dem erwarteten Format ^v[1-9][0-9]*$"
-            BODY="Der Tag '$TAG' ist ung\u00fcltig. Erwartetes Format: ^v[1-9][0-9]*$ (z. B. v1, v2, v10). Keine f\u00fchrenden Nullen, erste Version ist v1.\n\nBitte erstelle ein neues Tag mit korrektem Format.\n\n@clavicarius"
-            # Create an issue to notify maintainers
-            curl -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Content-Type: application/json" \
-              -d "{\"title\": \"Invalid version tag: $TAG\", \"body\": \"$BODY\"}" \
-              "https://api.github.com/repos/$REPO/issues"
+          if ! echo "$TAG" | grep -qE '^v[1-9][0-9]*$'; then
+            echo "::error::Tag '$TAG' does not match expected format ^v[1-9][0-9]*$"
+            gh issue create \
+              --title "Invalid version tag: $TAG" \
+              --body "Der Tag \`$TAG\` ist ungültig.
+
+Erwartetes Format: \`^v[1-9][0-9]*\$\` (z. B. v1, v2, v10).
+Keine führenden Nullen, erste Version ist v1.
+
+Bitte erstelle ein neues Tag mit korrektem Format.
+
+@clavicarius"
             exit 1
           fi
 
-          # Fetch tags and compute max existing numeric vNNN
+          # Fetch all tags (checkout already did fetch-depth: 0, but ensure tags)
           git fetch --tags --prune
-          MAX=0
-          for t in $(git tag -l 'v*'); do
-            if [[ $t =~ ^v([1-9][0-9]*)$ ]]; then
-              n=${BASH_REMATCH[1]}
-              if (( n > MAX )); then MAX=$n; fi
-            fi
-          done
 
-          cur=${TAG#v}
-          if (( cur <= MAX )); then
-            echo "::error::Tag $TAG ist nicht gr\u00f6\u00dfer als existierendes Maximum v$MAX"
-            BODY="Der Tag '$TAG' ist ung\u00fcltig, weil er nicht gr\u00f6\u00dfer ist als das aktuell gr\u00f6\u00dfte existierende Tag (v$MAX).\n\nVorhandene g\u00fcltige Tags wurden berücksichtigt; L\u00fccken sind erlaubt, aber neue Tags m\u00fcssen numerisch gr\u00f6\u00dfer sein als das derzeit gr\u00f6\u00dfte vNNN.\n\nDetails:\n- gepr\u00fcftes Tag: $TAG\n- gr\u00f6\u00dftes bestehendes g\u00fcltiges Tag: v$MAX\n\nBitte setze ein neues Tag mit einer gr\u00f6\u00dferen Nummer.\n\n@clavicarius"
-            curl -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Content-Type: application/json" \
-              -d "{\"title\": \"Invalid version tag (not monotonic): $TAG\", \"body\": \"$BODY\"}" \
-              "https://api.github.com/repos/$REPO/issues"
+          # Find highest existing valid vN tag, excluding the current one
+          MAX=0
+          while IFS= read -r t; do
+            n="${t#v}"
+            if (( n > MAX )); then
+              MAX="$n"
+            fi
+          done < <(git tag -l 'v[1-9]*' | grep -E '^v[1-9][0-9]*$' | grep -v "^${TAG}$")
+
+          CUR="${TAG#v}"
+          if (( CUR <= MAX )); then
+            echo "::error::Tag $TAG is not greater than existing maximum v${MAX}"
+            gh issue create \
+              --title "Invalid version tag (not monotonic): $TAG" \
+              --body "Der Tag \`$TAG\` ist ungültig, weil er nicht größer ist als das aktuell größte existierende Tag (v${MAX}).
+
+Neue Tags müssen numerisch größer sein als das derzeit größte \`vNNN\`. Lücken sind erlaubt.
+
+Details:
+- Geprüftes Tag: \`$TAG\`
+- Größtes bestehendes gültiges Tag: \`v${MAX}\`
+
+Bitte setze ein neues Tag mit einer größeren Nummer.
+
+@clavicarius"
             exit 1
           fi
 
-          echo "Tag $TAG ist g\u00fcltig (gr\u00f6\u00dfer als v$MAX)."
+          echo "Tag $TAG is valid (greater than v${MAX})."
