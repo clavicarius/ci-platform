@@ -51,36 +51,30 @@ jobs:
       skip-yaml: true
       skip-markdown: true
 
-  validate-release-branch:
-    name: Validate Release Branch
+  release-validate-tag-immutable:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    uses: ./.github/workflows/release-validate-tag-immutable.yml
+    with:
+      tag: ${{ github.ref_name }}
+      tag-created: ${{ github.event.created }}
+      tag-before: ${{ github.event.before }}
+      notify-user: ${{ github.actor }}
 
-      - name: Verify tag is on main
-        env:
-          TAG_SHA: ${{ github.sha }}
-        run: |
-          set -euo pipefail
+  release-validate-tags:
+    needs: release-validate-tag-immutable
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    uses: ./.github/workflows/release-validate-tags.yml
+    with:
+      tag: ${{ github.ref_name }}
+      notify-user: ${{ github.actor }}
 
-          git fetch origin main
-
-          if ! git branch -r --contains "$TAG_SHA" | grep -qE '^\s*origin/main$'; then
-            echo "Error: Release tags must be created from the main branch." >&2
-            echo "The commit $TAG_SHA is not on origin/main." >&2
-            exit 1
-          fi
-
-          echo "OK: tag is on main."
+  release-validate-branch:
+    needs: release-validate-tags
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    uses: ./.github/workflows/release-validate-branch.yml
 
   release-github:
-    needs: validate-release-branch
+    needs: release-validate-branch
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     uses: ./.github/workflows/release-github.yml
     with:

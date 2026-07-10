@@ -1,0 +1,107 @@
+name: Release Validate Tags
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: >
+          Tag to validate (e.g. v3). When empty, the tag is derived from
+          github.ref in the calling workflow context.
+        required: false
+        type: string
+        default: ''
+
+      version-pattern:
+        description: >
+          Version pattern preset: simple, semver, or a custom regex pattern.
+        required: false
+        type: string
+        default: 'simple'
+
+      check-monotonicity:
+        description: >
+          Check monotonicity for simple versioning. Ignored for semver and
+          custom patterns.
+        required: false
+        type: boolean
+        default: true
+
+      create-issue-on-failure:
+        description: Create or update a GitHub issue when validation fails
+        required: false
+        type: boolean
+        default: true
+
+      issue-label:
+        description: Label used for validation issue reports
+        required: false
+        type: string
+        default: 'invalid-tag'
+
+      invalid-format-issue-title:
+        description: Title for invalid format issue reports
+        required: false
+        type: string
+        default: 'Invalid version tag report'
+
+      not-monotonic-issue-title:
+        description: Title for not monotonic issue reports
+        required: false
+        type: string
+        default: 'Invalid version tag (not monotonic) report'
+
+      notify-user:
+        description: GitHub user to mention in issue reports
+        required: false
+        type: string
+        default: ''
+
+    outputs:
+      valid:
+        description: Whether the tag passed validation
+        value: ${{ jobs.validate-tag.outputs.valid }}
+      max_tag:
+        description: Highest existing valid tag for simple versioning
+        value: ${{ jobs.validate-tag.outputs.max_tag }}
+      tag:
+        description: Validated tag name
+        value: ${{ jobs.validate-tag.outputs.tag }}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate-tag:
+    name: Validate version tag
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
+    outputs:
+      valid: ${{ steps.validate.outputs.valid }}
+      max_tag: ${{ steps.validate.outputs.max_tag }}
+      tag: ${{ steps.validate.outputs.tag }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run release validate tags
+        id: validate
+        uses: ./.github/actions/release-validate-tags
+        with:
+          tag: ${{ inputs.tag }}
+          version-pattern: ${{ inputs.version-pattern }}
+          check-monotonicity: ${{ inputs.check-monotonicity }}
+          create-issue-on-failure: ${{ inputs.create-issue-on-failure }}
+          issue-label: ${{ inputs.issue-label }}
+          invalid-format-issue-title: ${{ inputs.invalid-format-issue-title }}
+          not-monotonic-issue-title: ${{ inputs.not-monotonic-issue-title }}
+          notify-user: >-
+            ${{ inputs.notify-user != '' && inputs.notify-user ||
+            github.actor }}

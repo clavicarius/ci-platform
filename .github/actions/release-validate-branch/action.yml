@@ -1,0 +1,28 @@
+name: Release Validate Branch
+description: >
+  Verifies that a release tag points to a commit on the release branch
+author: claustrarius
+
+inputs:
+  commit-sha:
+    description: Commit SHA the tag points to. Defaults to GITHUB_SHA.
+    required: false
+    default: ''
+
+  branch:
+    description: Branch release tags must be created from
+    required: false
+    default: 'main'
+
+runs:
+  using: composite
+
+  steps:
+    - name: Verify tag is on release branch
+      shell: bash
+      env:
+        INPUT_COMMIT_SHA: ${{ inputs.commit-sha }}
+        RELEASE_BRANCH: ${{ inputs.branch }}
+      run: |
+        set -euo pipefail
+        bash "${GITHUB_WORKSPACE}/scripts/validate-release-branch.sh"

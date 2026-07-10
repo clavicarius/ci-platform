@@ -24,15 +24,19 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 | [Quality Markdown](quality-markdown.md) | Prüft Markdown-Syntax, Struktur und Links |
 | [Quality YAML](quality-yaml.md) | Prüft YAML-Dateien auf Syntax und Struktur |
 | [Release GitHub](release-github.md) | Erstellt GitHub Releases für bestehende Git Tags |
+| [Release Validate Tags](release-validate-tags.md) | Prüft Tag-Format und Monotonie |
+| [Release Validate Tag Immutable](release-validate-tag-immutable.md) | Lehnt Tag-Updates (Force-Push) ab |
+| [Release Validate Branch](release-validate-branch.md) | Prüft, ob Tag auf dem Release-Branch liegt |
 | [Security CodeQL](security-codeql.md) | Führt statische Sicherheitsanalysen durch |
 | [Security Dependency Review](security-dependency-review.md) | Prüft neue Dependencies in Pull Requests |
 | [Security Secret Scan](security-secret-scan.md) | Verhindert das versehentliche Committen von Secrets |
+| [Maintenance Link Check](maintenance-link-check.md) | Geplante Linkprüfung (repository-intern, kein `workflow_call`) |
 
 ---
 
 # Verwendung
 
-Workflows werden direkt aus dem Repository eingebunden:
+Workflows mit `workflow_call` werden direkt aus dem Repository eingebunden:
 
 ```yaml
 jobs:
@@ -47,6 +51,10 @@ jobs:
   link-check:
     uses: claustrarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
+
+**Maintenance-Workflows** (z. B. `maintenance-link-check`) sind
+repository-intern und nicht per `uses:` einbindbar. Siehe jeweilige
+Workflow-Dokumentation.
 
 ---
 

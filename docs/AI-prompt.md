@@ -1,6 +1,7 @@
 # Projektkontext: Zentrales GitHub Actions Workflow Repository
 
-Ich entwickle ein zentrales Repository für wiederverwendbare GitHub Actions Workflows und Composite Actions.
+Ich entwickle ein zentrales Repository für wiederverwendbare GitHub Actions
+Workflows und Composite Actions.
 
 Repository:
 
@@ -9,44 +10,70 @@ clavicarius/github-workflows
 ```
 
 Ziel:
-CI/CD-Automatisierungen sollen nicht in jedem Projekt dupliziert werden, sondern zentral gepflegt,
-versioniert und von mehreren Repositories eingebunden werden.
+CI/CD-Automatisierungen sollen nicht in jedem Projekt dupliziert werden,
+sondern zentral gepflegt, versioniert und von mehreren Repositories
+eingebunden werden.
 
 ---
 
 # Architektur
 
-Das Repository folgt einer skalierbaren Struktur:
+Das Repository folgt einer zweistufigen Struktur:
 
 ```
-.github/
-├── workflows/
-│   ├── quality-link-check.yml
-│   ├── security-codeql.yml
-│   └── release-docker.yml
+github-workflows/
+├── .github/
+│   ├── workflows/
+│   │   ├── quality-base-set.yml
+│   │   ├── quality-link-check.yml
+│   │   ├── quality-markdown.yml
+│   │   ├── quality-yaml.yml
+│   │   ├── quality-lint.yml
+│   │   ├── security-codeql.yml
+│   │   ├── security-secret-scan.yml
+│   │   ├── security-dependency-review.yml
+│   │   ├── release-validate-tag-immutable.yml
+│   │   ├── release-validate-tags.yml
+│   │   ├── release-validate-branch.yml
+│   │   ├── release-github.yml
+│   │   └── maintenance-link-check.yml
+│   │
+│   └── actions/
+│       ├── quality-link-check/
+│       ├── quality-markdown/
+│       ├── quality-yaml/
+│       ├── quality-lint/
+│       ├── security-secret-scan/
+│       ├── security-dependency-review/
+│       ├── release-validate-tag-immutable/
+│       ├── release-validate-tags/
+│       └── release-validate-branch/
 │
-└── actions/
-    ├── quality-link-check/
-    │   └── action.yml
-    ├── setup-environment/
-    │   └── action.yml
-    └── docker-build/
-        └── action.yml
-
-docs/
-├── workflows/
-│   ├── README.md
-│   ├── quality-link-check.md
-│   ├── security-codeql.md
-│   └── release-docker.md
+├── docs/
+│   ├── workflows/
+│   │   ├── README.md
+│   │   └── <workflow>.md
+│   ├── architecture.md
+│   ├── RELEASING.md
+│   └── AI-prompt.md
 │
-└── actions/
-    └── ...
-
-scripts/
-README.md
-AGENTS.md
+├── scripts/
+│   ├── validate-tag-immutable.sh
+│   ├── validate-version-tag.sh
+│   └── validate-release-branch.sh
+│
+├── README.md
+└── AGENTS.md
 ```
+
+Verantwortungstrennung:
+
+| Schicht | Ort | Aufgabe |
+|---|---|---|
+| Workflow | `.github/workflows/<name>.yml` | Trigger, Permissions, Orchestrierung |
+| Composite Action | `.github/actions/<name>/action.yml` | Wiederverwendbare Implementierung |
+| Script | `scripts/*.sh` | Komplexe Shell-Logik |
+| Dokumentation | `docs/workflows/<name>.md` | Zweck, Integration, Verhalten |
 
 ---
 
@@ -56,11 +83,11 @@ AGENTS.md
 
 `.github/workflows/`
 
-Enthält nur vollständige GitHub Actions Workflows.
+Enthält vollständige GitHub Actions Workflows.
 
 Aufgabe:
 
-- Trigger definieren
+- Trigger definieren (`workflow_call` für wiederverwendbare Workflows)
 - Permissions setzen
 - Jobs orchestrieren
 - Composite Actions aufrufen
@@ -75,75 +102,126 @@ jobs:
     uses: clavicarius/github-workflows/.github/workflows/quality-link-check.yml@v1
 ```
 
+Wichtig:
+
+- Keine Unterordner unter `.github/workflows/`
+- Keine projektspezifischen Annahmen in wiederverwendbaren Workflows
+
 ---
 
 ## Composite Actions
 
-`.github/actions/`
+`.github/actions/<name>/action.yml`
 
 Enthält wiederverwendbare Implementierungen.
 
 Aufgabe:
 
 - gemeinsame Schritte kapseln
-- komplexe Logik aufnehmen
 - Workflows schlank halten
+- Inputs und Outputs definieren
 
 Beispiel:
 
 ```
 .github/actions/quality-link-check/action.yml
+  ↔ .github/workflows/quality-link-check.yml
+```
+
+---
+
+## Scripts
+
+`scripts/`
+
+Komplexe Shell-Logik, die von Composite Actions aufgerufen wird.
+
+Beispiele:
+
+```
+scripts/validate-tag-immutable.sh
+scripts/validate-version-tag.sh
+scripts/validate-release-branch.sh
 ```
 
 ---
 
 # Dokumentationsstruktur
 
-README.md:
+| Datei | Inhalt |
+|---|---|
+| `README.md` | Architektur, Verwendung, Versionierung, Sicherheit |
+| `AGENTS.md` | Verbindliche Regeln für AI-Agenten |
+| `docs/architecture.md` | Aktuelle Repository-Struktur |
+| `docs/RELEASING.md` | Tagging-Richtlinie und Release-Prozess |
+| `docs/workflows/README.md` | Übersicht aller Workflows |
+| `docs/workflows/<workflow>.md` | Detaildokumentation je Workflow |
 
-- beschreibt Architektur
-- beschreibt Verwendung
-- beschreibt Versionierung
-- beschreibt Sicherheitsregeln
-
-AGENTS.md:
-
-- enthält Regeln für AI-Agenten
-- verhindert Architekturverletzungen
-- beschreibt Namenskonventionen
-
-Workflow-Dokumentation:
+Jeder Workflow benötigt eine passende Dokumentationsdatei:
 
 ```
-docs/workflows/
-```
-
-Jeder Workflow bekommt eine eigene Datei:
-
-Beispiel:
-
-```
-docs/workflows/quality-link-check.md
+.github/workflows/<name>.yml
+docs/workflows/<name>.md
 ```
 
 Dokumentiert werden:
 
-- Zweck
-- Funktionen
-- Voraussetzungen
-- Berechtigungen
-- Integration
-- Verhalten
-- Versionierung
+- Zweck und Architektur
+- Inputs, Outputs und Permissions
+- Integration und Beispiele
+- Verhalten bei Fehlern
+- Versionierung (`@v1`)
+
+---
+
+# Verfügbare Workflows
+
+| Workflow | Kategorie | Dokumentation |
+|---|---|---|
+| `quality-base-set` | quality | [quality-base-set.md](workflows/quality-base-set.md) |
+| `quality-link-check` | quality | [quality-link-check.md](workflows/quality-link-check.md) |
+| `quality-markdown` | quality | [quality-markdown.md](workflows/quality-markdown.md) |
+| `quality-yaml` | quality | [quality-yaml.md](workflows/quality-yaml.md) |
+| `quality-lint` | quality | [quality-lint.md](workflows/quality-lint.md) |
+| `security-codeql` | security | [security-codeql.md](workflows/security-codeql.md) |
+| `security-secret-scan` | security | [security-secret-scan.md](workflows/security-secret-scan.md) |
+| `security-dependency-review` | security | [security-dependency-review.md](workflows/security-dependency-review.md) |
+| `release-validate-tag-immutable` | release | [release-validate-tag-immutable.md](workflows/release-validate-tag-immutable.md) |
+| `release-validate-tags` | release | [release-validate-tags.md](workflows/release-validate-tags.md) |
+| `release-validate-branch` | release | [release-validate-branch.md](workflows/release-validate-branch.md) |
+| `release-github` | release | [release-github.md](workflows/release-github.md) |
+| `maintenance-link-check` | maintenance | [maintenance-link-check.md](workflows/maintenance-link-check.md) |
+
+Übersicht: [docs/workflows/README.md](workflows/README.md)
+
+---
+
+# Release-Pipeline (Quality Base Set)
+
+Internes Repository-Gate bei Tag-Pushes (`v*`):
+
+```
+release-validate-tag-immutable
+  → release-validate-tags
+    → release-validate-branch
+      → release-github
+```
+
+Details:
+
+- [quality-base-set.md](workflows/quality-base-set.md)
+- [RELEASING.md](RELEASING.md)
 
 ---
 
 # Namenskonventionen
 
-Workflows:
+## Workflow-Dateien
+
+Dateiname:
 
 ```
-<bereich>-<funktion>.yml
+<category>-<purpose>.yml
 ```
 
 Beispiele:
@@ -151,32 +229,111 @@ Beispiele:
 ```
 quality-link-check.yml
 security-codeql.yml
-release-docker.yml
+release-validate-tags.yml
+release-github.yml
+maintenance-link-check.yml
 ```
 
-Bereiche:
+Kategorien:
 
-| Bereich | Zweck |
-|-|-|
-| quality | Qualitätssicherung |
-| security | Sicherheitsprüfungen |
-| build | Build-Prozesse |
-| release | Veröffentlichungen |
-| maintenance | Wartung |
+| Kategorie | Zweck |
+|---|---|
+| `quality` | Qualitätssicherung, Linting, Strukturprüfungen |
+| `security` | Sicherheitsprüfungen |
+| `release` | Veröffentlichungen und Tag-Validierung |
+| `maintenance` | Geplante Wartungsaufgaben (repository-intern) |
 
-Composite Actions:
+Workflow-`name:` in Title Case, z. B. `Quality Link Check`,
+`Release Validate Tags`.
+
+---
+
+## Composite-Action-Ordner
 
 ```
-<funktion>
+<category>-<purpose>
 ```
 
 Beispiele:
 
 ```
 quality-link-check
-docker-build
-setup-node
+quality-markdown
+release-validate-tag-immutable
+release-validate-tags
+release-validate-branch
 ```
+
+Wenn ein Workflow eine Composite Action nutzt, sollen Namen übereinstimmen.
+
+---
+
+## Script-Dateien
+
+```
+scripts/validate-<purpose>.sh
+```
+
+---
+
+# Referenzbeispiel: Quality Link Check
+
+Etabliertes Muster für Workflow + Composite Action:
+
+```
+.github/workflows/quality-link-check.yml
+.github/actions/quality-link-check/action.yml
+```
+
+Workflow (Orchestrierung):
+
+```yaml
+name: Quality Link Check
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: clavicarius/github-workflows/.github/actions/quality-link-check@v1
+```
+
+Composite Action (Implementierung):
+
+- Lychee ausführen
+- Report erzeugen
+- Issue erstellen, aktualisieren oder schließen
+
+Standard-Issue:
+
+- Titel: `Link Checker Report`
+- Label: `dead-link`
+
+---
+
+# Referenzbeispiel: Release Validate Tags
+
+Muster mit Script + Composite Action + Workflow:
+
+```
+.github/workflows/release-validate-tags.yml
+.github/actions/release-validate-tags/action.yml
+scripts/validate-version-tag.sh
+```
+
+Funktionen:
+
+- Tag-Format prüfen (Simple, Semver, Custom)
+- Monotonie bei Simple-Versionierung
+- GitHub Issue bei Fehlern
+- Outputs: `valid`, `max_tag`, `tag`
 
 ---
 
@@ -205,141 +362,16 @@ git push origin v1
 
 Regel:
 
-- Patch/kompatible Änderungen → gleiche Major-Version
+- kompatible Änderungen → gleiche Major-Version
 - Breaking Changes → neue Major-Version
-
----
-
-# Aktueller Workflow: Quality Link Check
-
-Ziel:
-
-Automatische Prüfung von Links in Repositorys.
-
-Technik:
-
-- Lychee als Link Checker
-- GitHub CLI (`gh`) für Issue-Verwaltung
-
-Funktionen:
-
-- Markdown/Documentation Links prüfen
-- Fehlerreport erzeugen
-- GitHub Issue erstellen
-- vorhandenes Issue aktualisieren
-- behobene Fehler automatisch schließen
-
----
-
-# Zielstruktur Quality Link Check
-
-```
-.github/
-
-├── workflows/
-│   └── quality-link-check.yml
-│
-└── actions/
-    └── quality-link-check/
-        └── action.yml
-```
-
----
-
-# Workflow
-
-Datei:
-
-```
-.github/workflows/quality-link-check.yml
-```
-
-Aufgabe:
-
-- workflow_call bereitstellen
-- Permissions definieren
-- Composite Action aufrufen
-
-Beispiel:
-
-```yaml
-name: Quality Link Check
-
-on:
-  workflow_call:
-
-permissions:
-  contents: read
-  issues: write
-
-jobs:
-  link-check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: clavicarius/github-workflows/.github/actions/quality-link-check@v1
-```
-
----
-
-# Composite Action
-
-Datei:
-
-```
-.github/actions/quality-link-check/action.yml
-```
-
-Aufgabe:
-
-1. Lychee ausführen
-2. Report erzeugen
-3. Issue erstellen oder aktualisieren
-4. Issue schließen, wenn Fehler behoben
-
-Standardwerte:
-
-Issue Titel:
-
-```
-Link Checker Report
-```
-
-Label:
-
-```
-dead-link
-```
-
----
-
-# Issue-Verhalten
-
-Wenn defekte Links vorhanden:
-
-- Suche nach vorhandenem offenen Issue
-- Falls vorhanden:
-  - Body aktualisieren
-
-- Falls nicht vorhanden:
-  - neues Issue erstellen
-
-Wenn keine defekten Links vorhanden:
-
-- vorhandenes Issue schließen
-- Kommentar hinzufügen:
-
-```
-All broken links have been fixed.
-```
 
 ---
 
 # Berechtigungen
 
-Benötigt:
+Grundsatz: Least Privilege.
+
+Beispiel Link Check:
 
 ```yaml
 permissions:
@@ -347,53 +379,42 @@ permissions:
   issues: write
 ```
 
-Voraussetzung:
-
-GitHub Issues müssen im Zielrepository aktiviert sein.
+Release GitHub benötigt zusätzlich `contents: write` im aufrufenden Job.
 
 ---
 
 # Regeln für AI-Agenten
 
-AI-Agenten müssen:
+Verbindliche Regeln stehen in `AGENTS.md`. Kurzfassung:
 
 - bestehende Struktur einhalten
-- keine Workflows in Unterordner von `.github/workflows` legen
-- neue Workflow-Dateien dokumentieren
-- Composite Actions bevorzugen
-- keine projektspezifische Logik im zentralen Repository hinzufügen
-- keine unnötigen Permissions hinzufügen
+- keine Workflows in Unterordner von `.github/workflows/`
+- Workflow und Dokumentation immer zusammen pflegen
+- Composite Actions und Scripts für Implementierungslogik nutzen
+- keine projektspezifische Logik im zentralen Repository
+- keine unnötigen Permissions
+- interne CI mit `./.github/actions/...`, externe Nutzung mit `@v1`
 
-Workflow:
+Pflicht bei neuen Workflows:
 
 ```
 .github/workflows/<name>.yml
-```
-
-Dokumentation:
-
-```
 docs/workflows/<name>.md
 ```
 
-müssen immer zusammen gepflegt werden.
-
 ---
 
-# Nächste mögliche Schritte
+# Hinweise für neue Arbeit
 
-Offene Themen:
+Vor Erstellung eines neuen Workflows prüfen:
 
-1. Finalisierung der `quality-link-check` Composite Action
-2. Erstellung der Dokumentation:
-   - docs/workflows/README.md
-   - docs/workflows/quality-link-check.md
+1. Gibt es bereits einen passenden Workflow?
+2. Kann die Logik als Composite Action umgesetzt werden?
+3. Ist die Lösung für mehrere Projekte nutzbar?
+4. Ist Dokumentation in `docs/workflows/` erforderlich?
 
-3. Erstellung weiterer Standard-Workflows:
-   - Security Scan
-   - Dependency Review
-   - Code Quality
-   - Docker Build
-   - Release Automation
+Offene Erweiterungen (Beispiele, nicht abschließend):
 
-4. Release- und Tagging-Strategie für das Workflow Repository definieren
+- weitere `quality-*` Workflows nach Bedarf
+- zusätzliche `release-*` Schritte
+- weitere `security-*` Prüfungen
