@@ -30,6 +30,7 @@ Zusätzlich wird bei Git Tags ein GitHub Release über `release-github.yml` erst
 | `security-dependency-review.yml` | Pull Request | Dependency-Sicherheit im PR |
 | `quality-lint.yml` | Pull Request | Zusätzliche Linter nach Auto-Detect |
 | `release-validate-tags.yml` | Tag `v*` | Tag-Format und Monotonie prüfen |
+| `release-validate-branch.yml` | Tag `v*` | Prüft, ob Tag auf `main` liegt |
 | `release-github.yml` | Tag `v*` | GitHub Release für neue Versionen |
 
 ---
@@ -53,7 +54,7 @@ Dadurch wird automatisch ein GitHub Release erstellt.
 
 Der Tag **muss vom `main` Branch** gesetzt werden und dem Tagging-Schema entsprechen.
 Wird ein `v*`-Tag auf einem anderen Branch gesetzt oder ist das Format ungültig,
-schlagen die Jobs `release-validate-tags` bzw. `validate-release-branch` fehl
+schlagen die Jobs `release-validate-tags` bzw. `release-validate-branch` fehl
 und das Release wird nicht erstellt.
 
 ---
@@ -138,7 +139,7 @@ release-validate-tags
       +-- Nein -> Fehler, kein Release
       |
       v
-validate-release-branch
+release-validate-branch
       |
   OK? |
       +-- Nein -> Fehler, kein Release
@@ -189,3 +190,4 @@ jobs:
 - [Security Dependency Review](security-dependency-review.md)
 - [Release GitHub](release-github.md)
 - [Release Validate Tags](release-validate-tags.md)
+- [Release Validate Branch](release-validate-branch.md)

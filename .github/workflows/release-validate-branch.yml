@@ -1,0 +1,40 @@
+name: release-validate-branch
+
+on:
+  workflow_call:
+    inputs:
+      commit-sha:
+        description: Commit SHA the tag points to. Defaults to github.sha.
+        required: false
+        type: string
+        default: ''
+
+      branch:
+        description: Branch release tags must be created from
+        required: false
+        type: string
+        default: 'main'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-branch:
+    name: Validate release branch
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run release validate branch
+        uses: ./.github/actions/release-validate-branch
+        with:
+          commit-sha: ${{ inputs.commit-sha != '' && inputs.commit-sha ||
+            github.sha }}
+          branch: ${{ inputs.branch }}
