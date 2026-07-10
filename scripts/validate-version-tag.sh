@@ -95,7 +95,7 @@ CHECK_MONOTONICITY="${CHECK_MONOTONICITY:-true}"
 echo "Validating tag: $TAG"
 echo "Pattern: $PATTERN_NAME"
 
-if ! echo "$TAG" | grep -qEP "$PATTERN"; then
+if ! echo "$TAG" | grep -qP "$PATTERN"; then
   echo "::error::Tag '$TAG' does not match expected format ($PATTERN_NAME)"
   if [ "${CREATE_ISSUE_ON_FAILURE:-true}" = "true" ]; then
     {
@@ -136,8 +136,7 @@ if [ "$PATTERN_NAME" = "simple major versioning" ] \
     echo "::error::Tag $TAG is not greater than existing maximum v${MAX}"
     if [ "${CREATE_ISSUE_ON_FAILURE:-true}" = "true" ]; then
       {
-        printf 'Der Tag `%s` ist ungültig, weil er nicht größer ist als ' \
-          'das aktuell größte existierende Tag (`v%s`).\n\n' "$TAG" "$MAX"
+        printf 'Der Tag `%s` ist ungültig, weil er nicht größer ist als das aktuell größte existierende Tag (`v%s`).\n\n' "$TAG" "$MAX"
         printf '%s\n\n' \
           'Neue Tags müssen numerisch größer sein als das derzeit größte `vNNN`. Lücken sind erlaubt.'
         printf '%s\n' 'Details:'
