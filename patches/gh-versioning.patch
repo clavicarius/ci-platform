@@ -1,0 +1,227 @@
+diff --git a/actions/compute-version/action.yml b/actions/compute-version/action.yml
+new file mode 100644
+index 0000000..8b3c949
+--- /dev/null
++++ b/actions/compute-version/action.yml
+@@ -0,0 +1,38 @@
++name: Compute next semantic version
++description: Computes the next v<major>.<minor>.<patch> tag and corresponding moving major tag.
++
++outputs:
++  next_tag:
++    description: Next full semantic version tag (e.g. v0.1.1)
++    value: ${{ steps.compute.outputs.next_tag }}
++  major_tag:
++    description: Moving major tag (e.g. v0)
++    value: ${{ steps.compute.outputs.major_tag }}
++
++runs:
++  using: "composite"
++  steps:
++    - name: Compute next patch version from existing tags
++      id: compute
++      shell: bash
++      run: |
++        set -euo pipefail
++
++        semver_tags="$(git tag -l | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' || true)"
++
++        if [ -z "${semver_tags}" ]; then
++          next_tag="v0.1.0"
++        else
++          latest_tag="$(printf "%s\n" "${semver_tags}" | sort -V | tail -n1)"
++          version="${latest_tag#v}"
++
++          IFS='.' read -r major minor patch <<< "${version}"
++          patch=$((patch + 1))
++
++          next_tag="v${major}.${minor}.${patch}"
++        fi
++
++        major_tag="v$(echo "${next_tag#v}" | cut -d. -f1)"
++
++        echo "next_tag=${next_tag}" >> "$GITHUB_OUTPUT"
++        echo "major_tag=${major_tag}" >> "$GITHUB_OUTPUT"
+diff --git a/.github/workflows/versioning.yml b/.github/workflows/versioning.yml
+new file mode 100644
+index 0000000..26ce3ff
+--- /dev/null
++++ b/.github/workflows/versioning.yml
+@@ -0,0 +1,96 @@
++name: Versioning
++
++on:
++  push:
++    branches:
++      - main
++  pull_request:
++
++concurrency:
++  group: versioning-${{ github.event_name }}-${{ github.ref }}
++  # push-to-main: never cancel (every push must get a tag)
++  # pull_request: cancel stale runs (dry-run only, no side effects)
++  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
++
++permissions:
++  contents: write
++
++jobs:
++  version:
++    # recursion/bot guard:
++    # - run on PRs always (dry-run only)
++    # - run on push to main only if actor is not github-actions[bot]
++    if: |
++      github.event_name == 'pull_request' ||
++      (github.event_name == 'push' &&
++       github.ref == 'refs/heads/main' &&
++       github.actor != 'github-actions[bot]')
++    runs-on: ubuntu-latest
++
++    steps:
++      - name: Checkout (full history + tags)
++        uses: actions/checkout@v4
++        with:
++          fetch-depth: 0
++
++      - name: Ensure tags are up to date
++        run: git fetch --force --tags
++
++      - name: Compute next version
++        id: compute
++        uses: ./actions/compute-version
++
++      - name: Dry-run summary (PR)
++        if: github.event_name == 'pull_request'
++        run: |
++          {
++            echo "## Versioning dry-run"
++            echo ""
++            echo "- event: pull_request"
++            echo "- would create next tag: \`${{ steps.compute.outputs.next_tag }}\`"
++            echo "- would move major tag: \`${{ steps.compute.outputs.major_tag }}\`"
++            echo ""
++            echo "_No tags were pushed in PR mode._"
++          } >> "$GITHUB_STEP_SUMMARY"
++
++      - name: Create/update tags (push to main)
++        if: github.event_name == 'push'
++        env:
++          NEXT_TAG: ${{ steps.compute.outputs.next_tag }}
++          MAJOR_TAG: ${{ steps.compute.outputs.major_tag }}
++        run: |
++          set -euo pipefail
++
++          # Idempotency check: if NEXT_TAG already exists remotely, ensure MAJOR_TAG points to it and exit.
++          if git ls-remote --exit-code --tags origin "refs/tags/${NEXT_TAG}" >/dev/null 2>&1; then
++            echo "Tag ${NEXT_TAG} already exists on origin. Ensuring ${MAJOR_TAG} points to ${NEXT_TAG}."
++            git fetch --force --tags
++
++            git tag -f "${MAJOR_TAG}" "${NEXT_TAG}"
++            git push origin "${MAJOR_TAG}" --force
++
++            {
++              echo "## Versioning result"
++              echo ""
++              echo "- next tag already exists: \`${NEXT_TAG}\`"
++              echo "- ensured major tag points to: \`${MAJOR_TAG}\`"
++            } >> "$GITHUB_STEP_SUMMARY"
++            exit 0
++          fi
++
++          echo "Creating version tag: ${NEXT_TAG}"
++          git tag "${NEXT_TAG}"
++
++          echo "Updating moving major tag: ${MAJOR_TAG}"
++          git tag -f "${MAJOR_TAG}"
++
++          echo "Pushing tags"
++          git push origin "${NEXT_TAG}"
++          git push origin "${MAJOR_TAG}" --force
++
++          {
++            echo "## Versioning result"
++            echo ""
++            echo "- created tag: \`${NEXT_TAG}\`"
++            echo "- moved major tag: \`${MAJOR_TAG}\`"
++          } >> "$GITHUB_STEP_SUMMARY"
+diff --git a/docs/VERSIONING.md b/docs/VERSIONING.md
+new file mode 100644
+index 0000000..6244d7b
+--- /dev/null
++++ b/docs/VERSIONING.md
+@@ -0,0 +1,73 @@
++# Versioning
++
++Automatic semantic version tags are managed by a GitHub Actions workflow.
++
++- Trigger: push to `main` (tag pushes are not a trigger); `pull_request` runs in dry-run mode.
++- Full tag format: `v<major>.<minor>.<patch>` (only tags matching `^v[0-9]+\.[0-9]+\.[0-9]+$` are considered).
++- Increment strategy: choose the highest existing full tag and increment **patch** only.
++- Initial version: `v0.1.0` if no matching tags exist.
++- Monotonicity: versions are globally monotonically increasing across all major versions (gaps allowed).
++- Moving major tag: update `v<major>` to point to the same commit as the newly created full tag.
++- Recursion protection: the workflow triggers on branch pushes only (not on tag pushes).
++
++## Operational examples
++
++### 1) First run (no existing semantic version tags)
++
++Repository has no tags matching `v<major>.<minor>.<patch>`.
++
++- Push to `main` triggers workflow.
++- Computed next tag: `v0.1.0`
++- Moving major tag: `v0`
++- Result:
++  - create `v0.1.0`
++  - move/create `v0` to same commit
++
++### 2) Normal run (existing semantic version tags)
++
++Existing tags include e.g. `v0.1.0`, `v0.1.1`, `v0.1.2`.
++
++- Push to `main` triggers workflow.
++- Highest semantic version tag is `v0.1.2`.
++- Computed next tag: `v0.1.3`
++- Moving major tag: `v0`
++- Result:
++  - create `v0.1.3`
++  - force-move `v0` to the commit of `v0.1.3`
++
++### 3) Pull request dry-run
++
++- `pull_request` event triggers workflow.
++- Workflow computes next full tag and major tag.
++- Result:
++  - values are shown in job summary
++  - **no tags are created**
++  - **no tags are pushed**
++
++### 4) Serialization + idempotent rerun safety
++
++Case: multiple `main` pushes happen close together, or a rerun sees an already-created full tag.
++
++- Workflow-level `concurrency` groups runs per event/ref.
++  - For `push` to `main` runs queue (`cancel-in-progress: false`) so every push gets a tag.
++  - For `pull_request` stale runs are cancelled (`cancel-in-progress: true`) since dry-runs have no side effects.
++- Workflow checks remote tags before creating the new full tag.
++- If the full tag already exists:
++  - run exits successfully
++  - no additional full tag is created
++  - moving major tag is still force-updated to point to that full tag
++
++### 5) Non-semver tags present
++
++Repository contains tags that do not match strict semver format with `v` prefix (e.g. `release-1`, `1.2.3`, `v1.2`).
++
++- These tags are ignored for version calculation.
++- Only tags matching `^v[0-9]+\.[0-9]+\.[0-9]+$` are considered.
++
++### 6) Moving major tag behavior
++
++When creating a new full tag in a major line, the corresponding major tag is updated.
++
++Example:
++
++- new full tag: `v2.4.9`
++- moving major tag updated to: `v2`
++- `v2` points to the same commit as `v2.4.9`
