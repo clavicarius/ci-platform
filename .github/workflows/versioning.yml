@@ -66,7 +66,7 @@ jobs:
             echo "Tag ${NEXT_TAG} already exists on origin. Ensuring ${MAJOR_TAG} points to ${NEXT_TAG}."
             git fetch --force --tags
 
-            git tag -f "${MAJOR_TAG}" "${NEXT_TAG}"
+            git tag -f "${MAJOR_TAG}" "${NEXT_TAG}^{}"
             git push origin "${MAJOR_TAG}" --force
 
             {
