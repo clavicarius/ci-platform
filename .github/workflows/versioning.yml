@@ -38,7 +38,7 @@ jobs:
 
       - name: Compute next version
         id: compute
-        uses: ./actions/compute-version
+        uses: ./actions/simple-versioning
 
       - name: Dry-run summary (PR)
         if: github.event_name == 'pull_request'
