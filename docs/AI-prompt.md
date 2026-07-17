@@ -264,6 +264,7 @@ quality-markdown
 release-validate-tag-immutable
 release-validate-tags
 release-validate-branch
+validate-branch-name
 ```
 
 Wenn ein Workflow eine Composite Action nutzt, sollen Namen übereinstimmen.

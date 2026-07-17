@@ -16,27 +16,6 @@ jobs:
 
     steps:
       - name: Validate source branch name
-        env:
-          BRANCH_NAME: ${{ github.head_ref }}
-          BRANCH_REGEX: >-
-            ^(feature|enhancement|bugfix|hotfix|release|chore)/[a-z0-9._-]+$
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [[ -z "${BRANCH_NAME}" ]]; then
-            echo "::error::Unable to determine source branch name (github.head_ref is empty)."
-            exit 1
-          fi
-
-          if [[ "${BRANCH_NAME}" =~ ${BRANCH_REGEX} ]]; then
-            echo "✅ Branch name '${BRANCH_NAME}' is valid."
-            exit 0
-          fi
-
-          echo "::error::Invalid branch name '${BRANCH_NAME}'."
-          echo "::error::Expected format: <prefix>/<name>."
-          echo "::error::Allowed prefixes: feature, enhancement, bugfix, hotfix, release, chore."
-          echo "::error::Allowed characters in <name>: lowercase letters, numbers, dot, underscore, hyphen."
-          echo "::error::Required regex: ${BRANCH_REGEX}"
-          exit 1
+        uses: ./actions/validate-branch-name
+        with:
+          branch-name: ${{ github.head_ref }}

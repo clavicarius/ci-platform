@@ -4,6 +4,8 @@ Datei:
 
 ```
 .github/workflows/validate-branch-name.yml
+actions/validate-branch-name/action.yml
+scripts/validate-branch-name.sh
 ```
 
 ---
@@ -14,6 +16,16 @@ Der **Validate Branch Name Workflow** prüft bei Pull Requests, ob der
 Source-Branch die verbindliche Namenskonvention erfüllt.
 
 Er ist **repository-intern** und dient als PR-Gate für geschützte Branches.
+
+---
+
+## Architektur
+
+| Komponente | Verantwortung |
+|---|---|
+| `validate-branch-name.yml` | Trigger, Permissions, Job-Orchestrierung |
+| `validate-branch-name/action.yml` | Composite Action mit Inputs |
+| `scripts/validate-branch-name.sh` | Regex-Validierung und Fehlermeldungen |
 
 ---
 
