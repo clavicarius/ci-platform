@@ -190,6 +190,7 @@ Dokumentiert werden:
 | `release-validate-tags` | release | [release-validate-tags.md](workflows/release-validate-tags.md) |
 | `release-validate-branch` | release | [release-validate-branch.md](workflows/release-validate-branch.md) |
 | `release-github` | release | [release-github.md](workflows/release-github.md) |
+| `validate-branch-name` | validate | [validate-branch-name.md](workflows/validate-branch-name.md) |
 | `maintenance-link-check` | maintenance | [maintenance-link-check.md](workflows/maintenance-link-check.md) |
 
 Übersicht: [docs/workflows/README.md](workflows/README.md)
@@ -241,6 +242,7 @@ Kategorien:
 | `quality` | Qualitätssicherung, Linting, Strukturprüfungen |
 | `security` | Sicherheitsprüfungen |
 | `release` | Veröffentlichungen und Tag-Validierung |
+| `validate` | Repository-interne PR-Validierungen |
 | `maintenance` | Geplante Wartungsaufgaben (repository-intern) |
 
 Workflow-`name:` in Title Case, z. B. `Quality Link Check`,
