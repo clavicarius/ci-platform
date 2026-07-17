@@ -23,4 +23,4 @@ runs:
         BRANCH_REGEX: ${{ inputs.branch-regex }}
       run: |
         set -euo pipefail
-        bash "${GITHUB_ACTION_PATH}/../../scripts/validate-branch-name.sh"
+        bash "${GITHUB_WORKSPACE}/scripts/validate-branch-name.sh"
