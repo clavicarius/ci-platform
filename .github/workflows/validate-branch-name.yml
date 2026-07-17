@@ -19,7 +19,7 @@ jobs:
         env:
           BRANCH_NAME: ${{ github.head_ref }}
           BRANCH_REGEX: >-
-            ^(feature|enhancement|bugfix|hotfix|release|chore)\/[a-z0-9._-]+$
+            ^(feature|enhancement|bugfix|hotfix|release|chore)/[a-z0-9._-]+$
         shell: bash
         run: |
           set -euo pipefail
