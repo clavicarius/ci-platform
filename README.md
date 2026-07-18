@@ -313,7 +313,7 @@ Quell-Branch die Konvention `<prefix>/<name>` mit den Präfixen
 `feature`, `enhancement`, `bugfix`, `hotfix`, `release`, `chore` und
 `copilot`.
 
-Der Präfix `copilot` ist für von Agenten erzeugte Pull Requests vorgesehen.
+Der Branch-Typ `copilot` ist für von Agenten erzeugte Pull Requests vorgesehen.
 
 Ablauf:
 

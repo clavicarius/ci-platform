@@ -49,7 +49,7 @@ Erlaubte Präfixe:
 - `chore/`
 - `copilot/`
 
-Der Präfix `copilot/` ist für von Agenten erzeugte Pull Requests vorgesehen.
+Der Branch-Typ `copilot/` ist für von Agenten erzeugte Pull Requests vorgesehen.
 
 Regex:
 
