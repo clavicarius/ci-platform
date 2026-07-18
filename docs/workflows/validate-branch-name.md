@@ -47,7 +47,9 @@ Erlaubte Präfixe:
 - `hotfix/`
 - `release/`
 - `chore/`
-- `copilot/` (für von Agenten erzeugte Pull Requests)
+- `copilot/`
+
+Der Präfix `copilot/` ist für von Agenten erzeugte Pull Requests vorgesehen.
 
 Regex:
 

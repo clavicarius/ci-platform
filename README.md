@@ -5,6 +5,7 @@ Dieses Repository enthält zentral verwaltete
 
 ![logo](./assets/logo-claim.png)
 
+
 Ziel ist es, wiederkehrende CI/CD-Aufgaben nicht in jedem einzelnen Repository doppelt zu pflegen,
 sondern sie zentral bereitzustellen und über `workflow_call` einzubinden.
 
@@ -310,7 +311,9 @@ Vor Erstellung eines neuen Workflows prüfen:
 Für repository-interne Pull Requests auf `main` und `develop` gilt für den
 Quell-Branch die Konvention `<prefix>/<name>` mit den Präfixen
 `feature`, `enhancement`, `bugfix`, `hotfix`, `release`, `chore` und
-`copilot` (für von Agenten erzeugte Pull Requests).
+`copilot`.
+
+Der Präfix `copilot` ist für von Agenten erzeugte Pull Requests vorgesehen.
 
 Ablauf:
 
