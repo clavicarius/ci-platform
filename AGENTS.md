@@ -6,7 +6,8 @@ This document defines mandatory rules for AI agents and automated coding assista
 
 The repository contains centrally managed GitHub Actions Workflows and Composite Actions.
 
-AI agents MUST preserve the architecture and conventions described below.
+The authoritative target specification for the platform architecture is `docs/ci-platform.md`.
+AI agents MUST preserve the architecture and conventions described below and keep them consistent with that target specification.
 
 ---
 
