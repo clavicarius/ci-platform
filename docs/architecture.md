@@ -1,108 +1,146 @@
 # Architecture
 
-Das Repository folgt einer zweistufigen Architektur:
+Dieses Dokument beschreibt die Repository-Struktur im Soll-Zielbild der CI-Plattform.
+Die maßgebliche Referenz bleibt [docs/ci-platform.md](ci-platform.md).
 
+## Architektur-Schichten
+
+```text
+Basis-Set (quality + security)
+    ↓ optional
+Pipeline-Bausteine (build, test, release, docker)
+    ↓
+Consumer-Repositories
 ```
+
+## Repository-Struktur
+
+```text
 ci-platform/
 ├── .github/
 │   └── workflows/
-│       ├── quality-base-set.yml
-│       ├── quality-link-check.yml
-│       ├── quality-markdown.yml
-│       ├── quality-yaml.yml
-│       ├── quality-lint.yml
-│       ├── security-codeql.yml
-│       ├── security-secret-scan.yml
-│       ├── security-dependency-review.yml
-│       ├── release-validate-tag-immutable.yml
-│       ├── release-validate-tags.yml
-│       ├── release-validate-branch.yml
-│       ├── release-github.yml
-│       └── maintenance-link-check.yml
+│       ├── quality-base-set.yml          # plattform-intern / consumer-tauglich
+│       ├── quality-link-check.yml        # consumer
+│       ├── quality-lint.yml              # consumer
+│       ├── quality-markdown.yml          # consumer
+│       ├── quality-yaml.yml              # consumer
+│       ├── security-codeql.yml           # consumer
+│       ├── security-dependency-review.yml # consumer
+│       ├── security-secret-scan.yml      # consumer
+│       ├── release-github.yml            # consumer
+│       ├── release-validate-branch.yml   # consumer
+│       ├── release-validate-tags.yml     # consumer
+│       ├── release-validate-tag-immutable.yml # consumer
+│       ├── validate-platform.yml         # plattform-intern
+│       ├── build-<purpose>.yml           # optionaler pipeline-baustein
+│       └── release-docker.yml            # optionaler pipeline-baustein
 │
 ├── actions/
 │   ├── quality-link-check/
+│   ├── quality-lint/
 │   ├── quality-markdown/
 │   ├── quality-yaml/
-│   ├── quality-lint/
-│   ├── security-secret-scan/
+│   ├── security-codeql/
 │   ├── security-dependency-review/
-│   ├── release-validate-tag-immutable/
+│   ├── security-secret-scan/
+│   ├── release-github/
+│   ├── release-validate-branch/
 │   ├── release-validate-tags/
-│   └── release-validate-branch/
-│
-├── docs/
-│   ├── workflows/
-│   │   ├── README.md
-│   │   └── <workflow>.md
-│   │
-│   ├── architecture.md
-│   └── RELEASING.md
+│   ├── release-validate-tag-immutable/
+│   ├── docker-build/                   # geplant
+│   └── setup-node/                     # geplant
 │
 ├── scripts/
-│   ├── validate-tag-immutable.sh
-│   ├── validate-version-tag.sh
-│   └── validate-release-branch.sh
+│   ├── lib/
+│   │   ├── logging.sh
+│   │   ├── git.sh
+│   │   └── docker.sh
+│   ├── release/
+│   │   └── create-release.sh
+│   └── validation/
+│       └── validate-yaml.sh
+│
+├── docs/
+│   ├── ci-platform.md
+│   ├── architecture.md
+│   ├── RELEASING.md
+│   └── workflows/
+│       ├── README.md
+│       └── <workflow>.md
 │
 ├── README.md
-└── AGENTS.md
+├── AGENTS.md
+├── CHANGELOG.md
+├── CODEOWNERS
+└── LICENSE
 ```
 
-Damit bleibt die Verantwortung klar getrennt:
+## Verantwortlichkeiten
 
-| Datei | Zweck |
+| Stelle | Zweck |
 |---|---|
-| `README.md` | Architektur, Verwendung, Entwicklungsregeln |
-| `AGENTS.md` | Regeln für AI-Agenten |
-| `docs/workflows/README.md` | Übersicht aller verfügbaren Workflows |
-| `docs/workflows/<workflow>.md` | Detaildokumentation eines einzelnen Workflows |
-| `.github/workflows/<workflow>.yml` | Trigger, Permissions, Orchestrierung |
-| `actions/<action>/action.yml` | Wiederverwendbare Implementierungsschritte |
-| `scripts/*.sh` | Komplexe Shell-Logik |
+| `.github/workflows/*.yml` | Trigger, Permissions, Orchestrierung, öffentliche API |
+| `actions/<name>/action.yml` | Wiederverwendbare Implementierungsschritte |
+| `scripts/` | Interne Hilfslogik und Shell-Utilities |
+| `docs/workflows/*.md` | Detaillierte Consumer-Dokumentation |
+| `docs/ci-platform.md` | Soll-Zielbild und Architektur-Spezifikation |
 
----
+## Consumer-API vs. Plattform-intern
+
+| Typ | Zweck | Einbindbar per `uses:` |
+|---|---|---|
+| Consumer-Workflows | Öffentliche API für andere Repositories | Ja (`workflow_call`) |
+| Plattform-interne Workflows | PR-Gates, Validierung, Wartung des ci-platform-Repos | Nein |
+
+Beispiele:
+
+```yaml
+jobs:
+  quality:
+    uses: clavicarius/ci-platform/.github/workflows/quality-base-set.yml@v1
+```
+
+```yaml
+steps:
+  - uses: clavicarius/ci-platform/actions/quality-link-check@v1
+```
 
 ## Namenskonventionen
 
 ### Workflows
 
-Dateiname: `<category>-<purpose>.yml`
+```text
+<category>-<purpose>.yml
+```
 
-| Kategorie | Beispiel |
-|---|---|
-| `quality` | `quality-link-check.yml` |
-| `security` | `security-codeql.yml` |
-| `release` | `release-github.yml` |
-| `maintenance` | `maintenance-link-check.yml` |
+Beispiele:
+
+- `quality-link-check.yml`
+- `security-codeql.yml`
+- `release-github.yml`
+- `validate-platform.yml`
 
 ### Composite Actions
 
-Ordnername entspricht dem Workflow-Namen, wenn die Action die
-Implementierung des Workflows kapselt:
-
-```
-actions/release-validate-tags/action.yml
-  ↔ .github/workflows/release-validate-tags.yml
+```text
+actions/<category>-<purpose>/action.yml
 ```
 
-### Scripts
+Beispiele:
 
-```
-scripts/validate-<purpose>.sh
-```
+- `actions/quality-link-check/action.yml`
+- `actions/security-secret-scan/action.yml`
+- `actions/release-validate-tags/action.yml`
 
-Beispiele: `validate-tag-immutable.sh`, `validate-version-tag.sh`, `validate-release-branch.sh`
+## Release-Pipeline
 
----
-
-## Release-Pipeline (Quality Base Set)
-
-```
+```text
 release-validate-tag-immutable
   → release-validate-tags
     → release-validate-branch
       → release-github
 ```
 
-Siehe [Quality Base Set](workflows/quality-base-set.md) und
-[RELEASING.md](RELEASING.md).
+Die Plattform verwendet SemVer-Tags (`v1.2.3`) mit einem Floating Major Alias (`@v1`).
+Damit bleiben Consumer-Integrationen stabil und kompatibel, während im Repository neue Releases
+weiterentwickelt werden.

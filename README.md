@@ -12,6 +12,41 @@ sondern sie zentral bereitzustellen und über `workflow_call` einzubinden.
 Die Workflows in diesem Repository stellen eine gemeinsame CI/CD-Basis für mehrere Projekte bereit
 und werden versioniert veröffentlicht.
 
+Die verbindliche Soll-Spezifikation für Architektur, Naming und Verbrauch liegt in
+[docs/ci-platform.md](docs/ci-platform.md).
+
+---
+
+# Architektur-Schichten
+
+```text
+Basis-Set (quality + security)
+    ↓ optional
+Pipeline-Bausteine (build, test, release, docker)
+    ↓
+Consumer-Repositories
+```
+
+## Basis-Set
+
+Das Basis-Set bildet den Standard-Startpunkt für Consumer-Repositories und enthält die
+gemeinsamen Quality- und Security-Checks:
+
+- Link- und Markdown-Prüfungen
+- YAML- und Lint-Validierung
+- Secret Scanning
+- Dependency Review
+- CodeQL
+
+## Pipeline-Bausteine
+
+Optionale Erweiterungen für projektspezifische Anforderungen:
+
+- Build und Test
+- Release-Prozesse
+- Docker Build & Publish
+- Weitere projektbezogene Pipelines
+
 ---
 
 # Vorteile
@@ -96,6 +131,36 @@ Beispiel:
 - name: Check links
   uses: clavicarius/ci-platform/actions/quality-link-check@v1
 ```
+
+---
+
+# Consumer-Integration
+
+Consumer-Repositories binden die Plattform flexibel ein — als einzelne Workflows oder als
+Basis-Set-Bundle. Die Reusable Workflows laufen dabei im Kontext des aufrufenden Repositories.
+
+```yaml
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  quality:
+    uses: clavicarius/ci-platform/.github/workflows/quality-base-set.yml@v1
+```
+
+```yaml
+jobs:
+  link-check:
+    uses: clavicarius/ci-platform/.github/workflows/quality-link-check.yml@v1
+```
+
+Wichtige Regeln:
+
+- Das Consumer-Repository wird geprüft, nicht `ci-platform`
+- Permissions und Secrets werden im Consumer-Repository konfiguriert
+- Secrets werden nicht aus dem Plattform-Repository übernommen
+- Workflows müssen als `workflow_call` publizierte API definiert sein
 
 ---
 
@@ -220,6 +285,12 @@ Versionen folgen [Semantic Versioning](https://semver.org/):
 
 ```
 vMAJOR.MINOR.PATCH  →  z. B. v1.2.3
+```
+
+Das gleiche Prinzip gilt für Composite Actions:
+
+```yaml
+- uses: clavicarius/ci-platform/actions/quality-link-check@v1
 ```
 
 Der Release-Prozess ist vollständig automatisiert:
