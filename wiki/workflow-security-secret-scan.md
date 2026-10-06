@@ -191,6 +191,17 @@ Breaking Changes werden über neue Major-Versionen veröffentlicht:
 v1 → v2
 ```
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs); keine Outputs |
+| Berechtigungen / Secrets | `contents: read`, `pull-requests: read`, `security-events: read`; `GITLEAKS_LICENSE` nur falls der Gitleaks-Lizenzplan es erfordert |
+| Voraussetzungen / Einschränkungen | GitHub-Alert-Prüfung erfordert aktiviertes Secret Scanning. Private Gitleaks-Funktionen können eine Lizenz erfordern. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

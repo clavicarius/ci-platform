@@ -24,7 +24,8 @@ Scans repositories for leaked secrets using Gitleaks and GitHub Secret Scanning 
 
 **Berechtigungen und Secrets:** `contents: read`; `pull-requests: read` für den
 PR-Kontext und `security-events: read` für die optionale Alert-Abfrage.
-Repository-Secrets sind nicht erforderlich; `github.token` wird verwendet.
+`github.token` wird verwendet. Ein `GITLEAKS_LICENSE`-Secret ist nur erforderlich,
+wenn die Gitleaks-Lizenz des Consumer-Repositorys es verlangt.
 
 **Voraussetzungen und Einschränkungen:** Vor der Action muss das Consumer-Repository
 ausgecheckt sein. Die GitHub-Alert-Prüfung erfordert aktiviertes Secret Scanning

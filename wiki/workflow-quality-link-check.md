@@ -205,6 +205,17 @@ Breaking Changes werden über neue Major-Versionen veröffentlicht:
 v1 → v2
 ```
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Keine Workflow-Inputs und keine Outputs. Die Input-Tabelle oben gilt für die direkte Action-Nutzung. |
+| Berechtigungen / Secrets | `contents: read`, `issues: write`; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Issues aktivieren und Issue-Label anlegen. Für die direkte Action-Nutzung Checkout ausführen. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

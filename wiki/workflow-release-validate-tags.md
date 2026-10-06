@@ -200,6 +200,17 @@ v1
 uses: clavicarius/ci-platform/.github/workflows/release-validate-tags.yml@v1
 ```
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs) und [Outputs](#outputs) |
+| Berechtigungen / Secrets | `contents: read`; `issues: write` für Fehler-Issues; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Monotonieprüfung gilt für `simple`; `semver` und benutzerdefinierte Regex prüfen das Format. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

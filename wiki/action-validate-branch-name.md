@@ -30,6 +30,8 @@ mit anderer Konvention müssen `branch-regex` anpassen.
 
 ```yaml
 uses: clavicarius/ci-platform/actions/validate-branch-name@v1
+with:
+  branch-name: ${{ github.head_ref }}
 ```
 
 Siehe auch: [workflow-validate-branch-name](workflow-validate-branch-name)

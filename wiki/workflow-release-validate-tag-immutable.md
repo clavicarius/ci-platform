@@ -131,6 +131,17 @@ Repository-Einstellungen aktiviert werden (siehe [Release- und Tagging-Richtlini
 - [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
 - [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs) und [Outputs](#outputs) |
+| Berechtigungen / Secrets | `contents: read`; `issues: write` für Fehler-Issues; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Für korrekte Prüfung muss der Workflow auf Tag-Pushes laufen. GitHub-Tag-Schutz bleibt zusätzliche Absicherung. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

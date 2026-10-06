@@ -49,3 +49,14 @@ konzipiert. Für einbindbare Linkprüfungen in anderen Repositories siehe
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
+
+## Plattform-interner Vertrag
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Plattform-intern; kein `workflow_call` |
+| Inputs / Outputs | Keine |
+| Berechtigungen / Secrets | `contents: read`, `issues: write`; kein manuell konfiguriertes Secret |
+| Voraussetzungen / Einschränkungen | Nur für dieses Repository; GitHub Issues und das konfigurierte Label müssen verfügbar sein. |
+| Beispiel | Die oben genannten `schedule`- und `workflow_dispatch`-Trigger |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |

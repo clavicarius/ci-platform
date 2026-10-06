@@ -222,3 +222,14 @@ jobs:
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
+
+## Plattform-interner Vertrag
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Plattform-intern; kein `workflow_call` |
+| Inputs / Outputs | Keine |
+| Berechtigungen / Secrets | `contents: read`, `issues: write`, `pull-requests: write`, `security-events: read`; Release-Job benötigt `contents: write`; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Orchestriert ausschließlich PR-Gates und Releases für `ci-platform`; Consumer müssen stattdessen die einzelnen Workflows aufrufen. |
+| Beispiel | Die oben beschriebenen PR- und Tag-Trigger |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |

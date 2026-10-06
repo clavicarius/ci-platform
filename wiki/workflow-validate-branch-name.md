@@ -89,3 +89,14 @@ konfigurieren.
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
+
+## Plattform-interner Vertrag
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Plattform-intern; kein `workflow_call` |
+| Inputs / Outputs | Keine |
+| Berechtigungen / Secrets | `contents: read`; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Gilt nur für PRs nach `main` und `develop` in diesem Repository und setzt die dokumentierte Branch-Namenskonvention durch. |
+| Beispiel | Der oben beschriebene `pull_request`-Trigger |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |

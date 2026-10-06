@@ -25,8 +25,8 @@ Reviews pull request dependency changes for known security vulnerabilities
 
 **Outputs:** keine.
 
-**Berechtigungen und Secrets:** `contents: read`; es sind keine zusätzlichen
-Berechtigungen nötig, wenn der PR-Kommentar deaktiviert ist. Bei einer privaten,
+**Berechtigungen und Secrets:** `contents: read`; `pull-requests: write`, wenn
+`comment-summary-in-pr` aktiviert ist. Bei einer privaten,
 externen Konfigurationsdatei ist ein mit `external-repo-token` übergebener Token
 erforderlich; kein anderes Repository-Secret wird automatisch übernommen.
 

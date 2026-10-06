@@ -277,6 +277,17 @@ Offizielle Dokumentation:
 - GitHub CodeQL: https://codeql.github.com/
 - GitHub Code Scanning: https://docs.github.com/en/code-security/code-scanning
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs); keine Outputs |
+| Berechtigungen / Secrets | `actions: read`, `contents: read`, `security-events: write`; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Code Scanning muss für das Repository verfügbar sein. Kompilierte Sprachen können einen Build-Befehl benötigen. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

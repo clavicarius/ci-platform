@@ -200,6 +200,17 @@ Breaking Changes werden über neue Major-Versionen veröffentlicht:
 v1 → v2
 ```
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs); keine Outputs |
+| Berechtigungen / Secrets | `contents: read`; keine Secrets automatisch übernommen. |
+| Voraussetzungen / Einschränkungen | Nur für Pull Requests mit unterstützten Dependency-Änderungen. PR-Kommentare brauchen `pull-requests: write`; der Reusable Workflow deklariert derzeit nur `contents: read`, daher Kommentare deaktivieren oder die Action direkt verwenden. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
