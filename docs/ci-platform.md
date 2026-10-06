@@ -458,17 +458,21 @@ uses: actions/checkout@<commit-sha>
 
 # Dokumentation
 
-Jede Action und jeder Workflow muss dokumentiert sein.
+Jede Action und jeder Workflow muss dokumentiert sein. Das veröffentlichte GitHub Wiki ist
+die **Single Source of Truth** für die consumer-taugliche Workflow- und Action-Dokumentation.
+Die Markdown-Dateien unter `wiki/` sind deren versionierte Quelle und werden automatisch in
+das GitHub Wiki synchronisiert. Änderungen an der API-Dokumentation müssen dort gepflegt
+werden; Übersichten und Links in diesem Dokument verweisen auf die veröffentlichten Wiki-Seiten.
 
 ## Struktur
 
 | Dokument | Zweck |
 |---|---|
 | `docs/ci-platform.md` | Soll-Zielbild und Plattform-Überblick (dieses Dokument) |
-| `docs/workflows/<name>.md` | Detaildokumentation pro Workflow |
-| `docs/workflows/README.md` | Übersicht aller verfügbaren Workflows |
-| `wiki/` | Allgemeine Wissensseiten; als Quelle zum Übertragen in die GitHub Wiki gedacht |
-| `actions/<name>/README.md` | Kurzdokumentation pro Action |
+| [GitHub Wiki — Workflows](https://github.com/clavicarius/ci-platform/wiki/Workflows) | Maßgebliche Übersicht und Detaildokumentation der Workflow-API |
+| [GitHub Wiki — Actions](https://github.com/clavicarius/ci-platform/wiki/Actions) | Maßgebliche Übersicht und Detaildokumentation der Action-API |
+| `docs/workflows/` | Versionierte Workflow-Dokumentation im Repository; Veröffentlichungsziel und API-Referenz ist das Wiki |
+| `wiki/` | Versionierte Quelle der veröffentlichten GitHub-Wiki-Seiten |
 
 ## Pflichtinhalte pro Workflow/Action
 

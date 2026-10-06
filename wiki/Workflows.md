@@ -1,7 +1,9 @@
 # Workflows
 
-Dieses Verzeichnis dokumentiert die Consumer-Workflows und plattform-internen Workflows
-des Repositorys. Nur Workflows mit `workflow_call` sind als Consumer-API einbindbar.
+Dieses Verzeichnis ist die maßgebliche Dokumentation der Workflow-API und dokumentiert
+Consumer-Workflows sowie plattform-interne Workflows. Nur Workflows mit `workflow_call`
+sind als Consumer-API einbindbar. Pro Detailseite sind Eingaben/Ausgaben, Berechtigungen,
+Secrets, Voraussetzungen, Einschränkungen und ein Integrationsbeispiel festgehalten.
 
 Siehe auch: [CI-Plattform Soll-Zielbild](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md) |
 [Wiki Home](Home)
@@ -64,6 +66,18 @@ jobs:
 Validate Platform, Validate Branch Name und Maintenance) sind nicht per
 `uses:` einbindbar.
 Siehe jeweilige Workflow-Dokumentation.
+
+---
+
+# Deprecation und Sunset
+
+Abgekündigte Workflows werden auf ihrer Detailseite ausdrücklich als
+`deprecated` gekennzeichnet und mit Ablösehinweis sowie geplantem Sunset-Datum
+beschrieben. Die Abkündigung wird über CHANGELOG, Issue oder Release Notes
+kommuniziert. Eine bestehende Consumer-API bleibt mindestens zwei Major-Versionen
+erhalten; die Entfernung erfolgt erst danach in einer neuen Major-Version.
+
+Für Actions gilt dieselbe Sunset-Policy.
 
 ---
 

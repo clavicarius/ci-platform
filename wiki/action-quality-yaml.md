@@ -17,6 +17,22 @@ Validates YAML syntax and structure with yamllint
 | `exclude-paths` | nein | `.git,node_modules,vendor,.venv` | Comma-separated directory names to exclude from scanning |
 | `fail-on-findings` | nein | `true` | Fail the workflow when yamllint reports issues |
 
+## Consumer-Einsatz
+
+**Status:** consumer-taugliche Composite Action.
+
+**Outputs:** keine.
+
+**Berechtigungen und Secrets:** `contents: read` zum Lesen des ausgecheckten
+Repositorys; keine zusätzlichen Secrets oder Schreibberechtigungen.
+
+**Voraussetzungen und Einschränkungen:** Vor der Action muss das Consumer-Repository
+mit `actions/checkout` ausgecheckt werden. Die Scan-Profile `all`, `workflows`,
+`compose` und `kubernetes` bestimmen den Umfang; andere Dateitypen werden nicht
+gescannt.
+
+**Deprecation:** Bei einer Abkündigung gelten die [Sunset-Regeln](Workflows#deprecation-und-sunset).
+
 ## Verwendung
 
 ```yaml

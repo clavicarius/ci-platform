@@ -12,6 +12,21 @@ Computes the next immutable v<major> tag.
 |---|---|
 | `next_tag` | Next simple version tag (e.g. v2) |
 
+## Consumer-Einsatz
+
+**Status:** consumer-taugliche Composite Action.
+
+**Inputs:** keine. **Berechtigungen und Secrets:** keine zusätzlichen
+Repository-Berechtigungen oder Secrets; für den Tag-Zugriff muss das Checkout-Token
+den Zugriff auf Git-Tags erlauben.
+
+**Voraussetzungen und Einschränkungen:** Im aufrufenden Job muss das Repository
+ausgecheckt sein. Für korrekte Ergebnisse muss der Checkout die relevanten Tags
+enthalten. Die Action berücksichtigt Tags im Format `v<major>` und erstellt oder
+pusht den berechneten Tag nicht selbst.
+
+**Deprecation:** Bei einer Abkündigung gelten die [Sunset-Regeln](Workflows#deprecation-und-sunset).
+
 ## Verwendung
 
 ```yaml

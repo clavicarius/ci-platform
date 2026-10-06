@@ -27,6 +27,20 @@ Validates version tag format and monotonicity for simple versioning
 | `max_tag` | Highest existing valid tag for simple versioning |
 | `tag` | Validated tag name |
 
+## Consumer-Einsatz
+
+**Status:** consumer-taugliche Composite Action.
+
+**Berechtigungen und Secrets:** `contents: read`; `issues: write`, wenn
+`create-issue-on-failure` aktiviert ist. Es ist kein Repository-Secret erforderlich;
+für Issue-Berichte wird `github.token` verwendet.
+
+**Voraussetzungen und Einschränkungen:** Das Repository und seine Tags müssen
+zugänglich sein. Monotonieprüfung wird für das einfache Versionsmuster verwendet;
+SemVer- und benutzerdefinierte Muster werden anhand des Formats geprüft.
+
+**Deprecation:** Bei einer Abkündigung gelten die [Sunset-Regeln](Workflows#deprecation-und-sunset).
+
 ## Verwendung
 
 ```yaml
