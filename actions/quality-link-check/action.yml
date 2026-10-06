@@ -34,12 +34,15 @@ runs:
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
+        ISSUE_TITLE: ${{ inputs.issue-title }}
+        ISSUE_LABEL: ${{ inputs.issue-label }}
+        REPORT_FILE: ${{ inputs.output-file }}
       run: |
         set -euo pipefail
 
-        TITLE="${{ inputs.issue-title }}"
-        LABEL="${{ inputs.issue-label }}"
-        REPORT="${{ inputs.output-file }}"
+        TITLE="$ISSUE_TITLE"
+        LABEL="$ISSUE_LABEL"
+        REPORT="$REPORT_FILE"
 
         ISSUE_NUMBER=$(gh issue list \
           --state open \
@@ -65,11 +68,13 @@ runs:
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
+        ISSUE_TITLE: ${{ inputs.issue-title }}
+        ISSUE_LABEL: ${{ inputs.issue-label }}
       run: |
         set -euo pipefail
 
-        TITLE="${{ inputs.issue-title }}"
-        LABEL="${{ inputs.issue-label }}"
+        TITLE="$ISSUE_TITLE"
+        LABEL="$ISSUE_LABEL"
 
         ISSUE_NUMBER=$(gh issue list \
           --state open \
