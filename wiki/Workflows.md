@@ -3,7 +3,8 @@
 Dieses Verzeichnis dokumentiert die Consumer-Workflows und plattform-internen Workflows
 des Repositorys. Nur Workflows mit `workflow_call` sind als Consumer-API einbindbar.
 
-Siehe auch: [CI-Plattform Soll-Zielbild](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md) | [Wiki Home](Home)
+Siehe auch: [CI-Plattform Soll-Zielbild](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md) |
+[Wiki Home](Home)
 
 Jeder Workflow wird separat dokumentiert und beschreibt:
 
@@ -95,4 +96,5 @@ Die Dokumentation ist Bestandteil des Workflows.
 
 ---
 
-Siehe auch: [CI-Plattform Soll-Zielbild](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md) | [Wiki Home](Home)
+Siehe auch: [CI-Plattform Soll-Zielbild](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md) |
+[Wiki Home](Home)

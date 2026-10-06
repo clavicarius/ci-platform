@@ -1,7 +1,8 @@
 # Available Workflows
 
-> **Hinweis:** Die veröffentlichte Dokumentation befindet sich im [GitHub Wiki — Workflows](https://github.com/clavicarius/ci-platform/wiki/Workflows). Dieses Verzeichnis bleibt als versionierte Quelle im Repository erhalten.
-
+> **Hinweis:** Die veröffentlichte Dokumentation befindet sich im
+> [GitHub Wiki — Workflows](https://github.com/clavicarius/ci-platform/wiki/Workflows).
+> Dieses Verzeichnis bleibt als versionierte Quelle im Repository erhalten.
 
 Dieses Verzeichnis dokumentiert die Consumer-Workflows und plattform-internen Workflows
 des Repositorys. Nur Workflows mit `workflow_call` sind als Consumer-API einbindbar.

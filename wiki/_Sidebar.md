@@ -1,12 +1,15 @@
+<!-- markdownlint-disable MD041 -->
 **[Home](Home)**
 
 ### Plattform
+
 - [Architektur](architecture)
 - [Release & Tagging](RELEASING)
 - [Versionierung](VERSIONING)
 - [Soll-Zielbild](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md)
 
 ### Workflows
+
 - [Übersicht](Workflows)
 - [Maintenance Link Check](workflow-maintenance-link-check)
 - [Maintenance Wiki Sync](workflow-maintenance-wiki-sync)
@@ -27,6 +30,7 @@
 - [Validate Platform](workflow-validate-platform)
 
 ### Actions
+
 - [Übersicht](Actions)
 - [quality-link-check](action-quality-link-check)
 - [quality-lint](action-quality-lint)
@@ -42,4 +46,5 @@
 - [validate-branch-name](action-validate-branch-name)
 
 ### Repository
+
 - [README](https://github.com/clavicarius/ci-platform/blob/main/README.md)

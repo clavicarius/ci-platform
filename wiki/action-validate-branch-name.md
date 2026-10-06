@@ -11,7 +11,7 @@ Validates pull request source branch names against a regex policy
 | Name | Erforderlich | Standard | Beschreibung |
 |---|---|---|---|
 | `branch-name` | ja | `—` | Branch name to validate |
-| `branch-regex` | nein | `^(feature|enhancement|bugfix|hotfix|release|chore|copilot)/[a-z0-9._-]+$` | Regular expression used to validate the branch name |
+| `branch-regex` | nein | `^(feature\|enhancement\|bugfix\|hotfix\|release\|chore\|copilot)/[a-z0-9._-]+$` | Regular expression used to validate the branch name |
 
 ## Verwendung
 
