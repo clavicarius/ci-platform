@@ -84,6 +84,42 @@ jobs:
           fetch-depth: 0
           ref: ${{ inputs.tag }}
 
+      - name: Extract changelog entry
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          tag = os.environ["RELEASE_TAG"]
+          changelog = Path("CHANGELOG.md")
+          if not changelog.is_file():
+              raise SystemExit("CHANGELOG.md is required for releases")
+
+          lines = changelog.read_text(encoding="utf-8").splitlines()
+          heading = re.compile(rf"## \[{re.escape(tag)}\](?: - .*)?")
+          start = next(
+              (i for i, line in enumerate(lines) if heading.fullmatch(line)),
+              None,
+          )
+          if start is None:
+              raise SystemExit(f"CHANGELOG.md has no entry for {tag}")
+
+          next_heading = (
+              i for i in range(start + 1, len(lines))
+              if lines[i].startswith("## ")
+          )
+          end = next(next_heading, len(lines))
+          entry = "\n".join(lines[start:end]).strip()
+          if not "\n".join(lines[start + 1:end]).strip():
+              raise SystemExit(f"CHANGELOG.md entry for {tag} is empty")
+
+          output = Path(os.environ["RUNNER_TEMP"], "changelog-entry.md")
+          output.write_text(entry + "\n", encoding="utf-8")
+          PY
+
       - name: Download single artifact
         if: inputs.artifact_name != ''
         uses: actions/download-artifact@v4
@@ -99,12 +135,30 @@ jobs:
           merge-multiple: true
           path: ./release-assets
 
-      - name: Write release notes body
-        if: inputs.body != ''
+      - name: Prepare release notes
         env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
           RELEASE_BODY: ${{ inputs.body }}
+          RELEASE_GENERATE_NOTES: ${{ inputs.generate_release_notes }}
+          REPOSITORY: ${{ github.repository }}
         run: |
-          printf '%s\n' "$RELEASE_BODY" > "$RUNNER_TEMP/release-body.md"
+          set -euo pipefail
+
+          NOTES_FILE="$RUNNER_TEMP/release-body.md"
+          CHANGELOG_ENTRY="$RUNNER_TEMP/changelog-entry.md"
+
+          if [ -n "$RELEASE_BODY" ]; then
+            printf '%s\n' "$RELEASE_BODY" > "$NOTES_FILE"
+          elif [ "$RELEASE_GENERATE_NOTES" = "true" ]; then
+            gh api --method POST "repos/$REPOSITORY/releases/generate-notes" \
+              -f "tag_name=$RELEASE_TAG" | jq -r '.body' > "$NOTES_FILE"
+          else
+            : > "$NOTES_FILE"
+          fi
+
+          printf '\n\n## Changelog\n\n' >> "$NOTES_FILE"
+          cat "$CHANGELOG_ENTRY" >> "$NOTES_FILE"
 
       - name: Create GitHub release
         id: create_release
@@ -114,7 +168,6 @@ jobs:
           RELEASE_NAME: ${{ inputs.release_name }}
           RELEASE_DRAFT: ${{ inputs.draft }}
           RELEASE_PRERELEASE: ${{ inputs.prerelease }}
-          RELEASE_GENERATE_NOTES: ${{ inputs.generate_release_notes }}
         run: |
           set -euo pipefail
 
@@ -122,7 +175,11 @@ jobs:
           NAME="$RELEASE_NAME"
           [ -z "$NAME" ] && NAME="$TAG"
 
-          release_args=("$TAG" --title "$NAME")
+          release_args=(
+            "$TAG"
+            --title "$NAME"
+            --notes-file "$RUNNER_TEMP/release-body.md"
+          )
 
           if [ "$RELEASE_DRAFT" = "true" ]; then
             release_args+=(--draft)
@@ -130,12 +187,6 @@ jobs:
 
           if [ "$RELEASE_PRERELEASE" = "true" ]; then
             release_args+=(--prerelease)
-          fi
-
-          if [ -f "$RUNNER_TEMP/release-body.md" ]; then
-            release_args+=(--notes-file "$RUNNER_TEMP/release-body.md")
-          elif [ "$RELEASE_GENERATE_NOTES" = "true" ]; then
-            release_args+=(--generate-notes)
           fi
 
           gh release create "${release_args[@]}"

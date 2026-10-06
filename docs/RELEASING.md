@@ -43,6 +43,16 @@ Zusätzlich wird pro Major-Linie ein beweglicher Alias gepflegt:
 - Repository-Maintainer(s) sind verantwortlich für Freigaben und Releases.
 - CI automatisiert die Tag-Erzeugung und Alias-Aktualisierung.
 - Bei Verstößen gegen die Richtlinie schlägt der Workflow fehl.
+- Jeder Release benötigt einen nicht leeren CHANGELOG-Abschnitt für den exakten
+  SemVer-Tag, z. B. `## [v1.2.3] - YYYY-MM-DD`. Der Release-Workflow prüft den
+  Eintrag am getaggten Commit und nimmt ihn in die Release Notes auf.
+
+## Changelog
+
+Änderungen werden unter `## [Unreleased]` in `CHANGELOG.md` gesammelt. Vor dem
+Release wird der Eintrag in einen datierten Abschnitt für den geplanten Tag
+verschoben, z. B. `## [v1.2.3] - 2026-10-06`. Der Release-Workflow schlägt fehl,
+wenn dieser Eintrag am getaggten Commit fehlt oder leer ist.
 
 ---
 
@@ -121,6 +131,16 @@ werden:
 
 So bleiben Release-Tags geschützt, während `vN` weiterhin korrekt auf den
 neuesten Major-Stand zeigen kann.
+
+---
+
+## Branch Protection für CODEOWNERS
+
+Für den Branch `main` muss in den Repository-Regeln **Require review from Code
+Owners** aktiviert sein. CODEOWNERS-Reviews sollten zusätzlich als mindestens
+eine erforderliche Zustimmung konfiguriert werden. Diese Einstellung wird in
+GitHub Branch Protection bzw. einem Repository Ruleset verwaltet und kann nicht
+durch eine Datei im Repository selbst aktiviert werden.
 
 ---
 

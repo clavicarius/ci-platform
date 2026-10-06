@@ -24,9 +24,16 @@ Der Workflow:
 - erstellt ein GitHub Release für einen vorhandenen Tag
 - generiert Release Notes automatisch aus Commits und Pull Requests
 - erlaubt eigene Release Notes
+- prüft auf einen passenden CHANGELOG-Eintrag und fügt ihn den Release Notes hinzu
 - kann Artefakte aus dem aufrufenden Workflow anhängen
 - unterstützt Draft- und Prerelease-Releases
 - stellt Release-Metadaten als Outputs bereit
+
+Für einen Tag `v1.2.0` muss `CHANGELOG.md` am getaggten Commit einen nicht leeren
+Abschnitt `## [v1.2.0]` enthalten, optional mit Datum
+(`## [v1.2.0] - YYYY-MM-DD`). Ohne passenden Eintrag wird das Release nicht erstellt.
+Eigene Release Notes ersetzen die automatisch generierten Notizen, der Changelog-
+Abschnitt wird in beiden Fällen angefügt.
 
 ---
 
