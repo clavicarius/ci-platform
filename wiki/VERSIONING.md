@@ -73,3 +73,7 @@ Example:
 - new full tag: `v2.4.9`
 - moving major tag updated to: `v2`
 - `v2` points to the same commit as `v2.4.9`
+
+---
+
+Siehe auch: [Wiki-Startseite](https://github.com/clavicarius/ci-platform/wiki/Home) | [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)

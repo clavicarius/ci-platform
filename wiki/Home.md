@@ -1,5 +1,7 @@
 # CI Platform Wiki
 
+Siehe auch: [Repository README](https://github.com/clavicarius/ci-platform/blob/main/README.md)
+
 Dieses Verzeichnis enthält allgemeine Wissensseiten zur CI-Plattform:
 
 - [Architektur](https://github.com/clavicarius/ci-platform/wiki/architecture)
@@ -11,4 +13,5 @@ Dieses Verzeichnis enthält allgemeine Wissensseiten zur CI-Plattform:
 
 Die Workflow-Dokumentation und die verbindliche Architektur-Spezifikation bleiben im
 Repository unter `docs/`. Die Markdown-Dateien in `wiki/` sind eine versionierte Quelle
-für allgemeines Wiki-Wissen. GitHub veröffentlicht diesen Ordner nicht automatisch als Wiki.
+für allgemeines Wiki-Wissen und werden in die [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
+übertragen.

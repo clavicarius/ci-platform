@@ -1,5 +1,7 @@
 # GitHub Wiki einrichten
 
+Die veröffentlichte Wiki-Startseite: [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
+
 Die GitHub Wiki ist nicht der Ordner `wiki/` im Quell-Repository. GitHub speichert
 Wiki-Seiten in einem separaten Repository namens `clavicarius/ci-platform.wiki.git`.
 Der Ordner `wiki/` in diesem Repository ist eine versionierte Quelle und muss in die
