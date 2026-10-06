@@ -46,6 +46,8 @@ permissions:
 ```
 
 Außerdem müssen GitHub Issues aktiviert sein.
+Für die direkte Action-Nutzung muss `actions/checkout` davor ausgeführt
+werden. Das angegebene Issue-Label sollte im Repository vorhanden sein.
 
 ---
 
@@ -59,7 +61,7 @@ name: Link Check
 on:
   workflow_dispatch:
   schedule:
-    - cron: "11 11 * * 0"
+      - cron: "11 11 * * 0"
 
 permissions:
   contents: read
@@ -70,6 +72,45 @@ jobs:
   link-check:
     uses: clavicarius/ci-platform/.github/workflows/quality-link-check.yml@v1
 ```
+
+Der Composite Action kann auch direkt in einem eigenen Workflow verwendet
+werden. In diesem Fall müssen die Dateien des Ziel-Repositorys vor der Action
+ausgecheckt werden:
+
+```yaml
+name: Link Check
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "11 11 * * 0"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check links and manage report issue
+        uses: clavicarius/ci-platform/actions/quality-link-check@v1
+        with:
+          issue-title: "Link Checker Report"
+          issue-label: "dead-link"
+          output-file: "./lychee/out.md"
+```
+
+Die Action akzeptiert optionale Eingaben:
+
+| Eingabe | Standardwert | Beschreibung |
+|---|---|---|
+| `issue-title` | `Link Checker Report` | Titel des Issues für den Report |
+| `issue-label` | `dead-link` | Label zur Suche und Kennzeichnung des Issues |
+| `output-file` | `./lychee/out.md` | Pfad der Lychee-Reportdatei |
 
 ---
 
