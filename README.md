@@ -63,7 +63,7 @@ Optionale Erweiterungen für projektspezifische Anforderungen:
 
 # Architektur und Wiki
 
-[Soll-Zielbild](docs/ci-platform.md) | [Ist-Architektur und Release-Wissen](wiki/Home.md)
+[Soll-Zielbild](docs/ci-platform.md) | [Ist-Architektur und Release-Wissen](https://github.com/clavicarius/ci-platform/wiki/Home)
 
 ---
 
