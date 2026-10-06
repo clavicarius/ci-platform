@@ -500,9 +500,10 @@ Lizenzierung ist in `LICENSE` festgelegt (Pflicht).
 
 ## Branch Protection
 
-Empfohlen für `main`:
+Für `main` konfigurieren:
 
 - Pflichtreviews
+- Pflichtreview durch CODEOWNERS (Require review from Code Owners)
 - Erfolgreiche CI-Checks
 - Keine direkten Pushes
 - Signierte Commits optional
