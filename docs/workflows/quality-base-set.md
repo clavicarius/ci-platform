@@ -206,7 +206,8 @@ jobs:
 
 ## Weiterführende Dokumentation
 
-- [Release- und Tagging-Richtlinie](../../wiki/RELEASING.md)
+- [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
+- [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
 - [Quality Link Check](quality-link-check.md)
 - [Quality YAML](quality-yaml.md)
 - [Quality Markdown](quality-markdown.md)
