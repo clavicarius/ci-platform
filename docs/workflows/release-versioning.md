@@ -95,7 +95,7 @@ github.actor != 'github-actions[bot]'
 
 ## Weiterführende Dokumentation
 
-- [Release- und Tagging-Richtlinie](../RELEASING.md)
+- [Release- und Tagging-Richtlinie](../../wiki/RELEASING.md)
 - [Release GitHub](release-github.md)
 - [Release Validate Tags](release-validate-tags.md)
 - [Release Validate Branch](release-validate-branch.md)

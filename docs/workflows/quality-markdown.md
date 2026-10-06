@@ -45,7 +45,7 @@ Der Workflow:
 | Name | Typ | Erforderlich | Standard | Beschreibung |
 |---|---|---|---|---|
 | `working-directory` | string | nein | `.` | Verzeichnis für Markdown-Prüfungen. |
-| `markdown-glob` | string | nein | `''` | Glob für Markdown-Dateien. |
+| `markdown-glob` | string | nein | `''` | Glob(s) für Markdown-Dateien. |
 | `markdownlint-config` | string | nein | `''` | Pfad zur markdownlint-Konfiguration. |
 | `enable-markdownlint` | boolean | nein | `true` | Aktiviert markdownlint. |
 | `enable-link-check` | boolean | nein | `true` | Aktiviert Lychee Link-Checks. |

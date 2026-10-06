@@ -53,9 +53,12 @@ ci-platform/
 │   ├── workflows/
 │   │   ├── README.md
 │   │   └── <workflow>.md
+│   └── AI-prompt.md
+├── wiki/
+│   ├── Home.md
 │   ├── architecture.md
 │   ├── RELEASING.md
-│   └── AI-prompt.md
+│   └── VERSIONING.md
 │
 ├── scripts/
 │   ├── validate-tag-immutable.sh
@@ -152,8 +155,9 @@ scripts/validate-release-branch.sh
 |---|---|
 | `README.md` | Architektur, Verwendung, Versionierung, Sicherheit |
 | `AGENTS.md` | Verbindliche Regeln für AI-Agenten |
-| `docs/architecture.md` | Aktuelle Repository-Struktur |
-| `docs/RELEASING.md` | Tagging-Richtlinie und Release-Prozess |
+| `wiki/architecture.md` | Aktuelle Repository-Struktur |
+| `wiki/RELEASING.md` | Tagging-Richtlinie und Release-Prozess |
+| `wiki/VERSIONING.md` | Details zum automatischen Versioning |
 | `docs/workflows/README.md` | Übersicht aller Workflows |
 | `docs/workflows/<workflow>.md` | Detaildokumentation je Workflow |
 
@@ -211,7 +215,7 @@ release-validate-tag-immutable
 Details:
 
 - [quality-base-set.md](workflows/quality-base-set.md)
-- [RELEASING.md](RELEASING.md)
+- [RELEASING.md](../wiki/RELEASING.md)
 
 ---
 

@@ -1,7 +1,8 @@
 # Architecture
 
 Dieses Dokument beschreibt die Repository-Struktur im Soll-Zielbild der CI-Plattform.
-Die maßgebliche Referenz bleibt [docs/ci-platform.md](ci-platform.md).
+Die maßgebliche Referenz bleibt die
+[Soll-Spezifikation](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md).
 
 ## Architektur-Schichten
 
@@ -62,11 +63,15 @@ ci-platform/
 │
 ├── docs/
 │   ├── ci-platform.md
-│   ├── architecture.md
-│   ├── RELEASING.md
 │   └── workflows/
 │       ├── README.md
 │       └── <workflow>.md
+│
+├── wiki/
+│   ├── Home.md
+│   ├── architecture.md
+│   ├── RELEASING.md
+│   └── VERSIONING.md
 │
 ├── README.md
 ├── AGENTS.md
@@ -84,6 +89,7 @@ ci-platform/
 | `scripts/` | Interne Hilfslogik und Shell-Utilities |
 | `docs/workflows/*.md` | Detaillierte Consumer-Dokumentation |
 | `docs/ci-platform.md` | Soll-Zielbild und Architektur-Spezifikation |
+| `wiki/` | Allgemeine Architektur- und Release-Wissensseiten; nicht die GitHub-Wiki selbst |
 
 ## Consumer-API vs. Plattform-intern
 
