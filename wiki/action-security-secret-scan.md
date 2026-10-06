@@ -16,6 +16,24 @@ Scans repositories for leaked secrets using Gitleaks and GitHub Secret Scanning 
 | `enable-gitleaks-comments` | nein | `true` | Enable Gitleaks pull request comments |
 | `fail-on-findings` | nein | `true` | Fail the workflow when secrets are detected |
 
+## Consumer-Einsatz
+
+**Status:** consumer-taugliche Composite Action.
+
+**Outputs:** keine.
+
+**Berechtigungen und Secrets:** `contents: read`; `pull-requests: read` für den
+PR-Kontext und `security-events: read` für die optionale Alert-Abfrage.
+`github.token` wird verwendet. Ein `GITLEAKS_LICENSE`-Secret ist nur erforderlich,
+wenn die Gitleaks-Lizenz des Consumer-Repositorys es verlangt.
+
+**Voraussetzungen und Einschränkungen:** Vor der Action muss das Consumer-Repository
+ausgecheckt sein. Die GitHub-Alert-Prüfung erfordert aktiviertes Secret Scanning
+und passende Token-Berechtigungen. Private Gitleaks-Funktionen können eine
+Gitleaks-Lizenz erfordern.
+
+**Deprecation:** Bei einer Abkündigung gelten die [Sunset-Regeln](Workflows#deprecation-und-sunset).
+
 ## Verwendung
 
 ```yaml

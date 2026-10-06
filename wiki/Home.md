@@ -21,6 +21,10 @@ Consumer-Repositories
 
 ## Themenbereiche
 
+Die versionierten Seiten unter `wiki/` werden in das GitHub Wiki veröffentlicht.
+Für Inputs, Outputs, Berechtigungen, Secrets und die Consumer-Integration von
+Workflows und Actions ist das veröffentlichte Wiki die maßgebliche Dokumentation.
+
 ### Plattform & Architektur
 
 - [Architektur](architecture) — Repository-Aufbau, Schichten, Consumer-API vs. plattform-intern

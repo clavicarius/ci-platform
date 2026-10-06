@@ -22,6 +22,23 @@ Checks Markdown documentation quality with markdownlint and Lychee
 | `issue-label` | nein | `dead-link` | Label used for the broken link GitHub issue |
 | `link-report-file` | nein | `./lychee/out.md` | Lychee report output file |
 
+## Consumer-Einsatz
+
+**Status:** consumer-taugliche Composite Action.
+
+**Outputs:** keine.
+
+**Berechtigungen und Secrets:** `contents: read`; zusätzlich `issues: write`, wenn
+`create-link-issue` aktiviert ist. Es ist kein Repository-Secret erforderlich;
+die Action verwendet `github.token`.
+
+**Voraussetzungen und Einschränkungen:** Vor der Action muss das Consumer-Repository
+mit `actions/checkout` ausgecheckt werden. markdownlint und Lychee können unabhängig
+voneinander aktiviert werden. Issue-Reporting funktioniert nur mit aktiviertem
+GitHub-Issue-Feature und vorhandenem Label.
+
+**Deprecation:** Bei einer Abkündigung gelten die [Sunset-Regeln](Workflows#deprecation-und-sunset).
+
 ## Verwendung
 
 ```yaml

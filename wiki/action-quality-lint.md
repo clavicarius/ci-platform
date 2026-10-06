@@ -23,6 +23,22 @@ Runs code quality linters for PHP, JavaScript, Python, YAML, and Markdown
 | `node-version` | nein | `20` | Node.js version for JavaScript linters |
 | `python-version` | nein | `3.12` | Python version for Python linters |
 
+## Consumer-Einsatz
+
+**Status:** consumer-taugliche Composite Action.
+
+**Outputs:** keine.
+
+**Berechtigungen und Secrets:** `contents: read` zum Lesen des ausgecheckten
+Repositorys; keine zusätzlichen Secrets oder Schreibberechtigungen.
+
+**Voraussetzungen und Einschränkungen:** Vor der Action muss das Consumer-Repository
+mit `actions/checkout` ausgecheckt werden. Es werden nur die dokumentierten
+PHP-, JavaScript/TypeScript-, Python-, YAML- und Markdown-Linter unterstützt.
+Auto-Detection richtet sich nach Projektdateien und vorhandenen Konfigurationen.
+
+**Deprecation:** Bei einer Abkündigung gelten die [Sunset-Regeln](Workflows#deprecation-und-sunset).
+
 ## Verwendung
 
 ```yaml

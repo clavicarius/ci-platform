@@ -201,6 +201,17 @@ Breaking Changes werden über neue Major-Versionen veröffentlicht:
 v1 → v2
 ```
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs); keine Outputs |
+| Berechtigungen / Secrets | `contents: read`; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Checkout erfolgt im Workflow. Unterstützt nur die in dieser Seite genannten Sprachen und Linter. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

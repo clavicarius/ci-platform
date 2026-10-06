@@ -56,3 +56,14 @@ Wiki-Repository pushen kann.
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
+
+## Plattform-interner Vertrag
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Plattform-intern; kein `workflow_call` |
+| Inputs / Outputs | Keine |
+| Berechtigungen / Secrets | `contents: write`; verwendet `github.token`, kein manuell konfiguriertes Secret |
+| Voraussetzungen / Einschränkungen | GitHub Wiki muss aktiviert sein. Der Sync ersetzt Wiki-Seiten durch Dateien unter `wiki/` und entfernt dort nicht mehr vorhandene Seiten. |
+| Beispiel | Der oben dokumentierte `push`-Trigger oder manueller `workflow_dispatch` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |

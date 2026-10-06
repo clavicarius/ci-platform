@@ -19,6 +19,23 @@ Reviews pull request dependency changes for known security vulnerabilities
 | `comment-summary-in-pr` | nein | `true` | Add a dependency review summary comment to the pull request |
 | `retry-on-snapshot-warnings` | nein | `false` | Retry the review when snapshot dependency warnings occur |
 
+## Consumer-Einsatz
+
+**Status:** consumer-taugliche Composite Action.
+
+**Outputs:** keine.
+
+**Berechtigungen und Secrets:** `contents: read`; `pull-requests: write`, wenn
+`comment-summary-in-pr` aktiviert ist. Bei einer privaten,
+externen Konfigurationsdatei ist ein mit `external-repo-token` übergebener Token
+erforderlich; kein anderes Repository-Secret wird automatisch übernommen.
+
+**Voraussetzungen und Einschränkungen:** Die Action muss in einem
+Pull-Request-Workflow verwendet werden. Dependency-Review-Daten sind nur für
+unterstützte Paket-Ökosysteme und auswertbare Änderungen verfügbar.
+
+**Deprecation:** Bei einer Abkündigung gelten die [Sunset-Regeln](Workflows#deprecation-und-sunset).
+
 ## Verwendung
 
 ```yaml

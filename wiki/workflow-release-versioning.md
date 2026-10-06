@@ -104,3 +104,14 @@ github.actor != 'github-actions[bot]'
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
+
+## Plattform-interner Vertrag
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Plattform-intern; kein `workflow_call` |
+| Inputs / Outputs | Keine |
+| Berechtigungen / Secrets | `contents: write`; verwendet `github.token`, kein manuell konfiguriertes Secret |
+| Voraussetzungen / Einschränkungen | Ausschließlich für Releases dieses Repositorys. Pushes auf `main` erstellen Versionstags und aktualisieren das Major-Alias; PR-Läufe sind Dry-Runs. |
+| Beispiel | Die oben beschriebenen `push`- und `pull_request`-Trigger |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |

@@ -216,6 +216,17 @@ Offizielle Dokumentation:
 - GitHub Releases: https://docs.github.com/en/repositories/releasing-projects-on-github
 - GitHub CLI `gh release create`: https://cli.github.com/manual/gh_release_create
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs) und [Outputs](#outputs) |
+| Berechtigungen / Secrets | `contents: write`; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Der angegebene Tag muss existieren. Für Artefakte muss ein passendes Artefakt aus einem aufrufenden Job verfügbar sein. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

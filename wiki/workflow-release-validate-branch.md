@@ -91,6 +91,17 @@ ausgeführt.
 - [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
 - [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
 
+## Consumer API
+
+| Eigenschaft | Vertrag |
+|---|---|
+| Status | Consumer-tauglich (`workflow_call`) |
+| Inputs / Outputs | Siehe [Inputs](#inputs); keine Outputs |
+| Berechtigungen / Secrets | `contents: read`; keine zusätzlichen Secrets |
+| Voraussetzungen / Einschränkungen | Der Ziel-Branch und zu prüfende Commit müssen im Repository verfügbar sein. |
+| Beispiel | [Integration](#integration) mit `clavicarius/ci-platform` und `@v1` |
+| Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |
+
 ---
 
 Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
