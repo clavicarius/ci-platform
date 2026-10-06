@@ -85,6 +85,8 @@ ausgeführt.
 
 ## Siehe auch
 
+- [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
+- [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
 - [Quality Base Set](quality-base-set.md)
 - [Release Validate Tags](release-validate-tags.md)
 - [Release GitHub](release-github.md)
