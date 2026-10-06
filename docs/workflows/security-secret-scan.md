@@ -1,5 +1,8 @@
 # Security Secret Scan
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-security-secret-scan)
+
+
 Datei:
 
 ```

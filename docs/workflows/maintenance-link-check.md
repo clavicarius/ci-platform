@@ -1,5 +1,8 @@
 # Maintenance Link Check
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-link-check)
+
+
 Datei:
 
 ```
@@ -20,7 +23,7 @@ Linkprüfung für dieses Repository aus.
 
 Er ist **repository-intern** und nicht als wiederverwendbarer `workflow_call`
 konzipiert. Für einbindbare Linkprüfungen in anderen Repositories siehe
-[Quality Link Check](quality-link-check.md).
+[Quality Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-link-check).
 
 ---
 
@@ -43,5 +46,5 @@ konzipiert. Für einbindbare Linkprüfungen in anderen Repositories siehe
 
 ## Siehe auch
 
-- [Quality Link Check](quality-link-check.md)
-- [Quality Base Set](quality-base-set.md)
+- [Quality Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-link-check)
+- [Quality Base Set](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)

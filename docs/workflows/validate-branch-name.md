@@ -1,5 +1,8 @@
 # Validate Branch Name
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-validate-branch-name)
+
+
 Datei:
 
 ```
@@ -84,4 +87,4 @@ konfigurieren.
 
 ## Siehe auch
 
-- [Quality Base Set](quality-base-set.md)
+- [Quality Base Set](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)

@@ -1,5 +1,8 @@
 # Quality Markdown
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-markdown)
+
+
 Datei:
 
 ```

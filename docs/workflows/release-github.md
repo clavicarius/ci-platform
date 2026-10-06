@@ -1,5 +1,8 @@
 # GitHub Release
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
+
+
 Datei:
 
 ```
@@ -206,10 +209,10 @@ uses: clavicarius/ci-platform/.github/workflows/release-github.yml@v1
 ## Weiterführende Informationen
 
 - [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
-- [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
-- [Release Validate Tags](release-validate-tags.md)
-- [Release Validate Branch](release-validate-branch.md)
-- [Quality Base Set](quality-base-set.md)
+- [Wiki Home](Home)
+- [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
+- [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
+- [Quality Base Set](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)
 
 Offizielle Dokumentation:
 

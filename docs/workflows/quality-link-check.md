@@ -1,5 +1,8 @@
 # Quality Link Check
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-link-check)
+
+
 Datei:
 
 ```

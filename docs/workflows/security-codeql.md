@@ -1,5 +1,8 @@
 # Security CodeQL
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-security-codeql)
+
+
 Datei:
 
 ```

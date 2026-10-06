@@ -1,5 +1,8 @@
 # Release Validate Tags
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
+
+
 Datei:
 
 ```
@@ -126,7 +129,7 @@ permissions:
 ### Über Quality Base Set (dieses Repository)
 
 Vorher läuft `release-validate-tag-immutable` (siehe
-[release-validate-tag-immutable.md](release-validate-tag-immutable.md)).
+[release-validate-tag-immutable.md](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tag-immutable)).
 
 ```yaml
 release-validate-tags:
@@ -182,11 +185,11 @@ Wenn das Tag ungültig ist:
 ## Weiterführende Dokumentation
 
 - [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
-- [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
+- [Wiki Home](Home)
 - [Semantic Versioning](https://semver.org/)
-- [Quality Base Set](quality-base-set.md)
-- [Release Validate Tag Immutable](release-validate-tag-immutable.md)
-- [Release Validate Branch](release-validate-branch.md)
+- [Quality Base Set](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)
+- [Release Validate Tag Immutable](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tag-immutable)
+- [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
 
 ---
 

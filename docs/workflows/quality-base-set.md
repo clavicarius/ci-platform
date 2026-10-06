@@ -1,5 +1,8 @@
 # Quality Base Set
 
+> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)
+
+
 Datei:
 
 ```
@@ -207,14 +210,14 @@ jobs:
 ## Weiterführende Dokumentation
 
 - [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
-- [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
-- [Quality Link Check](quality-link-check.md)
-- [Quality YAML](quality-yaml.md)
-- [Quality Markdown](quality-markdown.md)
-- [Quality Lint](quality-lint.md)
-- [Security Secret Scan](security-secret-scan.md)
-- [Security Dependency Review](security-dependency-review.md)
-- [Release GitHub](release-github.md)
-- [Release Validate Tag Immutable](release-validate-tag-immutable.md)
-- [Release Validate Tags](release-validate-tags.md)
-- [Release Validate Branch](release-validate-branch.md)
+- [Wiki Home](Home)
+- [Quality Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-link-check)
+- [Quality YAML](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-yaml)
+- [Quality Markdown](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-markdown)
+- [Quality Lint](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-lint)
+- [Security Secret Scan](https://github.com/clavicarius/ci-platform/wiki/workflow-security-secret-scan)
+- [Security Dependency Review](https://github.com/clavicarius/ci-platform/wiki/workflow-security-dependency-review)
+- [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
+- [Release Validate Tag Immutable](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tag-immutable)
+- [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
+- [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
