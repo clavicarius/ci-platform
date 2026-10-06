@@ -20,6 +20,8 @@ ranges=()
 while read -r local_ref local_sha remote_ref remote_sha; do
   [ -n "$local_sha" ] || continue
 
+  echo "Pushing $local_ref ($local_sha) -> $remote_ref ($remote_sha)"
+
   if [ "$remote_sha" = "$zero_sha" ]; then
     if git show-ref --verify --quiet refs/heads/main; then
       ranges+=("main..$local_sha")
