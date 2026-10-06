@@ -1,7 +1,5 @@
 # Security CodeQL
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-security-codeql)
-
 Datei:
 
 ```
@@ -278,3 +276,7 @@ Offizielle Dokumentation:
 
 - GitHub CodeQL: https://codeql.github.com/
 - GitHub Code Scanning: https://docs.github.com/en/code-security/code-scanning
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

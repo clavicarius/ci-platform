@@ -1,7 +1,5 @@
 # Validate Platform
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-validate-platform)
-
 Datei:
 
 ```
@@ -36,3 +34,7 @@ Der Workflow benötigt ausschließlich `contents: read`.
 
 ShellCheck wird separat auf den Shell-Skripten ausgeführt; actionlint prüft
 Workflow-Syntax ohne seine optionale ShellCheck-Integration.
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

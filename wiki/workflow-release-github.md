@@ -1,7 +1,5 @@
 # GitHub Release
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
-
 Datei:
 
 ```
@@ -217,3 +215,7 @@ Offizielle Dokumentation:
 
 - GitHub Releases: https://docs.github.com/en/repositories/releasing-projects-on-github
 - GitHub CLI `gh release create`: https://cli.github.com/manual/gh_release_create
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

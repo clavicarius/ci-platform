@@ -1,14 +1,17 @@
 # CI Platform Wiki
 
-Dieses Verzeichnis enthält allgemeine Wissensseiten zur CI-Plattform:
+Siehe auch: [Repository README](https://github.com/clavicarius/ci-platform/blob/main/README.md)
 
-- [Architektur](https://github.com/clavicarius/ci-platform/wiki/architecture)
-- [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
-- [Versionierung](https://github.com/clavicarius/ci-platform/wiki/VERSIONING)
-- [Workflow-Dokumentation](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/README.md)
+Dieses Wiki enthält die veröffentlichte Dokumentation zur CI-Plattform:
+
+- [Architektur](architecture)
+- [Release- und Tagging-Richtlinie](RELEASING)
+- [Versionierung](VERSIONING)
+- [Workflows](Workflows)
+- [Actions](Actions)
 - [Soll-Zielbild](https://github.com/clavicarius/ci-platform/blob/main/docs/ci-platform.md)
-- [GitHub Wiki einrichten und synchronisieren](https://github.com/clavicarius/ci-platform/wiki/github-wiki-setup)
 
-Die Workflow-Dokumentation und die verbindliche Architektur-Spezifikation bleiben im
-Repository unter `docs/`. Die Markdown-Dateien in `wiki/` sind eine versionierte Quelle
-für allgemeines Wiki-Wissen. GitHub veröffentlicht diesen Ordner nicht automatisch als Wiki.
+Die Markdown-Dateien in `wiki/` sind die versionierte Quelle für dieses GitHub Wiki.
+Nach Merge in `main` veröffentlicht der [Maintenance Wiki Sync](workflow-maintenance-wiki-sync)-Workflow
+Änderungen automatisch in `clavicarius/ci-platform.wiki.git`.
+Workflow- und Action-Dokumentation wird aus `docs/workflows/` bzw. `actions/` gepflegt.

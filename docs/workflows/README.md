@@ -1,9 +1,13 @@
 # Available Workflows
 
+> **Hinweis:** Die veröffentlichte Dokumentation befindet sich im
+> [GitHub Wiki — Workflows](https://github.com/clavicarius/ci-platform/wiki/Workflows).
+> Dieses Verzeichnis bleibt als versionierte Quelle im Repository erhalten.
+
 Dieses Verzeichnis dokumentiert die Consumer-Workflows und plattform-internen Workflows
 des Repositorys. Nur Workflows mit `workflow_call` sind als Consumer-API einbindbar.
 
-Siehe auch: [CI-Plattform Soll-Zielbild](../ci-platform.md)
+Siehe auch: [CI-Plattform Soll-Zielbild](../ci-platform.md) | [GitHub Wiki — Workflows](https://github.com/clavicarius/ci-platform/wiki/Workflows)
 
 Jeder Workflow wird separat dokumentiert und beschreibt:
 
@@ -21,22 +25,23 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 
 | Workflow | Consumer-tauglich | Beschreibung |
 |---|---|---|
-| [Quality Link Check](quality-link-check.md) | Ja | Prüft Links und verwaltet automatisch Reports |
-| [Quality Lint](quality-lint.md) | Ja | Führt einheitliche Codequalitätsprüfungen durch |
-| [Quality Markdown](quality-markdown.md) | Ja | Prüft Markdown-Syntax, Struktur und Links |
-| [Quality YAML](quality-yaml.md) | Ja | Prüft YAML-Dateien auf Syntax und Struktur |
-| [Release GitHub](release-github.md) | Ja | Erstellt GitHub Releases für bestehende Git Tags |
-| [Release Validate Tags](release-validate-tags.md) | Ja | Prüft Tag-Format und Monotonie |
-| [Release Validate Tag Immutable](release-validate-tag-immutable.md) | Ja | Lehnt Tag-Updates (Force-Push) ab |
-| [Release Validate Branch](release-validate-branch.md) | Ja | Prüft, ob Tag auf dem Release-Branch liegt |
-| [Security CodeQL](security-codeql.md) | Ja | Führt statische Sicherheitsanalysen durch |
-| [Security Dependency Review](security-dependency-review.md) | Ja | Prüft neue Dependencies in Pull Requests |
-| [Security Secret Scan](security-secret-scan.md) | Ja | Verhindert das versehentliche Committen von Secrets |
-| [Quality Base Set](quality-base-set.md) | Nein — plattform-intern | PR-Gate und Release-Orchestrierung; kein `workflow_call` |
-| [Release Versioning](release-versioning.md) | Nein — plattform-intern | Versions-Tags für dieses Repository; kein `workflow_call` |
-| [Validate Platform](validate-platform.md) | Nein — plattform-intern | YAML-, actionlint- und ShellCheck-Validierung |
-| [Validate Branch Name](validate-branch-name.md) | Nein — plattform-intern | PR-Branch-Prüfung für dieses Repository |
-| [Maintenance Link Check](maintenance-link-check.md) | Nein — plattform-intern | Geplante Linkprüfung dieses Repositorys |
+| [Quality Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-link-check) | Ja | Prüft Links und verwaltet automatisch Reports |
+| [Quality Lint](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-lint) | Ja | Führt einheitliche Codequalitätsprüfungen durch |
+| [Quality Markdown](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-markdown) | Ja | Prüft Markdown-Syntax, Struktur und Links |
+| [Quality YAML](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-yaml) | Ja | Prüft YAML-Dateien auf Syntax und Struktur |
+| [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github) | Ja | Erstellt GitHub Releases für bestehende Git Tags |
+| [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags) | Ja | Prüft Tag-Format und Monotonie |
+| [Release Validate Tag Immutable](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tag-immutable) | Ja | Lehnt Tag-Updates (Force-Push) ab |
+| [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch) | Ja | Prüft, ob Tag auf dem Release-Branch liegt |
+| [Security CodeQL](https://github.com/clavicarius/ci-platform/wiki/workflow-security-codeql) | Ja | Führt statische Sicherheitsanalysen durch |
+| [Security Dependency Review](https://github.com/clavicarius/ci-platform/wiki/workflow-security-dependency-review) | Ja | Prüft neue Dependencies in Pull Requests |
+| [Security Secret Scan](https://github.com/clavicarius/ci-platform/wiki/workflow-security-secret-scan) | Ja | Verhindert das versehentliche Committen von Secrets |
+| [Quality Base Set](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set) | Nein — plattform-intern | PR-Gate und Release-Orchestrierung; kein `workflow_call` |
+| [Release Versioning](https://github.com/clavicarius/ci-platform/wiki/workflow-release-versioning) | Nein — plattform-intern | Versions-Tags für dieses Repository; kein `workflow_call` |
+| [Validate Platform](https://github.com/clavicarius/ci-platform/wiki/workflow-validate-platform) | Nein — plattform-intern | YAML-, actionlint- und ShellCheck-Validierung |
+| [Validate Branch Name](https://github.com/clavicarius/ci-platform/wiki/workflow-validate-branch-name) | Nein — plattform-intern | PR-Branch-Prüfung für dieses Repository |
+| [Maintenance Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-link-check) | Nein — plattform-intern | Geplante Linkprüfung dieses Repositorys |
+| [Maintenance Wiki Sync](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-wiki-sync) | Nein — plattform-intern | Veröffentlicht `wiki/` in das GitHub Wiki |
 
 ---
 

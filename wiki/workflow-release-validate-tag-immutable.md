@@ -1,7 +1,5 @@
 # Release Validate Tag Immutable
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tag-immutable)
-
 Datei:
 
 ```
@@ -132,3 +130,7 @@ Repository-Einstellungen aktiviert werden (siehe [Release- und Tagging-Richtlini
 - [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
 - [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
 - [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

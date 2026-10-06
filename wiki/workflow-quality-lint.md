@@ -1,7 +1,5 @@
 # Quality Lint
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-lint)
-
 Datei:
 
 ```
@@ -202,3 +200,7 @@ Breaking Changes werden über neue Major-Versionen veröffentlicht:
 ```
 v1 → v2
 ```
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

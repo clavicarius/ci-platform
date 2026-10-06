@@ -1,7 +1,5 @@
 # Release Versioning
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-release-versioning)
-
 Datei:
 
 ```
@@ -102,3 +100,7 @@ github.actor != 'github-actions[bot]'
 - [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
 - [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
 - [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

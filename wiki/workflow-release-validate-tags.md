@@ -1,7 +1,5 @@
 # Release Validate Tags
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
-
 Datei:
 
 ```
@@ -201,3 +199,7 @@ v1
 ```yaml
 uses: clavicarius/ci-platform/.github/workflows/release-validate-tags.yml@v1
 ```
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

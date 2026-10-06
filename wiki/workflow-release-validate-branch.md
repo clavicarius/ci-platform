@@ -1,7 +1,5 @@
 # Release Validate Branch
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
-
 Datei:
 
 ```
@@ -92,3 +90,7 @@ ausgeführt.
 - [Quality Base Set](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)
 - [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
 - [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

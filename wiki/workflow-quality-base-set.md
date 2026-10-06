@@ -1,7 +1,5 @@
 # Quality Base Set
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)
-
 Datei:
 
 ```
@@ -220,3 +218,7 @@ jobs:
 - [Release Validate Tag Immutable](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tag-immutable)
 - [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
 - [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)

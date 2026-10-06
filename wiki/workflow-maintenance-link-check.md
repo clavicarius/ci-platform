@@ -1,7 +1,5 @@
 # Maintenance Link Check
 
-> Veröffentlichte Dokumentation: [GitHub Wiki](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-link-check)
-
 Datei:
 
 ```
@@ -47,3 +45,7 @@ konzipiert. Für einbindbare Linkprüfungen in anderen Repositories siehe
 
 - [Quality Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-link-check)
 - [Quality Base Set](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-base-set)
+
+---
+
+Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
