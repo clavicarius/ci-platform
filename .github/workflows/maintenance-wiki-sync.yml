@@ -1,0 +1,44 @@
+name: Maintenance Wiki Sync
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'wiki/**'
+      - '.github/workflows/maintenance-wiki-sync.yml'
+      - 'scripts/sync-wiki-to-github.sh'
+  workflow_dispatch:
+
+concurrency:
+  group: maintenance-wiki-sync
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Publish wiki to GitHub Wiki
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sync wiki to GitHub Wiki repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+          SOURCE_DIR: wiki
+        run: bash scripts/sync-wiki-to-github.sh
+
+      - name: Summary
+        run: |
+          {
+            echo "## Wiki sync"
+            echo ""
+            echo "- source commit: \`${{ github.sha }}\`"
+            echo "- target: \`${{ github.repository }}.wiki.git\`"
+          } >> "$GITHUB_STEP_SUMMARY"
