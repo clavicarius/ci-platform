@@ -118,13 +118,14 @@ nicht ausgeführt. Optional wird ein Issue mit Hinweis erstellt.
 
 Die CI-Prüfung erkennt Tag-Updates beim Push. Für vollständigen Schutz vor
 lokalem Force-Push sollten zusätzlich **Tag Protection Rules** in den
-Repository-Einstellungen aktiviert werden (siehe [RELEASING.md](../../wiki/RELEASING.md)).
+Repository-Einstellungen aktiviert werden (siehe [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)).
 
 ---
 
 ## Siehe auch
 
-- [RELEASING.md](../../wiki/RELEASING.md)
+- [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
+- [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
 - [Quality Base Set](quality-base-set.md)
 - [Release Validate Tags](release-validate-tags.md)
 - [Release Validate Branch](release-validate-branch.md)
