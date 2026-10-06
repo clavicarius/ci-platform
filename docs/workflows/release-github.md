@@ -198,7 +198,7 @@ uses: clavicarius/ci-platform/.github/workflows/release-github.yml@v1
 
 ## Weiterführende Informationen
 
-- [Release- und Tagging-Richtlinie](../RELEASING.md)
+- [Release- und Tagging-Richtlinie](../../wiki/RELEASING.md)
 - [Release Validate Tags](release-validate-tags.md)
 - [Release Validate Branch](release-validate-branch.md)
 - [Quality Base Set](quality-base-set.md)

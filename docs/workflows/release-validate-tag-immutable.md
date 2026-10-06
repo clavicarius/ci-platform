@@ -118,13 +118,13 @@ nicht ausgeführt. Optional wird ein Issue mit Hinweis erstellt.
 
 Die CI-Prüfung erkennt Tag-Updates beim Push. Für vollständigen Schutz vor
 lokalem Force-Push sollten zusätzlich **Tag Protection Rules** in den
-Repository-Einstellungen aktiviert werden (siehe [RELEASING.md](../RELEASING.md)).
+Repository-Einstellungen aktiviert werden (siehe [RELEASING.md](../../wiki/RELEASING.md)).
 
 ---
 
 ## Siehe auch
 
-- [RELEASING.md](../RELEASING.md)
+- [RELEASING.md](../../wiki/RELEASING.md)
 - [Quality Base Set](quality-base-set.md)
 - [Release Validate Tags](release-validate-tags.md)
 - [Release Validate Branch](release-validate-branch.md)

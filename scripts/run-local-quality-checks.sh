@@ -44,27 +44,25 @@ resolve_git_ref() {
 GIT_REF="$(resolve_git_ref)"
 
 collect_changed_files() {
-  local pattern="$1"
-
   if [ "$MODE" = "staged" ]; then
-    git diff --cached --name-only --diff-filter=ACMR -- "$pattern"
+    git diff --cached --name-only --diff-filter=ACMR -- "$@"
   elif [ "$MODE" = "range" ] && [ -n "$REV_RANGE" ]; then
     if [[ "$REV_RANGE" == *".."* ]]; then
-      git diff --name-only --diff-filter=ACMR "$REV_RANGE" -- "$pattern"
+      git diff --name-only --diff-filter=ACMR "$REV_RANGE" -- "$@"
     else
-      git diff-tree --no-commit-id --name-only -r "$REV_RANGE" -- "$pattern"
+      git diff-tree --no-commit-id --name-only -r "$REV_RANGE" -- "$@"
     fi
   else
-    git ls-files -- "$pattern"
+    git ls-files -- "$@"
   fi
 }
 
-mapfile -t markdown_files < <(collect_changed_files 'docs' | grep -E '\.md$' | sed '/^$/d' | sort -u)
+mapfile -t markdown_files < <(collect_changed_files 'docs' 'wiki' | grep -E '\.md$' | sed '/^$/d' | sort -u)
 mapfile -t yaml_files < <(collect_changed_files '.github/workflows' | grep -E '\.(yml|yaml)$' | sed '/^$/d' | sort -u)
 
 run_markdownlint() {
   if [ "${#markdown_files[@]}" -eq 0 ]; then
-    echo "markdownlint: no docs Markdown files to check."
+    echo "markdownlint: no documentation Markdown files to check."
     return 0
   fi
 
@@ -72,13 +70,13 @@ run_markdownlint() {
   npx --yes markdownlint-cli2 "${markdown_files[@]}"
 }
 
-run_yamllint_on_git_blob() {
+run_yamllint_on_git_blob() (
   local file="$1"
   local ref="$2"
   local tmp
 
   tmp="$(mktemp)"
-  trap 'rm -f "$tmp"' RETURN
+  trap 'rm -f "$tmp"' EXIT
 
   if ! git show "$ref:$file" > "$tmp" 2>/dev/null; then
     echo "yamllint: could not read $ref:$file" >&2
@@ -86,7 +84,7 @@ run_yamllint_on_git_blob() {
   fi
 
   yamllint -d relaxed "$tmp"
-}
+)
 
 run_yamllint() {
   if [ "${#yaml_files[@]}" -eq 0 ]; then

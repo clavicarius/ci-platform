@@ -48,13 +48,12 @@ Zusätzlich wird pro Major-Linie ein beweglicher Alias gepflegt:
 
 ## Ort der Dokumentation
 
-- Diese Regel steht in `docs/RELEASING.md`.
-- Versioning-Verhalten (detailliert): `docs/VERSIONING.md`
-- Tag-Validierung: [release-validate-tags](workflows/release-validate-tags.md)
-- Tag-Immutabilität: [release-validate-tag-immutable](workflows/release-validate-tag-immutable.md)
-- Branch-Validierung: [release-validate-branch](workflows/release-validate-branch.md)
-- Release-Erstellung: [release-github](workflows/release-github.md)
-- Orchestrierung: [quality-base-set](workflows/quality-base-set.md)
+- Versioning-Verhalten (detailliert): [VERSIONING](https://github.com/clavicarius/ci-platform/wiki/VERSIONING)
+- Tag-Validierung: [release-validate-tags](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-validate-tags.md)
+- Tag-Immutabilität: [release-validate-tag-immutable](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-validate-tag-immutable.md)
+- Branch-Validierung: [release-validate-branch](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-validate-branch.md)
+- Release-Erstellung: [release-github](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-github.md)
+- Orchestrierung: [quality-base-set](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/quality-base-set.md)
 
 ---
 
@@ -151,4 +150,4 @@ Empfohlene Testfälle:
 ## Kontakt / Fragen
 
 - Bei Fragen oder Problemen mit Versionierung/Tagging: Issue oder Pull Request im Repository öffnen.
-- Für Details zur Berechnungslogik siehe `docs/VERSIONING.md`.
+- Für Details zur Berechnungslogik siehe [VERSIONING](https://github.com/clavicarius/ci-platform/wiki/VERSIONING).

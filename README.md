@@ -61,9 +61,9 @@ Optionale Erweiterungen für projektspezifische Anforderungen:
 
 ---
 
-# Architektur
+# Architektur und Wiki
 
-[Soll-Zielbild](docs/ci-platform.md) | [Ist-Architektur](docs/architecture.md)
+[Soll-Zielbild](docs/ci-platform.md) | [Ist-Architektur und Release-Wissen](wiki/Home.md)
 
 ---
 

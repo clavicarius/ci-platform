@@ -128,6 +128,12 @@ ci-platform/
 │       ├── README.md
 │       └── <workflow-name>.md
 │
+├── wiki/                                 # allgemeine Architektur- und Release-Wissensseiten
+│   ├── Home.md
+│   ├── architecture.md
+│   ├── RELEASING.md
+│   └── VERSIONING.md
+│
 ├── examples/                             # Phase 2
 │   ├── node-service/
 │   ├── java-service/
@@ -461,6 +467,7 @@ Jede Action und jeder Workflow muss dokumentiert sein.
 | `docs/ci-platform.md` | Soll-Zielbild und Plattform-Überblick (dieses Dokument) |
 | `docs/workflows/<name>.md` | Detaildokumentation pro Workflow |
 | `docs/workflows/README.md` | Übersicht aller verfügbaren Workflows |
+| `wiki/` | Allgemeine Wissensseiten; als Quelle zum Übertragen in die GitHub Wiki gedacht |
 | `actions/<name>/README.md` | Kurzdokumentation pro Action |
 
 ## Pflichtinhalte pro Workflow/Action

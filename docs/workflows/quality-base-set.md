@@ -206,7 +206,7 @@ jobs:
 
 ## Weiterführende Dokumentation
 
-- [Release- und Tagging-Richtlinie](../RELEASING.md)
+- [Release- und Tagging-Richtlinie](../../wiki/RELEASING.md)
 - [Quality Link Check](quality-link-check.md)
 - [Quality YAML](quality-yaml.md)
 - [Quality Markdown](quality-markdown.md)

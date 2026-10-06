@@ -181,7 +181,7 @@ Wenn das Tag ungültig ist:
 
 ## Weiterführende Dokumentation
 
-- [Release- und Tagging-Richtlinie](../RELEASING.md)
+- [Release- und Tagging-Richtlinie](../../wiki/RELEASING.md)
 - [Semantic Versioning](https://semver.org/)
 - [Quality Base Set](quality-base-set.md)
 - [Release Validate Tag Immutable](release-validate-tag-immutable.md)
