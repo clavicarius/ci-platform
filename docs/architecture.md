@@ -19,7 +19,7 @@ Consumer-Repositories
 ci-platform/
 ├── .github/
 │   └── workflows/
-│       ├── quality-base-set.yml          # plattform-intern / consumer-tauglich
+│       ├── quality-base-set.yml          # plattform-intern
 │       ├── quality-link-check.yml        # consumer
 │       ├── quality-lint.yml              # consumer
 │       ├── quality-markdown.yml          # consumer
@@ -96,8 +96,8 @@ Beispiele:
 
 ```yaml
 jobs:
-  quality:
-    uses: clavicarius/ci-platform/.github/workflows/quality-base-set.yml@v1
+  link-check:
+    uses: clavicarius/ci-platform/.github/workflows/quality-link-check.yml@v1
 ```
 
 ```yaml

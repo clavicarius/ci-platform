@@ -46,7 +46,9 @@ Empfohlener Einstieg für Consumer-Repositories. Enthält Quality- und Security-
 - Dependency Review
 - CodeQL
 
-Optional als Bundle (`quality-base-set`) einbindbar.
+Das aktuelle `quality-base-set.yml` ist plattform-intern und mangels
+`workflow_call` nicht als Consumer-Bundle einbindbar. Ein Consumer-Bundle ist
+erst verfügbar, wenn der Workflow als aufrufbare API implementiert wird.
 
 ## Pipeline-Bausteine
 
@@ -261,17 +263,20 @@ jobs:
     uses: clavicarius/ci-platform/.github/workflows/security-secret-scan.yml@v1
 ```
 
-## Basis-Set-Bundle
+## Plattform-internes Basis-Set
 
-Alternativ bindet ein Bundle mehrere Checks in einem Schritt ein:
+Das aktuelle Basis-Set dient als internes PR-Gate und Release-Orchestrierung
+für dieses Repository. Es besitzt kein `workflow_call` und kann daher nicht
+aus Consumer-Repositories eingebunden werden. Consumer wählen stattdessen
+einzelne Workflows aus der Consumer-API:
 
 ```yaml
 jobs:
-  quality:
-    uses: clavicarius/ci-platform/.github/workflows/quality-base-set.yml@v1
+  link-check:
+    uses: clavicarius/ci-platform/.github/workflows/quality-link-check.yml@v1
 ```
 
-Details und verfügbare Inputs: `docs/workflows/quality-base-set.md`
+Details: `docs/workflows/quality-base-set.md`
 
 ## Permissions und Secrets
 

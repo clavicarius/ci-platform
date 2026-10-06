@@ -6,6 +6,10 @@ Datei:
 .github/workflows/quality-base-set.yml
 ```
 
+> **Plattform-intern:** Dieser Workflow besitzt kein `workflow_call` und ist
+> nicht per `uses:` einbindbar. Consumer können die einzelnen aufrufbaren
+> Workflows direkt einbinden.
+
 ---
 
 ## Zweck
@@ -190,7 +194,7 @@ Der Pull Request wird blockiert, wenn mindestens einer der Jobs fehlschlägt:
 
 Dieser Workflow ist **repository-intern** und dient als Referenzimplementierung für das Basis-Set v1.
 
-Externe Projekte binden die einzelnen Workflows direkt ein:
+Externe Projekte binden die einzelnen Consumer-Workflows direkt ein:
 
 ```yaml
 jobs:
