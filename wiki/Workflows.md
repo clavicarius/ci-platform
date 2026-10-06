@@ -37,6 +37,7 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 | [Validate Platform](workflow-validate-platform) | Nein — plattform-intern | YAML-, actionlint- und ShellCheck-Validierung |
 | [Validate Branch Name](workflow-validate-branch-name) | Nein — plattform-intern | PR-Branch-Prüfung für dieses Repository |
 | [Maintenance Link Check](workflow-maintenance-link-check) | Nein — plattform-intern | Geplante Linkprüfung dieses Repositorys |
+| [Maintenance Wiki Sync](workflow-maintenance-wiki-sync) | Nein — plattform-intern | Veröffentlicht `wiki/` in das GitHub Wiki |
 
 ---
 
