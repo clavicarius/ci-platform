@@ -16,7 +16,8 @@ cd "$ROOT"
 zero_sha="0000000000000000000000000000000000000000"
 ranges=()
 
-while read -r _ local_sha _ remote_sha; do
+# shellcheck disable=SC2034
+while read -r local_ref local_sha remote_ref remote_sha; do
   [ -n "$local_sha" ] || continue
 
   if [ "$remote_sha" = "$zero_sha" ]; then
