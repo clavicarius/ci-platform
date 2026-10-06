@@ -6,6 +6,9 @@ Datei:
 .github/workflows/release-versioning.yml
 ```
 
+> **Plattform-intern:** Dieser Workflow besitzt kein `workflow_call` und ist
+> nicht per `uses:` einbindbar.
+
 ---
 
 ## Zweck

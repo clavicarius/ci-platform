@@ -8,6 +8,9 @@ actions/validate-branch-name/action.yml
 scripts/validate-branch-name.sh
 ```
 
+> **Plattform-intern:** Dieser Workflow besitzt kein `workflow_call` und ist
+> nicht per `uses:` einbindbar.
+
 ---
 
 ## Zweck
