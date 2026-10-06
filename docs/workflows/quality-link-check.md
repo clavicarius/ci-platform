@@ -61,7 +61,7 @@ name: Link Check
 on:
   workflow_dispatch:
   schedule:
-      - cron: "11 11 * * 0"
+    - cron: "11 11 * * 0"
 
 permissions:
   contents: read
@@ -83,7 +83,7 @@ name: Link Check
 on:
   workflow_dispatch:
   schedule:
-  - cron: "11 11 * * 0"
+    - cron: "11 11 * * 0"
 
 permissions:
   contents: read
