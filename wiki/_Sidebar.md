@@ -9,6 +9,7 @@
 ### Workflows
 - [Übersicht](Workflows)
 - [Maintenance Link Check](workflow-maintenance-link-check)
+- [Maintenance Wiki Sync](workflow-maintenance-wiki-sync)
 - [Quality Base Set](workflow-quality-base-set)
 - [Quality Link Check](workflow-quality-link-check)
 - [Quality Lint](workflow-quality-lint)
