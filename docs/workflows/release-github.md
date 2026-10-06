@@ -205,7 +205,8 @@ uses: clavicarius/ci-platform/.github/workflows/release-github.yml@v1
 
 ## Weiterführende Informationen
 
-- [Release- und Tagging-Richtlinie](../../wiki/RELEASING.md)
+- [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
+- [CI Platform Wiki](https://github.com/clavicarius/ci-platform/wiki/Home)
 - [Release Validate Tags](release-validate-tags.md)
 - [Release Validate Branch](release-validate-branch.md)
 - [Quality Base Set](quality-base-set.md)
