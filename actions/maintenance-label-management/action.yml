@@ -1,0 +1,118 @@
+name: Repository Label Management
+description: Manages repository labels from a semicolon-delimited CSV
+author: clavicarius
+
+inputs:
+  csv-file:
+    description: Path to the semicolon-delimited label configuration
+    required: false
+    default: '.github/gh-labels.csv'
+  github-token:
+    description: Token with permission to manage repository labels
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Create or update labels
+      shell: bash
+      env:
+        CSV_FILE: ${{ inputs.csv-file }}
+        GH_TOKEN: ${{ inputs.github-token }}
+        REPOSITORY: ${{ github.repository }}
+      run: |
+        set -euo pipefail
+
+        python3 - "$CSV_FILE" <<'PY'
+        import csv
+        import os
+        import re
+        import subprocess
+        import sys
+        from pathlib import Path
+
+
+        def fail(message):
+            print(f"::error::{message}", file=sys.stderr)
+            raise SystemExit(1)
+
+
+        csv_path = Path(sys.argv[1])
+        repository = os.environ.get("REPOSITORY", "")
+        if not repository:
+            fail("GITHUB_REPOSITORY is not available.")
+        if not csv_path.is_file():
+            fail(f"Label configuration file not found: {csv_path}")
+
+        required_columns = {"category", "name", "color", "description"}
+        try:
+            with csv_path.open(encoding="utf-8-sig", newline="") as source:
+                reader = csv.reader(source, delimiter=";", strict=True)
+                headers = next(reader, None)
+                if headers is None:
+                    fail(f"Label configuration is empty: {csv_path}")
+
+                headers = [header.strip().lower() for header in headers]
+                if (
+                    len(headers) != len(set(headers))
+                    or not required_columns.issubset(headers)
+                ):
+                    fail(
+                        "CSV header must include "
+                        "category;name;color;description."
+                    )
+
+                for line_number, row in enumerate(reader, start=2):
+                    if not row or all(not value.strip() for value in row):
+                        continue
+                    if len(row) != len(headers):
+                        fail(
+                            f"Invalid number of columns on CSV line "
+                            f"{line_number}."
+                        )
+
+                    label = dict(zip(headers, row))
+                    category = label["category"].strip()
+                    name = label["name"].strip()
+                    color = label["color"].strip().removeprefix("#")
+                    description = label["description"].strip()
+                    if not category or not name:
+                        fail(
+                            f"Category and label name are required on CSV "
+                            f"line {line_number}."
+                        )
+                    if not re.fullmatch(r"[0-9a-fA-F]{6}", color):
+                        fail(
+                            f"Color must be a six-digit hex value on CSV "
+                            f"line {line_number}."
+                        )
+
+                    print(
+                        f"Creating or updating {name!r} "
+                        f"(category: {category})"
+                    )
+                    try:
+                        subprocess.run(
+                            [
+                                "gh",
+                                "label",
+                                "create",
+                                "--color",
+                                color,
+                                "--description",
+                                description,
+                                "--force",
+                                "--repo",
+                                repository,
+                                "--",
+                                name,
+                            ],
+                            check=True,
+                        )
+                    except subprocess.CalledProcessError:
+                        fail(f"Failed to create or update label {name!r}.")
+                    except FileNotFoundError:
+                        fail("GitHub CLI (gh) is not installed.")
+        except (csv.Error, OSError) as error:
+            fail(f"Could not read label configuration: {error}")
+        PY

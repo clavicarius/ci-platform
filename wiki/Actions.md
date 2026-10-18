@@ -4,6 +4,12 @@ Composite Actions der CI-Plattform. Die versionierten Seiten in diesem Wiki sind
 maßgebliche Dokumentation der Action-API. Alle aufgeführten Actions sind consumer-tauglich
 und können in eigenen Workflows verwendet werden.
 
+## Maintenance
+
+| Action | Consumer-tauglich | Beschreibung |
+|---|---|---|
+| [maintenance-label-management](action-maintenance-label-management) | Ja | Creates and updates labels from a CSV configuration |
+
 ## Quality
 
 | Action | Consumer-tauglich | Beschreibung |

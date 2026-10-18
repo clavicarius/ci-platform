@@ -26,6 +26,7 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 
 | Workflow | Consumer-tauglich | Beschreibung |
 |---|---|---|
+| [Maintenance Label Management](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-label-management) | Nein — plattform-intern | Erstellt und aktualisiert Labels aus `.github/gh-labels.csv` |
 | [Quality Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-link-check) | Ja | Prüft Links und verwaltet automatisch Reports |
 | [Quality Lint](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-lint) | Ja | Führt einheitliche Codequalitätsprüfungen durch |
 | [Quality Markdown](https://github.com/clavicarius/ci-platform/wiki/workflow-quality-markdown) | Ja | Prüft Markdown-Syntax, Struktur und Links |
