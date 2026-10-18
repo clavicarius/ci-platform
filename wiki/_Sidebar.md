@@ -11,6 +11,7 @@
 ### Workflows
 
 - [Übersicht](Workflows)
+- [Maintenance Label Management](workflow-maintenance-label-management)
 - [Maintenance Link Check](workflow-maintenance-link-check)
 - [Maintenance Wiki Sync](workflow-maintenance-wiki-sync)
 - [Quality Base Set](workflow-quality-base-set)
@@ -32,6 +33,7 @@
 ### Actions
 
 - [Übersicht](Actions)
+- [maintenance-label-management](action-maintenance-label-management)
 - [quality-link-check](action-quality-link-check)
 - [quality-lint](action-quality-lint)
 - [quality-markdown](action-quality-markdown)
