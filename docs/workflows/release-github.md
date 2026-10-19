@@ -32,10 +32,11 @@ Der Workflow:
 - stellt Release-Metadaten als Outputs bereit
 
 Für einen Tag `v1.2.0` muss `CHANGELOG.md` am getaggten Commit einen nicht leeren
-Abschnitt `## [v1.2.0]` enthalten, optional mit Datum
-(`## [v1.2.0] - YYYY-MM-DD`). Ohne passenden Eintrag wird das Release nicht erstellt.
-Eigene Release Notes ersetzen die automatisch generierten Notizen, der Changelog-
-Abschnitt wird in beiden Fällen angefügt.
+Abschnitt enthalten. Changesets-Releases verwenden `## 1.2.0`; bisherige
+Abschnitte `## [v1.2.0]` und `## [v1.2.0] - YYYY-MM-DD` bleiben ebenfalls
+unterstützt. Ohne passenden Eintrag wird das Release nicht erstellt. Eigene
+Release Notes ersetzen die automatisch generierten Notizen, der
+Changelog-Abschnitt wird in beiden Fällen angefügt.
 
 ---
 

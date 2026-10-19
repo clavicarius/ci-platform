@@ -353,13 +353,22 @@ auf das jeweils neueste kompatible Release innerhalb dieser Major-Linie:
 
 ## Automatische Major-Alias-Tags
 
-Der Release-Workflow erzeugt bei jedem Release:
+Changesets steuert den Release-Intent. Ein privates Root-Package dient als
+Versionsanker und wird nicht in eine Registry veröffentlicht. Ein Merge ohne
+Changeset erstellt keinen neuen Release-Tag und bewegt keinen Alias. Der Merge des
+Changesets-Version-PRs erzeugt bei jedem Release:
 
 1. Semver-Tag (`v1.2.3`)
 2. Major-Alias-Tag (`v1`) — zeigt auf den neuesten Stand der Major-Linie
 
 Alias-Tag-Updates sind eine **bewusste Ausnahme** zur Tag-Immutabilität. Sie erfolgen
 ausschließlich durch den automatisierten Release-Workflow — nicht durch manuellen Force-Push.
+Für Changesets-Releases folgt `CHANGELOG.md` dem Changesets-Format `## 1.2.3`;
+GitHub Release Notes werden aus diesem Eintrag erstellt.
+
+Änderungen an `.github/workflows/**`, `actions/**` oder von Actions verwendeten
+Skripten benötigen einen Changeset. Docs-, Wiki-, Issue-Template-, CODEOWNERS-
+und reine README-Änderungen benötigen keinen.
 
 ## Breaking Changes
 
@@ -387,23 +396,13 @@ Veraltete Komponenten durchlaufen einen dokumentierten Lebenszyklus:
 ## Workflow
 
 ```text
-Feature Branch
+Feature-PR (+ Changeset für Vertragspfade) → Merge nach main
     ↓
-Pull Request
+Changesets öffnet/aktualisiert Version-PR
     ↓
-Validation Pipeline (validate-platform / quality-base-set)
+Version-PR: package.json + CHANGELOG.md → Merge
     ↓
-Review
-    ↓
-Merge
-    ↓
-Automatischer Release-Workflow
-    ↓
-Semver-Tag (v1.2.3)
-    ↓
-Major-Alias-Tag (v1)
-    ↓
-GitHub Release + CHANGELOG
+Unveränderlicher SemVer-Tag + passender Major-Alias + GitHub Release
 ```
 
 ## Release-Artefakte

@@ -8,87 +8,98 @@ on:
 
 concurrency:
   group: versioning-${{ github.event_name }}-${{ github.ref }}
-  # push-to-main: never cancel (every push must get a tag)
-  # pull_request: cancel stale runs (dry-run only, no side effects)
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
-permissions:
-  contents: write
-
 jobs:
-  version:
-    # recursion/bot guard:
-    # - run on PRs always (dry-run only)
-    # - run on push to main only if actor is not github-actions[bot]
-    if: |
-      github.event_name == 'pull_request' ||
-      (github.event_name == 'push' &&
-       github.ref == 'refs/heads/main' &&
-       github.actor != 'github-actions[bot]')
+  changeset-check:
+    name: Require Changeset for platform changes
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
-      - name: Checkout (full history + tags)
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Ensure tags are up to date
-        run: git fetch --force --tags
-
-      - name: Compute next version
-        id: compute
-        uses: ./actions/release-semver-versioning
-
-      - name: Dry-run summary (PR)
-        if: github.event_name == 'pull_request'
-        run: |
-          {
-            echo "## Versioning dry-run"
-            echo ""
-            echo "- event: pull_request"
-            echo "- would create next tag: \`${{ steps.compute.outputs.next_tag }}\`"
-            echo ""
-            echo "_No tags were pushed in PR mode._"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Create tag (push to main)
-        if: github.event_name == 'push'
+      - name: Check for required Changeset
         env:
-          NEXT_TAG: ${{ steps.compute.outputs.next_tag }}
+          BASE_REF: ${{ github.base_ref }}
         run: |
           set -euo pipefail
 
-          # Idempotency check: if NEXT_TAG already exists remotely, exit cleanly.
-          if git ls-remote --exit-code --tags origin "refs/tags/${NEXT_TAG}" >/dev/null 2>&1; then
-            echo "Tag ${NEXT_TAG} already exists on origin."
+          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          changed_files="$(git diff --name-only "origin/${BASE_REF}...HEAD")"
 
-            {
-              echo "## Versioning result"
-              echo ""
-              echo "- next tag already exists: \`${NEXT_TAG}\`"
-            } >> "$GITHUB_STEP_SUMMARY"
+          implementation_changed=false
+          while IFS= read -r file; do
+            case "$file" in
+              .github/workflows/*|actions/*|\
+                scripts/validate-version-tag.sh|scripts/validate-branch-name.sh|\
+                scripts/validate-release-branch.sh|scripts/validate-tag-immutable.sh|\
+                scripts/release-from-package-version.mjs)
+                implementation_changed=true
+                break
+                ;;
+            esac
+          done <<< "$changed_files"
+
+          if [ "$implementation_changed" != true ]; then
+            echo "No platform implementation changes require a Changeset."
             exit 0
           fi
 
-          echo "Creating version tag: ${NEXT_TAG}"
-          git tag "${NEXT_TAG}"
+          has_changeset=false
+          while IFS= read -r file; do
+            if [[ "$file" == .changeset/*.md &&
+              "$file" != .changeset/README.md &&
+              -f "$file" ]]; then
+              has_changeset=true
+              break
+            fi
+          done <<< "$changed_files"
 
-          echo "Pushing tag"
-          git push origin "${NEXT_TAG}"
+          if [ "$has_changeset" != true ]; then
+            echo "::error::Missing required Changeset in .changeset/."
+            exit 1
+          fi
 
-          # Derive the major alias tag (e.g. v1.2.3 -> v1) and move it to HEAD.
-          MAJOR_NUM="${NEXT_TAG#v}"     # strip leading 'v' -> "1.2.3"
-          MAJOR_NUM="${MAJOR_NUM%%.*}"  # strip ".minor.patch" -> "1"
-          MAJOR_TAG="v${MAJOR_NUM}"    # -> "v1"
+  changesets:
+    name: Create or publish Changesets version
+    if: |
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
-          echo "Moving major alias tag: ${MAJOR_TAG} -> ${NEXT_TAG}"
-          git tag --force "${MAJOR_TAG}"
-          git push origin --force "refs/tags/${MAJOR_TAG}"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-          {
-            echo "## Versioning result"
-            echo ""
-            echo "- created tag: \`${NEXT_TAG}\`"
-            echo "- moved major alias: \`${MAJOR_TAG}\`"
-          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create version pull request or release
+        uses: changesets/action@v2.1.2
+        with:
+          version-script: npm run version
+          publish-script: npm run release
+          pr-title: 'chore: version packages'
+          commit-message: 'chore: version packages'
+          create-github-releases: 'false'
+          push-git-tags: 'false'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
