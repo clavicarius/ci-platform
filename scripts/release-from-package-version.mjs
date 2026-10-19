@@ -25,20 +25,15 @@ if (existingTag.error) {
 }
 
 let releaseCommit;
-if (existingTag.status === 0) {
+const tagExists = existingTag.status === 0;
+if (tagExists) {
   releaseCommit = existingTag.stdout.trim();
+  if (releaseCommit !== head) {
+    console.log(`${tag} already exists; no release is needed for this commit.`);
+    process.exit(0);
+  }
 } else {
-  execFileSync('git', ['tag', tag, 'HEAD'], { stdio: 'inherit' });
-  execFileSync('git', ['push', 'origin', `refs/tags/${tag}`], { stdio: 'inherit' });
   releaseCommit = head;
-}
-
-execFileSync('git', ['tag', '--force', majorTag, tag], { stdio: 'inherit' });
-execFileSync('git', ['push', 'origin', '--force', `refs/tags/${majorTag}`], { stdio: 'inherit' });
-
-if (releaseCommit !== head) {
-  console.log(`${tag} already exists; no release is needed for this commit.`);
-  process.exit(0);
 }
 
 const changelog = readFileSync(new URL('../CHANGELOG.md', import.meta.url), 'utf8').split(/\r?\n/);
@@ -52,6 +47,36 @@ const end = changelog.findIndex((line, index) => index > start && line.startsWit
 const entry = changelog.slice(start, end === -1 ? undefined : end).join('\n').trim();
 if (entry === heading) {
   throw new Error(`CHANGELOG.md entry for ${version} is empty`);
+}
+
+if (!tagExists) {
+  execFileSync('git', ['tag', tag, 'HEAD'], { stdio: 'inherit' });
+  execFileSync('git', ['push', 'origin', `refs/tags/${tag}`], { stdio: 'inherit' });
+}
+
+const latestMajorVersion = execFileSync('git', ['tag', '--list', `${majorTag}.*.*`], {
+  encoding: 'utf8',
+})
+  .split(/\r?\n/)
+  .map((releaseTag) => /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.exec(releaseTag))
+  .filter(Boolean)
+  .map((match) => match.slice(1).map(Number))
+  .sort((left, right) => {
+    for (let index = 0; index < left.length; index += 1) {
+      if (left[index] !== right[index]) {
+        return right[index] - left[index];
+      }
+    }
+    return 0;
+  })[0];
+
+if (latestMajorVersion?.join('.') === version) {
+  execFileSync('git', ['tag', '--force', majorTag, tag], { stdio: 'inherit' });
+  execFileSync('git', ['push', 'origin', '--force', `refs/tags/${majorTag}`], {
+    stdio: 'inherit',
+  });
+} else {
+  console.log(`${majorTag} remains on a newer release in its major line.`);
 }
 
 const tempDir = mkdtempSync(join(tmpdir(), 'ci-platform-release-'));
