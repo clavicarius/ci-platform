@@ -11,8 +11,9 @@ actions/maintenance-label-management/action.yml
 
 ## Purpose
 
-Creates and updates repository labels from `.github/gh-labels.csv` when that file
-changes on `main`. The workflow can also be started manually and skips when the
+Synchronizes repository labels with `.github/gh-labels.csv` when that file
+changes on `main`: labels in the CSV are created or updated, and labels not in
+the CSV are removed. The workflow can also be started manually and skips when the
 configuration file is absent.
 
 ## Permissions
@@ -42,7 +43,10 @@ hexadecimal digits, optionally prefixed by `#`. Quote values that contain
 semicolons or quotes using standard CSV quoting rules.
 
 The action creates missing labels and updates the color and description of
-existing labels. Running it repeatedly is safe.
+existing labels. It also removes every repository label not listed in the CSV,
+including GitHub's default labels and labels added manually. Keep the CSV
+complete; its format and contents are validated before the action changes labels.
+Running it repeatedly is safe.
 
 ## Reusable action
 

@@ -24,7 +24,7 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 
 | Workflow | Consumer-tauglich | Beschreibung |
 |---|---|---|
-| [Maintenance Label Management](workflow-maintenance-label-management) | Nein — plattform-intern | Erstellt und aktualisiert Labels aus `.github/gh-labels.csv` |
+| [Maintenance Label Management](workflow-maintenance-label-management) | Nein — plattform-intern | Synchronisiert Labels mit `.github/gh-labels.csv` |
 | [Quality Link Check](workflow-quality-link-check) | Ja | Prüft Links und verwaltet automatisch Reports |
 | [Quality Lint](workflow-quality-lint) | Ja | Führt einheitliche Codequalitätsprüfungen durch |
 | [Quality Markdown](workflow-quality-markdown) | Ja | Prüft Markdown-Syntax, Struktur und Links |

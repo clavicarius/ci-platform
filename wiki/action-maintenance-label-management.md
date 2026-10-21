@@ -4,7 +4,7 @@
 
 ## Description
 
-Creates or updates repository labels from a semicolon-delimited CSV file.
+Synchronizes repository labels with a semicolon-delimited CSV file.
 
 ## Inputs
 
@@ -44,8 +44,10 @@ category property. Color values must be six hexadecimal digits, with an
 optional leading `#`. Quote fields containing semicolons or quotes according
 to standard CSV rules.
 
-Labels that already exist are updated; missing labels are created. Repeated
-runs are idempotent.
+Labels that already exist are updated and missing labels are created. Every
+repository label not listed in the CSV is removed, including GitHub's default
+labels and labels added manually. Keep the CSV complete; the CSV is validated
+before the action changes labels. Repeated runs are idempotent.
 
 ## Example
 
