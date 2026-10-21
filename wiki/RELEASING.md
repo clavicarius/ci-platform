@@ -4,172 +4,104 @@ Zurück zur [Wiki-Startseite](https://github.com/clavicarius/ci-platform/wiki/Ho
 
 ## Zweck
 
-Dieses Dokument legt die Konvention für Versions-Tags im Repository fest und
-beschreibt den Prozess zum Erstellen gültiger Tags sowie die automatische
-Versionierung per GitHub Action.
+Diese Richtlinie beschreibt Releases der gemeinsamen CI/CD-Plattform. Consumer
+verwenden unveränderliche Tags `vX.Y.Z` oder den beweglichen Major-Alias `vN`;
+es gibt keine getrennte Versionierung pro Workflow oder Action.
 
-## Regeln (Standard: Semantic Versioning + Moving Major Alias)
+## Changesets steuern Releases
 
-### Standard-Muster (SemVer)
+Das private Root-Package `ci-platform` ist ein Versionsanker. Es wird nicht zu
+npm oder GitHub Packages veröffentlicht.
 
-Standardmäßig gilt folgendes Versionierungsschema:
+Ein Changeset ist für Änderungen an `.github/workflows/**`, `actions/**` und
+von Actions verwendeten Skripten erforderlich. Reine Änderungen an `docs/**`,
+`wiki/**`, `.github/ISSUE_TEMPLATE/**`, `CODEOWNERS` oder README-Dateien brauchen
+keinen Changeset. Der PR-Check prüft diese Pfade.
 
-- **Release-Tag (immutable):** `v<major>.<minor>.<patch>`  
-  Regex: `^v[0-9]+\.[0-9]+\.[0-9]+$`
-- Nur diese Tags werden für die automatische Versionsberechnung berücksichtigt.
-- Initialversion ist `v0.1.0`, falls noch kein passender Tag existiert.
-- Neue Versionen werden automatisch aus dem höchsten vorhandenen SemVer-Tag
-  berechnet (aktuell: **Patch-Increment**).
+Änderungsabsicht wird als Markdown-Datei unter `.changeset/` deklariert:
 
-### Moving Major Alias (`vN`)
-
-Zusätzlich wird pro Major-Linie ein beweglicher Alias gepflegt:
-
-- Format: `v<major>` (z. B. `v0`, `v1`, `v2`)
-- `vN` zeigt immer auf denselben Commit wie der neueste veröffentlichte
-  `vN.x.y`-Tag.
-- Beispiel: Wird `v2.4.9` veröffentlicht, zeigt `v2` anschließend auf exakt
-  diesen Commit.
-- Der `vN`-Alias ist **absichtlich mutable** (Force-Update durch CI), da er als
-  Zeiger auf den neuesten Stand der Major-Linie dient.
-
-### Immutabilität
-
-- `vX.Y.Z`-Release-Tags sind **immutable** und dürfen nicht verschoben werden.
-- `vN`-Alias-Tags sind **mutable by design** und werden von der CI aktualisiert.
-
+```markdown
+---
+"ci-platform": minor
 ---
 
-## Verantwortung
+Add optional `fail-on-warning` input to `quality-lint` (default remains false).
+```
 
-- Repository-Maintainer(s) sind verantwortlich für Freigaben und Releases.
-- CI automatisiert die Tag-Erzeugung und Alias-Aktualisierung.
-- Bei Verstößen gegen die Richtlinie schlägt der Workflow fehl.
-- Jeder Release benötigt einen nicht leeren CHANGELOG-Abschnitt für den exakten
-  SemVer-Tag, z. B. `## [v1.2.3] - YYYY-MM-DD`. Der Release-Workflow prüft den
-  Eintrag am getaggten Commit und nimmt ihn in die Release Notes auf.
+### Verbindliche SemVer-Policy
 
-## Changelog
+Da Consumer mit `@v1` sowohl Patch- als auch Minor-Releases automatisch erhalten:
 
-Änderungen werden unter `## [Unreleased]` in `CHANGELOG.md` gesammelt. Vor dem
-Release wird der Eintrag in einen datierten Abschnitt für den geplanten Tag
-verschoben, z. B. `## [v1.2.3] - 2026-10-06`. Der Release-Workflow schlägt fehl,
-wenn dieser Eintrag am getaggten Commit fehlt oder leer ist.
+- **patch:** Bugfix ohne Änderung von Inputs, Outputs, Defaults, Permissions oder
+  Workflow-Pfaden.
+- **minor:** neuer optionaler Input, neuer Workflow/Action oder neues optionales
+  Output; bestehende Defaults und der Vertrag bleiben kompatibel.
+- **major:** Breaking Change am `workflow_call`-/Action-Vertrag, etwa entfernter
+  oder umbenannter Input, geändertes Default-Verhalten, neue erforderliche
+  Permissions oder geänderter Dateipfad.
 
----
+Breaking Changes veröffentlichen eine neue Major-Linie (`v2`); der vorhandene
+Alias (`v1`) bleibt auf der letzten kompatiblen Version.
 
-## Ort der Dokumentation
+## Release-Ablauf
 
-- Versioning-Verhalten (detailliert): [VERSIONING](https://github.com/clavicarius/ci-platform/wiki/VERSIONING)
-- Tag-Validierung: [release-validate-tags](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-validate-tags.md)
-- Tag-Immutabilität: [release-validate-tag-immutable](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-validate-tag-immutable.md)
-- Branch-Validierung: [release-validate-branch](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-validate-branch.md)
-- Release-Erstellung: [release-github](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-github.md)
-- Orchestrierung: [quality-base-set](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/quality-base-set.md)
+1. Ein Feature-PR enthält für Vertragsänderungen einen Changeset.
+2. Nach Merge nach `main` erstellt bzw. aktualisiert `changesets/action` den
+   Version-PR `chore: version packages`. Er aktualisiert `package.json` und
+   `CHANGELOG.md`.
+3. Ohne Changeset wird kein neues SemVer-Tag erstellt und der Major-Alias bleibt
+   unverändert. Docs-/Wiki-only-Merges benötigen keinen Changeset.
+4. Nach Merge des Version-PRs liest das Release-Script die Package-Version und
+   erstellt `vX.Y.Z` sowie den passenden Alias `vN`.
+5. Das GitHub Release verwendet den Changelog-Eintrag aus demselben Changeset.
 
----
+Der Tag-Push löst keine erneute Versionierung aus. Erneute Läufe sind
+idempotent: ein vorhandener Full-Tag wird nie verschoben oder dupliziert; ein
+fehlender Major-Alias kann erneut auf den vorhandenen Release-Tag gesetzt werden.
 
-## Release-Prozess (Kurz-Anleitung)
+## Tags und Changelog
 
-### Automatisch über CI (Standard)
+- **Release-Tag (immutable):** `v<major>.<minor>.<patch>`, z. B. `v1.2.3`.
+- **Major-Alias (mutable):** `v<major>`, z. B. `v1`; er zeigt auf den jüngsten
+  kompatiblen Release derselben Major-Linie.
+- Tags vom Format `ci-platform@1.2.3` werden nicht erzeugt.
+- Changesets schreibt einen Abschnitt mit der Überschrift `## 1.2.3` in
+  `CHANGELOG.md`. Dieser nicht leere Abschnitt wird am getaggten Commit
+  validiert und für das GitHub Release verwendet.
 
-1. Commit nach `main` pushen.
-2. Workflow berechnet den nächsten `vX.Y.Z`-Tag.
-3. Workflow erstellt/pusht den neuen `vX.Y.Z`-Tag.
-4. Workflow aktualisiert den zugehörigen `vN`-Alias auf denselben Commit.
-5. Bei `pull_request` läuft nur Dry-Run (keine Tag-Pushes).
+Tag-Schutzregeln sollten Force-Updates für `v*.*.*` verhindern und dem CI-Actor
+das Aktualisieren von `v[0-9]+` erlauben.
 
-### Manuell (nur Ausnahmefall)
+## Beispiele und Prüfungen
 
-Falls manuell getaggt wird, gilt:
-
-1. SemVer-Release-Tag setzen (z. B. `git tag v1.2.3`).
-2. Tag pushen (`git push origin v1.2.3`).
-3. Optional/bei Bedarf `v1` auf denselben Commit setzen (normalerweise CI).
-
----
-
-## Beispiele
-
-### Sample Release-Tags (`vX.Y.Z`)
-
-- Gültig: `v0.1.0`, `v1.2.3`, `v10.0.7`
-- Ungültig: `v1`, `v1.0`, `v01.2.3`, `version1.2.3`
-
-### Sample Moving Major Alias (`vN`)
-
-- Gültig: `v0`, `v1`, `v12`
-- Ungültig: `v01`, `v1.0`, `v1a`
-
-### Verhalten
-
-- Neuer Tag: `v2.4.9`
-- Danach muss `v2` auf denselben Commit zeigen wie `v2.4.9`.
-
----
-
-## Automatisierte Prüfung (Kurz)
-
-Bei Versioning-/Release-Läufen werden u. a. diese Aspekte geprüft:
-
-1. SemVer-Format für Release-Tags (`vX.Y.Z`)
-2. Branch-/Workflow-Regeln
-3. Immutabilität für Release-Tags
-4. Korrekte Pflege des `vN`-Major-Alias
-
-Bei Verstößen schlägt der jeweilige Workflow fehl.
-
----
-
-## Tag Protection (empfohlen)
-
-Da `vN` absichtlich beweglich ist, sollten Tag-Regeln differenziert gesetzt
-werden:
-
-- Für **Release-Tags** (`v*.*.*`): Updates/Force-Push verhindern.
-- Für **Major-Alias-Tags** (`v[0-9]+`): Update durch CI zulassen (oder
-  entsprechender CI-Actor/Token erlauben).
-
-So bleiben Release-Tags geschützt, während `vN` weiterhin korrekt auf den
-neuesten Major-Stand zeigen kann.
-
----
+- Gültige Full-Tags: `v0.1.0`, `v1.2.3`, `v10.0.7`.
+- Ungültige Full-Tags: `v1`, `v1.0`, `v01.2.3`.
+- Nach einem Patch-/Minor-Release muss der passende `vN`-Alias auf denselben
+  Commit wie `vX.Y.Z` zeigen.
+- Ein Major-Release `v2.0.0` setzt `v2`; `v1` bleibt unverändert.
+- Ein Docs-only-Merge ohne Changeset erzeugt keinen neuen Full-Tag.
+- Ein erneuter Lauf darf keinen Full-Tag duplizieren oder verschieben.
 
 ## Branch Protection für CODEOWNERS
 
-Für den Branch `main` muss in den Repository-Regeln **Require review from Code
-Owners** aktiviert sein. CODEOWNERS-Reviews sollten zusätzlich als mindestens
-eine erforderliche Zustimmung konfiguriert werden. Diese Einstellung wird in
-GitHub Branch Protection bzw. einem Repository Ruleset verwaltet und kann nicht
-durch eine Datei im Repository selbst aktiviert werden.
-
----
+Für den Branch `main` sollte **Require review from Code Owners** aktiviert
+sein. Diese Einstellung wird in GitHub Branch Protection bzw. einem Repository
+Ruleset verwaltet und kann nicht durch eine Datei im Repository selbst aktiviert
+werden.
 
 ## Migration vorhandener Tags
 
-- Nicht-konforme Alt-Tags werden nicht automatisch umbenannt oder gelöscht.
-- Eine Migration kann bei Bedarf separat geplant werden.
-- Bei Umstellung von „Simple Major“ auf SemVer sollten bestehende Prozesse und
-  Tag-Protection-Regeln auf `vX.Y.Z` + `vN`-Alias angepasst werden.
+Nicht-konforme Alt-Tags werden nicht automatisch umbenannt oder gelöscht. Bei
+der Umstellung auf Changesets bleiben existierende `vX.Y.Z`-Tags unverändert;
+neue Releases folgen der Changeset-Version und aktualisieren nur ihren passenden
+Major-Alias.
 
----
+## Weiterführende Dokumentation
 
-## Tests
+- [Versionierung](https://github.com/clavicarius/ci-platform/wiki/VERSIONING)
+- [Release Versioning Workflow](https://github.com/clavicarius/ci-platform/wiki/workflow-release-versioning)
+- [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
+- [Tag-Validierung](https://github.com/clavicarius/ci-platform/blob/main/docs/workflows/release-validate-tags.md)
 
-Empfohlene Testfälle:
-
-- Release-Tags:
-  - `v0.1.0`, `v0.1.1`, `v1.0.0`
-  - `v1`, `v1.0` (ungültig als Release-Tag)
-- Alias:
-  - nach `v1.2.3` zeigt `v1` auf denselben Commit
-  - nach `v1.2.4` wird `v1` auf den neuen Commit weiterbewegt
-- PR-Dry-Run:
-  - Version wird berechnet, aber keine Tags werden gepusht.
-
----
-
-## Kontakt / Fragen
-
-- Bei Fragen oder Problemen mit Versionierung/Tagging: Issue oder Pull Request im Repository öffnen.
-- Für Details zur Berechnungslogik siehe [VERSIONING](https://github.com/clavicarius/ci-platform/wiki/VERSIONING).
+Bei Fragen oder Problemen mit Versionierung/Tagging kann ein Issue oder Pull
+Request im Repository geöffnet werden.

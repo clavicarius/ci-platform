@@ -99,7 +99,10 @@ jobs:
               raise SystemExit("CHANGELOG.md is required for releases")
 
           lines = changelog.read_text(encoding="utf-8").splitlines()
-          heading = re.compile(rf"## \[{re.escape(tag)}\](?: - .*)?")
+          version = tag.removeprefix("v")
+          heading = re.compile(
+              rf"(?:## \[{re.escape(tag)}\](?: - .*)?|## {re.escape(version)})"
+          )
           start = next(
               (i for i, line in enumerate(lines) if heading.fullmatch(line)),
               None,

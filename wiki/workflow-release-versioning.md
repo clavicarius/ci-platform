@@ -2,108 +2,60 @@
 
 Datei:
 
-```
+```text
 .github/workflows/release-versioning.yml
 ```
 
 > **Plattform-intern:** Dieser Workflow besitzt kein `workflow_call` und ist
 > nicht per `uses:` einbindbar.
 
----
-
 ## Zweck
 
-Der **Release Versioning Workflow** berechnet automatisch das nächste semantische Versions-Tag
-und erstellt es auf dem `main` Branch.
+Der Workflow prüft erforderliche Changesets auf Pull Requests und orchestriert
+die Changesets-Version-PRs nach einem Merge auf `main`. Das private Root-Package
+`ci-platform` ist Versionsanker, kein Registry-Package.
 
-Zusätzlich wird ein Major-Alias-Tag (z.B. `v1`) auf das neueste SemVer-Tag verschoben,
-damit Konsumenten dieser CI-Platform über `@v1` stets die neueste kompatible Version erhalten.
-
----
-
-## Trigger
+## Trigger und Verhalten
 
 | Event | Verhalten |
 |---|---|
-| `push` nach `main` | Berechnet und setzt das nächste SemVer-Tag + aktualisiert Major-Alias |
-| `pull_request` | Dry-run: zeigt das nächste Tag an, setzt es nicht |
+| `pull_request` | Ein Changeset ist bei Workflow-, Action- und von Actions verwendeten Skriptänderungen erforderlich. Docs-/Wiki-only-Änderungen benötigen keinen. |
+| `push` nach `main` | Changesets öffnet oder aktualisiert `chore: version packages`, wenn Changesets vorliegen. Ein Merge ohne Changeset erzeugt keinen neuen Full-Tag. |
+| Merge des Version-PRs | Das Release-Script liest `package.json`, setzt `vX.Y.Z` und den passenden Major-Alias `vN` und erstellt das GitHub Release mit dem Changelog-Eintrag. |
 
----
+## Versionierung
 
-## Tagging-Schema
+- Release-Tags `vX.Y.Z` sind unveränderlich.
+- Major-Aliase `vN` sind beweglich und zeigen auf den neuesten kompatiblen
+  Release derselben Major-Linie.
+- Das eingebaute Package-Publishing, Tagging und die GitHub-Release-Erstellung
+  der Action sind deaktiviert; das eigene Release-Script erstellt ausschließlich
+  die vereinbarten Git-Tags und das GitHub Release.
+- Ein Major-Release erstellt den neuen Alias (`v2`); der alte Alias (`v1`)
+  bleibt auf seiner bisherigen Linie.
+- Es gibt keine npm-/GitHub-Package-Veröffentlichung und keine Tags im Format
+  `ci-platform@1.2.3`.
+- Das Workflow-Trigger-Muster hört auf `main`-Branch-Pushes und Pull Requests,
+  nicht auf Tag-Pushes. Der Bot-Guard verhindert rekursive Runs.
 
-Es wird ausschließlich **Semantic Versioning** verwendet:
+## Changelog
 
-```
-v<major>.<minor>.<patch>
-```
+Changesets schreibt Releases in `CHANGELOG.md`, zum Beispiel mit der Überschrift
+`## 1.2.3`. Der zugehörige nicht leere Abschnitt speist das GitHub Release.
+Der wiederverwendbare Release-Workflow akzeptiert das Changesets-Format und
+bisherige Überschriften der Form `## [v1.2.3] - YYYY-MM-DD`.
 
-Beispiele: `v0.1.0`, `v1.2.3`
+## Berechtigungen
 
-Zusätzlich wird ein **Major-Alias-Tag** gepflegt:
-
-```
-v<major>
-```
-
-Dieses Tag zeigt stets auf das neueste SemVer-Tag des jeweiligen Major-Versions-Zweigs
-und wird mit `--force` aktualisiert.
-
----
-
-## Ablauf
-
-```
-push -> main
-      |
-      v
-Compute next SemVer tag (release-semver-versioning)
-      |
-      v
-Existiert NEXT_TAG bereits? -> Ja -> Exit (idempotent)
-      |
-      v
-git tag <NEXT_TAG>
-git push origin <NEXT_TAG>
-      |
-      v
-git tag --force v<major>
-git push origin --force v<major>
-```
-
----
-
-## Benötigte Berechtigungen
-
-```yaml
-permissions:
-  contents: write
-```
-
----
-
-## Schutz vor Rekursion
-
-Der Workflow enthält einen Bot-Guard und läuft nur, wenn der Auslöser nicht
-`github-actions[bot]` ist:
-
-```yaml
-github.actor != 'github-actions[bot]'
-```
-
----
+- Pull-Request-Check: `contents: read`
+- Version-PR und Release: `contents: write`, `pull-requests: write`
 
 ## Weiterführende Dokumentation
 
-- [Release- und Tagging-Richtlinie](https://github.com/clavicarius/ci-platform/wiki/RELEASING)
-- [Wiki Home](Home)
-- [Release GitHub](https://github.com/clavicarius/ci-platform/wiki/workflow-release-github)
-- [Release Validate Tags](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-tags)
-- [Release Validate Branch](https://github.com/clavicarius/ci-platform/wiki/workflow-release-validate-branch)
-
----
-
-Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
+- [Release- und Tagging-Richtlinie](RELEASING)
+- [Versionierung](VERSIONING)
+- [Release GitHub](workflow-release-github)
+- [Workflows](Workflows)
 
 ## Plattform-interner Vertrag
 
@@ -111,7 +63,6 @@ Siehe auch [Workflows](Workflows) | [Wiki Home](Home)
 |---|---|
 | Status | Plattform-intern; kein `workflow_call` |
 | Inputs / Outputs | Keine |
-| Berechtigungen / Secrets | `contents: write`; verwendet `github.token`, kein manuell konfiguriertes Secret |
-| Voraussetzungen / Einschränkungen | Ausschließlich für Releases dieses Repositorys. Pushes auf `main` erstellen Versionstags und aktualisieren das Major-Alias; PR-Läufe sind Dry-Runs. |
-| Beispiel | Die oben beschriebenen `push`- und `pull_request`-Trigger |
+| Berechtigungen | PR-Check `contents: read`; Versionierung `contents: write`, `pull-requests: write` |
+| Voraussetzungen | Changesets PRs müssen einen Changeset für Änderungen an erforderlichen Pfaden enthalten. |
 | Deprecation | [Sunset-Policy](Workflows#deprecation-und-sunset) |

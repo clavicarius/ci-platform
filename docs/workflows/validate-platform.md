@@ -24,7 +24,7 @@ YAML-Probleme, ungültige GitHub-Actions-Workflow-Syntax und Shell-Fehler.
 |---|---|---|
 | YAML | yamllint | `.github/workflows/` |
 | Workflow-Syntax | actionlint | GitHub-Actions-Workflows |
-| Shell | ShellCheck (Warnungen und Fehler) | alle Shell-Skripte unter `scripts/` |
+| Shell | ShellCheck (Warnungen und Fehler) | `*.sh`-Skripte unter `scripts/` |
 
 ## Trigger und Berechtigungen
 

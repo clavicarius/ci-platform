@@ -293,10 +293,29 @@ Das gleiche Prinzip gilt für Composite Actions:
 - uses: clavicarius/ci-platform/actions/quality-link-check@v1
 ```
 
-Der Release-Prozess ist vollständig automatisiert:
+Releases werden mit [Changesets](https://github.com/changesets/changesets) gesteuert:
 
-- Push nach `main` → CI berechnet und erstellt den nächsten `vX.Y.Z`-Tag
-- CI aktualisiert automatisch den zugehörigen Major-Alias (`v1`, `v2`, …)
+1. Änderungen an Workflows, Actions oder von Actions verwendeten Skripten enthalten einen Changeset mit
+   `patch`, `minor` oder `major`. Docs-/Wiki-Änderungen benötigen keinen Changeset.
+2. Ein Merge nach `main` ohne Changeset erzeugt weder einen neuen Release-Tag noch
+   verschiebt er `@v1`.
+3. Changesets öffnet bzw. aktualisiert `chore: version packages`. Dieser PR aktualisiert
+   `package.json` und `CHANGELOG.md`.
+4. Nach dem Merge des Version-PRs veröffentlicht CI `vX.Y.Z`, bewegt den passenden
+   Major-Alias `vN` und erstellt das GitHub Release aus demselben Changelog-Eintrag.
+
+Das private Root-Package ist nur Versionsanker; es wird nicht zu npm oder GitHub Packages
+veröffentlicht. Tags haben ausschließlich die Form `vX.Y.Z` und `vN`; Tags wie
+`ci-platform@1.2.3` werden nicht erzeugt.
+
+## Verbindliche SemVer-Policy
+
+- **patch:** Bugfix ohne Änderung des Consumer-Vertrags (Inputs, Outputs, Defaults,
+  Permissions oder Workflow-Pfade).
+- **minor:** neuer optionaler Input, Workflow/Action oder optionales Output bei
+  unverändert kompatiblem Vertrag und Default-Verhalten.
+- **major:** Breaking Change am Workflow-/Action-Vertrag; Veröffentlichung auf einer
+  neuen Major-Linie (`v2`), ohne den bisherigen Alias (`v1`) zu verschieben.
 
 Breaking Changes werden ausschließlich in neuen Major-Versionen eingeführt.
 Consumer mit `@v1` sind von Breaking Changes in `v2` oder später nicht betroffen.

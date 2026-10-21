@@ -33,7 +33,7 @@ Workflows und Actions ist das veröffentlichte Wiki die maßgebliche Dokumentati
 ### Release & Versionierung
 
 - [Release- und Tagging-Richtlinie](RELEASING) — Tags, Release-Prozess, Branch-Schutz
-- [Versionierung](VERSIONING) — SemVer, automatische Tags, Floating Major (`@v1`)
+- [Versionierung](VERSIONING) — Changesets, SemVer-Tags, Floating Major (`@v1`)
 
 ### Workflows & Actions
 

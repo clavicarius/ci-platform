@@ -1,0 +1,15 @@
+{
+  "name": "ci-platform",
+  "version": "1.1.18",
+  "private": true,
+  "description": "Reusable GitHub Actions workflows and composite actions",
+  "scripts": {
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "node scripts/release-from-package-version.mjs"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/cli": "^3.0.3"
+  }
+}
