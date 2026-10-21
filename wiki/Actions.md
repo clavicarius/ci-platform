@@ -8,7 +8,7 @@ und können in eigenen Workflows verwendet werden.
 
 | Action | Consumer-tauglich | Beschreibung |
 |---|---|---|
-| [maintenance-label-management](action-maintenance-label-management) | Ja | Creates and updates labels from a CSV configuration |
+| [maintenance-label-management](action-maintenance-label-management) | Ja | Synchronizes labels with a CSV configuration |
 
 ## Quality
 

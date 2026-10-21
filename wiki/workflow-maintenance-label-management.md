@@ -9,9 +9,10 @@ actions/maintenance-label-management/action.yml
 
 ## Purpose
 
-The platform-internal workflow creates or updates repository labels whenever
-`.github/gh-labels.csv` changes on `main`. It can also be run manually and skips
-if the CSV file does not exist.
+The platform-internal workflow synchronizes repository labels with
+`.github/gh-labels.csv` whenever it changes on `main`: labels in the CSV are
+created or updated, and labels not in the CSV are removed. It can also be run
+manually and skips if the CSV file does not exist.
 
 ## Permissions
 
