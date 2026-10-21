@@ -25,6 +25,7 @@ runs:
 
         python3 - "$CSV_FILE" <<'PY'
         import csv
+        import json
         import os
         import re
         import subprocess
@@ -45,6 +46,7 @@ runs:
             fail(f"Label configuration file not found: {csv_path}")
 
         required_columns = {"category", "name", "color", "description"}
+        labels = []
         try:
             with csv_path.open(encoding="utf-8-sig", newline="") as source:
                 reader = csv.reader(source, delimiter=";", strict=True)
@@ -87,32 +89,81 @@ runs:
                             f"line {line_number}."
                         )
 
-                    print(
-                        f"Creating or updating {name!r} "
-                        f"(category: {category})"
-                    )
-                    try:
-                        subprocess.run(
-                            [
-                                "gh",
-                                "label",
-                                "create",
-                                "--color",
-                                color,
-                                "--description",
-                                description,
-                                "--force",
-                                "--repo",
-                                repository,
-                                "--",
-                                name,
-                            ],
-                            check=True,
-                        )
-                    except subprocess.CalledProcessError:
-                        fail(f"Failed to create or update label {name!r}.")
-                    except FileNotFoundError:
-                        fail("GitHub CLI (gh) is not installed.")
+                    labels.append((category, name, color, description))
         except (csv.Error, OSError) as error:
             fail(f"Could not read label configuration: {error}")
+
+        try:
+            result = subprocess.run(
+                [
+                    "gh",
+                    "label",
+                    "list",
+                    "--json",
+                    "name",
+                    "--limit",
+                    "10000",
+                    "--repo",
+                    repository,
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            existing_labels = {
+                label["name"] for label in json.loads(result.stdout)
+            }
+        except subprocess.CalledProcessError:
+            fail("Failed to list repository labels.")
+        except FileNotFoundError:
+            fail("GitHub CLI (gh) is not installed.")
+        except (json.JSONDecodeError, KeyError, TypeError):
+            fail("GitHub CLI returned an invalid repository label list.")
+
+        configured_names = {name for _, name, _, _ in labels}
+        for category, name, color, description in labels:
+            print(f"Creating or updating {name!r} (category: {category})")
+            try:
+                subprocess.run(
+                    [
+                        "gh",
+                        "label",
+                        "create",
+                        "--color",
+                        color,
+                        "--description",
+                        description,
+                        "--force",
+                        "--repo",
+                        repository,
+                        "--",
+                        name,
+                    ],
+                    check=True,
+                )
+            except subprocess.CalledProcessError:
+                fail(f"Failed to create or update label {name!r}.")
+            except FileNotFoundError:
+                fail("GitHub CLI (gh) is not installed.")
+
+        for name in sorted(existing_labels - configured_names):
+            print(f"Removing label {name!r}")
+            try:
+                subprocess.run(
+                    [
+                        "gh",
+                        "label",
+                        "delete",
+                        "--repo",
+                        repository,
+                        "--yes",
+                        "--",
+                        name,
+                    ],
+                    check=True,
+                )
+            except subprocess.CalledProcessError:
+                fail(f"Failed to remove label {name!r}.")
+            except FileNotFoundError:
+                fail("GitHub CLI (gh) is not installed.")
         PY
