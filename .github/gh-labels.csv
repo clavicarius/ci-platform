@@ -1,4 +1,4 @@
-Category;Label;Color;Description
+category;name;color;description
 Type;bug;D73A4A;"🐞 A bug that needs to be fixed."
 Type;feature;1D76DB;"✨ A new function or feature."
 Type;enhancement;84B6EB;"🚀 An improvement to an existing function or feature."
