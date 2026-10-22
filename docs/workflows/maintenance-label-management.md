@@ -32,21 +32,27 @@ permissions:
 Use a semicolon-delimited CSV file with this header:
 
 ```csv
-category;name;color;description
+Category;Label;Color;Description
 Type;bug;D73A4A;"A bug that needs to be fixed."
 Priority;priority: high;D73A4A;"High priority; should be addressed soon."
 ```
 
-The `category` field groups labels in the configuration; GitHub labels do not
-have a category property, so it is not sent to GitHub. `color` must be six
+The `Category` field groups labels in the configuration; GitHub labels do not
+have a category property, so it is not sent to GitHub. `Color` must be six
 hexadecimal digits, optionally prefixed by `#`. Quote values that contain
 semicolons or quotes using standard CSV quoting rules.
 
-The action creates missing labels and updates the color and description of
-existing labels. It also removes every repository label not listed in the CSV,
-including GitHub's default labels and labels added manually. Keep the CSV
-complete; its format and contents are validated before the action changes labels.
-Running it repeatedly is safe.
+The command-line utility creates missing labels and leaves existing labels
+unchanged unless `--overwrite` is specified. With `--overwrite`, it updates only
+labels whose color or description differs. With `--prune`, it removes every
+repository label not listed in the CSV, including GitHub's default labels and
+labels added manually. The composite action opts in to both options to preserve
+its existing behavior. Keep the CSV complete before enabling pruning.
+
+Run the utility locally with
+`python3 actions/maintenance-label-management/create_labels.py`. It accepts
+`--csv path/to/file.csv`, `--repo owner/repository`, `--overwrite`, and `--prune`;
+when `--repo` is omitted, it uses the current `gh` repository.
 
 ## Reusable action
 
@@ -79,5 +85,5 @@ jobs:
 ```
 
 The action inputs are `csv-file` (default `.github/gh-labels.csv`) and the
-required `github-token`. GitHub CLI (`gh`) and Python 3 must be available on the
-runner; both are preinstalled on GitHub-hosted Ubuntu runners.
+required `github-token`. GitHub CLI (`gh`) and Python 3.12 or newer must be
+available on the runner; both are preinstalled on GitHub-hosted Ubuntu runners.
