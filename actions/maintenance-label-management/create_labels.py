@@ -76,9 +76,14 @@ def load_labels(csv_path: Path) -> dict[str, Label]:
                     )
 
                 values = dict(zip(normalized_headers, row))
+                category = values["category"].strip()
                 name = values["label"].strip()
                 color = values["color"].strip()
                 description = values["description"].strip()
+                if not category:
+                    raise LabelSyncError(
+                        f"Category is required on CSV line {line_number}."
+                    )
                 if not name:
                     raise LabelSyncError(
                         f"Label name is required on CSV line {line_number}."
