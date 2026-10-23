@@ -13,7 +13,9 @@ concurrency:
 jobs:
   changeset-check:
     name: Require Changeset for platform changes
-    if: github.event_name == 'pull_request'
+    if: |
+      github.event_name == 'pull_request' &&
+      github.head_ref != 'changeset-release/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
