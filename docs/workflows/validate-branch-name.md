@@ -55,11 +55,13 @@ Erlaubte Präfixe:
 - `copilot/`
 
 Der Branch-Typ `copilot/` ist für von Agenten erzeugte Pull Requests vorgesehen.
+Zusätzlich ist der von Changesets erzeugte Branch `changeset-release/main`
+für den automatischen Release-PR erlaubt.
 
-Regex:
+Für diesen Workflow gilt folgendes Regex:
 
 ```regex
-^(feature|enhancement|bugfix|hotfix|release|chore|copilot)\/[a-z0-9._-]+$
+^((feature|enhancement|bugfix|hotfix|release|chore|copilot)/[a-z0-9._-]+|changeset-release/main)$
 ```
 
 ---
