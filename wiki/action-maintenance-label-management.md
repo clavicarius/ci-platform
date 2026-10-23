@@ -44,10 +44,11 @@ category property. Color values must be six hexadecimal digits, with an
 optional leading `#`. Quote fields containing semicolons or quotes according
 to standard CSV rules.
 
-Labels that already exist are updated and missing labels are created. Every
-repository label not listed in the CSV is removed, including GitHub's default
-labels and labels added manually. Keep the CSV complete; the CSV is validated
-before the action changes labels. Repeated runs are idempotent.
+The CSV is the source of truth: existing labels listed in it are updated,
+missing labels are created, and every repository label not listed in it is
+removed, including GitHub's default labels and labels added manually. Keep the
+CSV complete; it is validated before the action changes labels. Repeated runs
+are idempotent.
 
 ## Example
 

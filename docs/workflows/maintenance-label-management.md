@@ -12,9 +12,9 @@ actions/maintenance-label-management/action.yml
 ## Purpose
 
 Synchronizes repository labels with `.github/gh-labels.csv` when that file
-changes on `main`: labels in the CSV are created or updated, and labels not in
-the CSV are removed. The workflow can also be started manually and skips when the
-configuration file is absent.
+changes on `main`. The CSV is the source of truth: labels in it are created or
+updated, and labels not in it are removed. The workflow can also be started
+manually and skips when the configuration file is absent.
 
 ## Permissions
 
