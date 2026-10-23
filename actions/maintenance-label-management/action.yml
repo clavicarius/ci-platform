@@ -1,5 +1,5 @@
 name: Repository Label Management
-description: Manages repository labels from a semicolon-delimited CSV
+description: Synchronizes repository labels with a semicolon-delimited CSV
 author: clavicarius
 
 inputs:
@@ -14,7 +14,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Create or update labels
+    - name: Synchronize labels
       shell: bash
       env:
         CSV_FILE: ${{ inputs.csv-file }}
