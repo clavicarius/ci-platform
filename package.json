@@ -1,6 +1,6 @@
 {
   "name": "ci-platform",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "private": true,
   "description": "Reusable GitHub Actions workflows and composite actions",
   "scripts": {
