@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.20
+
+### Patch Changes
+
+- [#94](https://github.com/clavicarius/ci-platform/pull/94) [`12b946a`](https://github.com/clavicarius/ci-platform/commit/12b946a4d6054cb08a067d50124a2e74c8ffe89a) Thanks [@github-actions](https://github.com/apps/github-actions)! - chore: add required changeset for PR #94
+
 ## 1.1.19
 
 ### Patch Changes
