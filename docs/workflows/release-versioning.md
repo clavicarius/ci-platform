@@ -21,7 +21,7 @@ Workflows und Actions.
 
 | Event | Verhalten |
 |---|---|
-| `pull_request` | Änderungen an Workflows, Actions oder von Actions verwendeten Skripten müssen einen Markdown-Changeset unter `.changeset/` enthalten. Docs-/Wiki-only-Änderungen benötigen keinen. |
+| `pull_request` | Änderungen an Workflows, Actions oder von Actions verwendeten Skripten müssen einen Markdown-Changeset unter `.changeset/` enthalten. Docs-/Wiki-only-Änderungen benötigen keinen. Der automatisch erzeugte PR `changeset-release/main` ist ausgenommen, da er die bereits verarbeiteten Changesets entfernt. |
 | `push` nach `main` | `changesets/action` öffnet oder aktualisiert `chore: version packages`, wenn Changesets vorliegen. Andernfalls wird nur die bereits veröffentlichte Version geprüft; es entsteht kein neuer Tag. |
 | Merge des Version-PRs | Der Release-Script liest `package.json`, erstellt `vX.Y.Z`, bewegt den passenden Major-Alias `vN` und erstellt das GitHub Release aus dem zugehörigen Changelog-Eintrag. |
 
