@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Run quality link check
         uses: clavicarius/ci-platform/actions/quality-link-check@v1
