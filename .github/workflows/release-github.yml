@@ -125,14 +125,14 @@ jobs:
 
       - name: Download single artifact
         if: inputs.artifact_name != ''
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ inputs.artifact_name }}
           path: ./release-assets
 
       - name: Download multiple artifacts
         if: inputs.artifact_pattern != ''
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: ${{ inputs.artifact_pattern }}
           merge-multiple: true
