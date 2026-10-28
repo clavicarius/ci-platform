@@ -40,6 +40,9 @@ Er ist **repository-intern** und dient als PR-Gate für geschützte Branches.
 |---|---|
 | `pull_request` auf `main`, `develop` | Validiert `github.head_ref` gegen die Konvention |
 
+Pull Requests von Dependabot und Copilot werden von der Branch-Namensprüfung
+ausgenommen, da ihre Branches außerhalb dieser Konvention liegen können.
+
 ---
 
 ## Validierungsregel
