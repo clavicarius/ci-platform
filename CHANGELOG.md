@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.21
+
+### Patch Changes
+
+- [#101](https://github.com/clavicarius/ci-platform/pull/101) [`2784f50`](https://github.com/clavicarius/ci-platform/commit/2784f506cda1ce075449e305d5d6649c50ac244d) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump actions/download-artifact from 4 to 8.
+
+- [#103](https://github.com/clavicarius/ci-platform/pull/103) [`687e96f`](https://github.com/clavicarius/ci-platform/commit/687e96f13cbe23ffa2eaca52e0c44091e61b9454) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump actions/checkout from 4 to 7
+
+- [#105](https://github.com/clavicarius/ci-platform/pull/105) [`664d026`](https://github.com/clavicarius/ci-platform/commit/664d0263b284eee673176efb045274fb2ac3069d) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Skip branch-name validation for Dependabot and Copilot pull requests.
+
 ## 1.1.20
 
 ### Patch Changes
