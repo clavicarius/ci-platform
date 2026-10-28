@@ -12,6 +12,9 @@ permissions:
 jobs:
   validate-branch-name:
     name: Validate branch name
+    if: >-
+      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      !contains(github.event.pull_request.user.login, 'copilot')
     runs-on: ubuntu-latest
 
     steps:
