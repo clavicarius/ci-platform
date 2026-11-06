@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.22
+
+### Patch Changes
+
+- [#109](https://github.com/clavicarius/ci-platform/pull/109) [`c4e8c31`](https://github.com/clavicarius/ci-platform/commit/c4e8c31365fe768f4a1384db063026f1ad565f1e) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Fix Python lint setup for projects without dependency manifests.
+
+- [#107](https://github.com/clavicarius/ci-platform/pull/107) [`e2e9f7c`](https://github.com/clavicarius/ci-platform/commit/e2e9f7cfe3684edbb860896e65d7f8d39a7c8f61) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump actions/setup-python from 5 to 7
+
+- [#109](https://github.com/clavicarius/ci-platform/pull/109) [`1ef2567`](https://github.com/clavicarius/ci-platform/commit/1ef2567d44cd8d453c5e25a9a7d394aafd88f973) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Add automated regression tests for platform validation and link-check issue handling.
+
 ## 1.1.21
 
 ### Patch Changes
