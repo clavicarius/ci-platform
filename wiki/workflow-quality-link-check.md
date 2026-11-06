@@ -48,6 +48,9 @@ permissions:
 Außerdem müssen GitHub Issues aktiviert sein.
 Für die direkte Action-Nutzung muss `actions/checkout` davor ausgeführt
 werden. Das angegebene Issue-Label sollte im Repository vorhanden sein.
+Wenn die Issue-Abfrage oder Issue-Erstellung/-Aktualisierung nicht verfügbar
+ist, wird der Link-Check trotzdem abgeschlossen; der Issue-Report kann dann
+allerdings nicht erstellt oder aktualisiert werden.
 
 ---
 

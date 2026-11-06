@@ -351,8 +351,6 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
-        cache: pip
-        cache-dependency-path: ${{ inputs.working-directory }}/requirements.txt
 
     - name: Install Python lint dependencies
       if: steps.detect.outputs.run_flake8 == 'true' || steps.detect.outputs.run_pylint == 'true'
