@@ -25,6 +25,7 @@ YAML-Probleme, ungültige GitHub-Actions-Workflow-Syntax und Shell-Fehler.
 | YAML | yamllint | `.github/workflows/` |
 | Workflow-Syntax | actionlint | GitHub-Actions-Workflows |
 | Shell | ShellCheck (Warnungen und Fehler) | `*.sh`-Skripte unter `scripts/` |
+| Regressionstests | Python `unittest` | Validierungs-Skripte und bekannte Action-Fehlerfälle |
 
 ## Trigger und Berechtigungen
 
@@ -36,3 +37,5 @@ Der Workflow benötigt ausschließlich `contents: read`.
 
 ShellCheck wird separat auf den Shell-Skripten ausgeführt; actionlint prüft
 Workflow-Syntax ohne seine optionale ShellCheck-Integration.
+
+Die Regressionstests laufen mit `python3 -m unittest discover -s tests -v`.

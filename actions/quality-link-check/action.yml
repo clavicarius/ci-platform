@@ -49,7 +49,7 @@ runs:
           --label "$LABEL" \
           --search "in:title \"$TITLE\"" \
           --json number \
-          --jq '.[0].number // empty')
+          --jq '.[0].number // empty' || true)
 
         if [ -n "$ISSUE_NUMBER" ]; then
            echo "Updating issue #$ISSUE_NUMBER"
@@ -81,7 +81,7 @@ runs:
           --label "$LABEL" \
           --search "in:title \"$TITLE\"" \
           --json number \
-          --jq '.[0].number // empty')
+          --jq '.[0].number // empty' || true)
 
         if [ -n "$ISSUE_NUMBER" ]; then
           echo "Closing issue #$ISSUE_NUMBER"
