@@ -3,6 +3,9 @@
 Dieses Repository enthält zentral verwaltete
 **wiederverwendbare GitHub Actions Workflows** und **Composite Actions** für mehrere Projekte.
 
+Die zentralen Dateitypen sind YAML für Workflows und Composite Actions sowie Markdown für Dokumentation;
+Shell kommt nur in unterstützenden Skripten zum Einsatz.
+
 ![logo](./assets/logo-claim.png)
 
 
