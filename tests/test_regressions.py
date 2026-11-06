@@ -38,6 +38,14 @@ def action_run_block(path, step_name):
 
 
 class RegressionTests(unittest.TestCase):
+    def test_quality_lint_python_setup_does_not_require_dependency_manifest(self):
+        action = (ROOT / "actions/quality-lint/action.yml").read_text()
+        setup_python = action.split("    - name: Setup Python\n", 1)[1].split(
+            "\n    - name:", 1
+        )[0]
+        self.assertNotIn("cache: pip", setup_python)
+        self.assertNotIn("cache-dependency-path:", setup_python)
+
     def test_issue_57_78_branch_name_policy_and_custom_regex(self):
         script = ROOT / "scripts/validate-branch-name.sh"
         for branch in (
