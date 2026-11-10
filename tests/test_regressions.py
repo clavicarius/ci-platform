@@ -88,6 +88,27 @@ class RegressionTests(unittest.TestCase):
             "!contains(github.event.pull_request.user.login, 'copilot')", workflow
         )
 
+    def test_issue_11_dependency_update_workflow_contract(self):
+        workflow = (
+            ROOT / ".github/workflows/maintenance-dependency-update.yml"
+        ).read_text()
+        action = (
+            ROOT / "actions/maintenance-dependency-update/action.yml"
+        ).read_text()
+        documentation = (
+            ROOT / "docs/workflows/maintenance-dependency-update.md"
+        ).read_text()
+
+        self.assertIn("workflow_call:", workflow)
+        self.assertIn("renovate-token:", workflow)
+        self.assertIn("contents: write", workflow)
+        self.assertIn("pull-requests: write", workflow)
+        self.assertIn("uses: ./actions/maintenance-dependency-update", workflow)
+        self.assertIn("renovatebot/github-action@v46.3.13", action)
+        self.assertIn("token: ${{ inputs.github-token }}", action)
+        self.assertIn("cron: '0 6 * * 1'", documentation)
+        self.assertIn("Dependabot", documentation)
+
     def test_issue_30_version_tag_formats_and_monotonicity(self):
         script = ROOT / "scripts/validate-version-tag.sh"
         with tempfile.TemporaryDirectory() as directory:
