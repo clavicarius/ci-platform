@@ -42,6 +42,7 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 | [Validate Branch Name](workflow-validate-branch-name) | Nein — plattform-intern | PR-Branch-Prüfung für dieses Repository |
 | [Maintenance Link Check](workflow-maintenance-link-check) | Nein — plattform-intern | Geplante Linkprüfung dieses Repositorys |
 | [Maintenance Wiki Sync](workflow-maintenance-wiki-sync) | Nein — plattform-intern | Veröffentlicht `wiki/` in das GitHub Wiki |
+| [Maintenance Dependency Update](workflow-maintenance-dependency-update) | Ja | Erstellt Dependency-Update-Pull-Requests mit Renovate |
 
 ---
 

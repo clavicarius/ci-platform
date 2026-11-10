@@ -1,0 +1,27 @@
+name: Maintenance Dependency Update
+
+on:
+  workflow_call:
+    secrets:
+      renovate-token:
+        description: >-
+          Token Renovate uses to update dependencies and create pull requests
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependency-update:
+    name: Update dependencies with Renovate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Run dependency updates
+        uses: ./actions/maintenance-dependency-update
+        with:
+          github-token: ${{ secrets.renovate-token }}

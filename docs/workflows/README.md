@@ -44,6 +44,7 @@ Jeder Workflow wird separat dokumentiert und beschreibt:
 | [Validate Branch Name](https://github.com/clavicarius/ci-platform/wiki/workflow-validate-branch-name) | Nein — plattform-intern | PR-Branch-Prüfung für dieses Repository |
 | [Maintenance Link Check](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-link-check) | Nein — plattform-intern | Geplante Linkprüfung dieses Repositorys |
 | [Maintenance Wiki Sync](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-wiki-sync) | Nein — plattform-intern | Veröffentlicht `wiki/` in das GitHub Wiki |
+| [Maintenance Dependency Update](https://github.com/clavicarius/ci-platform/wiki/workflow-maintenance-dependency-update) | Ja | Erstellt Dependency-Update-Pull-Requests mit Renovate |
 
 ---
 
